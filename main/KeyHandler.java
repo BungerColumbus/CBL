@@ -2,10 +2,12 @@ package main;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.geom.Point2D;
 
 public class KeyHandler implements KeyListener{
 
-    public boolean upPressed, downPressed, rightPressed, leftPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed;
+    public Point2D vector2D;
 
     @Override
     public void keyTyped(KeyEvent e) {
