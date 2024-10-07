@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import entity.Player;
+import entity.Enemy;
 
 public class GamePanel extends JPanel implements Runnable{
     
@@ -31,6 +32,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     KeyHandler keyH = new KeyHandler();
     Player player = new Player(this, keyH);
+    Enemy enemy = new Enemy(this, player);
     Thread gameThread;
 
     //Set player's default position
@@ -79,6 +81,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void update() {
 
         player.update();
+        enemy.update();
     }
 
     public void paintComponent(Graphics g) {
@@ -87,6 +90,7 @@ public class GamePanel extends JPanel implements Runnable{
         Graphics2D g2 = (Graphics2D)g;
 
         player.draw(g2);
+        enemy.draw(g2);
 
         g2.dispose();
     }

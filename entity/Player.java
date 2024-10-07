@@ -12,7 +12,7 @@ import main.KeyHandler;
 public class Player extends GameObject {
     GamePanel gp;
     KeyHandler keyH;
-    protected int speed = 2;
+    protected int speed = 4;
     protected Vector2D vector2d = new Vector2D(0, 0);
 
     public Player(GamePanel gp, KeyHandler keyH) {
@@ -47,7 +47,7 @@ public class Player extends GameObject {
         vector2d = new Vector2D(deltaX, deltaY);
         vector2d.normalize();
         vector2d.multiply(speed);
-        System.out.println(vector2d.getX() + " " + vector2d.getY() + " " + vector2d.length());
+        System.out.println("Player vector details: " + vector2d.getX() + " " + vector2d.getY() + " " + vector2d.length());
         x += vector2d.getX();
         y += vector2d.getY();
     }
