@@ -1,11 +1,8 @@
 package entity;
 
-import java.awt.Graphics2D;
-
 import core.Vector2D;
-
 import java.awt.Color;
-
+import java.awt.Graphics2D;
 import main.GamePanel;
 
 public class Enemy extends GameObject {
