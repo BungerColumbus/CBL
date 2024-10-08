@@ -1,11 +1,8 @@
 package entity;
 
-import java.awt.Graphics2D;
-
 import core.Vector2D;
-
 import java.awt.Color;
-
+import java.awt.Graphics2D;
 import main.GamePanel;
 import main.KeyHandler;
 
@@ -31,23 +28,26 @@ public class Player extends GameObject {
         int deltaX = 0;
         int deltaY = 0;
 
-        if(keyH.upPressed == true) {
+        if (keyH.upPressed) {
             deltaY--;
         }
-        if(keyH.downPressed == true) {
+        if (keyH.downPressed) {
             deltaY++;
         }
-        if(keyH.leftPressed == true) {
+        if (keyH.leftPressed) {
             deltaX--;
         }
-        if(keyH.rightPressed == true) {
+        if (keyH.rightPressed) {
             deltaX++;
         }
 
         vector2d = new Vector2D(deltaX, deltaY);
         vector2d.normalize();
         vector2d.multiply(speed);
-        System.out.println("Player vector details: " + vector2d.getX() + " " + vector2d.getY() + " " + vector2d.length());
+        System.out.println("Player vector details: " 
+                            + vector2d.getX() + " " 
+                            + vector2d.getY() + " " 
+                            + vector2d.length());
         x += vector2d.getX();
         y += vector2d.getY();
     }
@@ -55,6 +55,6 @@ public class Player extends GameObject {
     public void draw(Graphics2D g2) {
 
         g2.setColor(Color.white);
-        g2.fillRect((int) Math.round(x),(int) Math.round(y), gp.tileSize, gp.tileSize);
+        g2.fillRect((int) Math.round(x), (int) Math.round(y), gp.tileSize, gp.tileSize);
     }
 }

@@ -24,10 +24,13 @@ public class Enemy extends GameObject {
 
     public void update() {
 
-        vector2d = new Vector2D(player.x-x, player.y-y);
+        vector2d = new Vector2D(player.x - x, player.y - y);
         vector2d.normalize();
         vector2d.multiply(speed);
-        System.out.println("Enemy vector info: " + vector2d.getX() + " " + vector2d.getY() + " " + vector2d.length());
+        System.out.println("Enemy vector info: " 
+                            + vector2d.getX() + " " 
+                            + vector2d.getY() + " " 
+                            + vector2d.length());
         x += vector2d.getX();
         y += vector2d.getY();
     }
@@ -35,6 +38,6 @@ public class Enemy extends GameObject {
     public void draw(Graphics2D g2) {
 
         g2.setColor(Color.red);
-        g2.fillRect((int) Math.round(x),(int) Math.round(y), gp.tileSize, gp.tileSize);
+        g2.fillRect((int) Math.round(x), (int) Math.round(y), gp.tileSize, gp.tileSize);
     }
 }

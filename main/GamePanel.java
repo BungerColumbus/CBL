@@ -1,16 +1,15 @@
 package main;
 
+import entity.Enemy;
+import entity.Player;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
 import javax.swing.JPanel;
 
-import entity.Player;
-import entity.Enemy;
 
-public class GamePanel extends JPanel implements Runnable{
+public class GamePanel extends JPanel implements Runnable {
     
     //Settings for the screen ()
 
@@ -28,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable{
     final int screenHeight = tileSize * maxScreenRow;
     final int screenWidth = tileSize * maxScreenCol;
 
-    int FPS = 60;
+    int fps = 60;
 
     KeyHandler keyH = new KeyHandler();
     Player player = new Player(this, keyH);
@@ -55,7 +54,7 @@ public class GamePanel extends JPanel implements Runnable{
     
     public void run() {
 
-        double drawInterval = 1000000000/FPS;
+        double drawInterval = 1000000000 / fps;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;

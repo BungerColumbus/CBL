@@ -2,5 +2,6 @@ package entity;
 
 public class GameObject {
     
-    public double x, y;
+    public double x;
+    public double y;
 }
