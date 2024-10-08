@@ -60,7 +60,7 @@ public class GamePanel extends JPanel implements Runnable {
         long currentTime;
         
 
-        while(gameThread != null) {
+        while (gameThread != null) {
 
             currentTime = System.nanoTime();
 
@@ -68,7 +68,7 @@ public class GamePanel extends JPanel implements Runnable {
 
             lastTime = currentTime;
 
-            if(delta >= 1) {
+            if (delta >= 1) {
                 update();
                 repaint();
                 delta--;
@@ -86,7 +86,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         
         super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D)g;
+        Graphics2D g2 = (Graphics2D) g;
 
         player.draw(g2);
         enemy.draw(g2);
