@@ -1,15 +1,16 @@
 package entity;
 
 import core.Vector2D;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import javax.imageio.*;
 import main.GamePanel;
 import main.KeyHandler;
 
 public class Player extends GameObject {
     
+    private BufferedImage[] image = new BufferedImage[3];
     GamePanel gp;
     KeyHandler keyH;
     protected int speed = 4;
@@ -20,6 +21,7 @@ public class Player extends GameObject {
         this.keyH = keyH;
 
         setDefaultValues();
+        getPlayerImage();
     }
 
     public void setDefaultValues() {
@@ -31,7 +33,10 @@ public class Player extends GameObject {
 
         try {
 
-            image.add(ImageIO.read(getClass().getResourceAsStream("/player/player_slime0.png")));
+            image[0] = ImageIO.read(getClass().getResourceAsStream("player/player_slime0.png"));
+            image[1] = ImageIO.read(getClass().getResourceAsStream("player/player_slime1.png"));
+            image[2] = ImageIO.read(getClass().getResourceAsStream("player/player_slime2.png"));
+            image[3] = ImageIO.read(getClass().getResourceAsStream("player/player_slime3.png"));
 
         } catch(IOException e) {
             e.printStackTrace();
@@ -68,7 +73,13 @@ public class Player extends GameObject {
 
     public void draw(Graphics2D g2) {
 
-        g2.setColor(Color.white);
-        g2.fillRect((int) Math.round(x), (int) Math.round(y), gp.tileSize, gp.tileSize);
+        BufferedImage currentImage = null;
+        if(x + keyH.mousePosition().getX() < x) {
+            currentImage = image[2];
+        } else if(x + keyH.mousePosition().getX() > x) {
+            currentImage = image[0];
+        }
+
+        g2.drawImage(currentImage, (int) Math.round(x), (int) Math.round(y), gp.tileSize, gp.tileSize, null);
     }
 }
