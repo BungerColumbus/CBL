@@ -3,10 +3,13 @@ package entity;
 import core.Vector2D;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import main.GamePanel;
 import main.KeyHandler;
 
 public class Player extends GameObject {
+    
     GamePanel gp;
     KeyHandler keyH;
     protected int speed = 4;
@@ -22,6 +25,17 @@ public class Player extends GameObject {
     public void setDefaultValues() {
         x = 100;
         y = 100;
+    }
+
+    public void getPlayerImage() {
+
+        try {
+
+            image.add(ImageIO.read(getClass().getResourceAsStream("/player/player_slime0.png")));
+
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void update() {
