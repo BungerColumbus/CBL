@@ -6,7 +6,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Toolkit;
 import javax.swing.JPanel;
+
+import core.Vector2D;
 
 
 public class GamePanel extends JPanel implements Runnable {
@@ -26,7 +30,9 @@ public class GamePanel extends JPanel implements Runnable {
     final int maxScreenRow = 12;
     final int screenHeight = tileSize * maxScreenRow;
     final int screenWidth = tileSize * maxScreenCol;
-
+    static final Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+    
+    public Point location;
     int fps = 60;
 
     KeyHandler keyH = new KeyHandler();
@@ -79,6 +85,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
 
+        location = this.getLocationOnScreen();
         player.update();
         enemy.update();
     }

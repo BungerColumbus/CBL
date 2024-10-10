@@ -57,6 +57,7 @@ public class KeyHandler implements KeyListener {
     public Vector2D mousePosition() {
         mouseX = MouseInfo.getPointerInfo().getLocation().getX();
         mouseY = MouseInfo.getPointerInfo().getLocation().getY();
+        //System.out.println(mouseX + " " + mouseY);
         return new Vector2D(mouseX, mouseY);
     }
     
