@@ -1,8 +1,9 @@
 package main;
 
+import core.Vector2D;
+import java.awt.MouseInfo;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.geom.Point2D;
 
 public class KeyHandler implements KeyListener {
 
@@ -10,7 +11,8 @@ public class KeyHandler implements KeyListener {
     public boolean downPressed;
     public boolean leftPressed;
     public boolean rightPressed;
-    public Point2D vector2D;
+    public double mouseX = 0;
+    public double mouseY = 0;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -50,6 +52,12 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_D) {
             rightPressed = false;
         }
+    }
+
+    public Vector2D mousePosition() {
+        mouseX = MouseInfo.getPointerInfo().getLocation().getX();
+        mouseY = MouseInfo.getPointerInfo().getLocation().getY();
+        return new Vector2D(mouseX, mouseY);
     }
     
 }

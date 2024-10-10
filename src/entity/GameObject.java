@@ -2,6 +2,7 @@ package entity;
 
 public class GameObject {
     
-    public double x;
-    public double y;
+    protected double x;
+    protected double y;
+
 }
