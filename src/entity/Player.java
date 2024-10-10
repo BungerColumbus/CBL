@@ -10,7 +10,7 @@ import main.KeyHandler;
 
 public class Player extends GameObject {
     
-    private BufferedImage[] image = new BufferedImage[3];
+    private BufferedImage[] image = new BufferedImage[4];
     GamePanel gp;
     KeyHandler keyH;
     protected int speed = 4;
@@ -33,16 +33,15 @@ public class Player extends GameObject {
 
         try {
 
-            image[0] = ImageIO.read(getClass().getResourceAsStream("player/player_slime0.png"));
-            image[1] = ImageIO.read(getClass().getResourceAsStream("player/player_slime1.png"));
-            image[2] = ImageIO.read(getClass().getResourceAsStream("player/player_slime2.png"));
-            image[3] = ImageIO.read(getClass().getResourceAsStream("player/player_slime3.png"));
+            image[0] = ImageIO.read(getClass().getResourceAsStream("/res/player/player_slime0.png"));
+            image[1] = ImageIO.read(getClass().getResourceAsStream("/res/player/player_slime1.png"));
+            image[2] = ImageIO.read(getClass().getResourceAsStream("/res/player/player_slime2.png"));
+            image[3] = ImageIO.read(getClass().getResourceAsStream("/res/player/player_slime3.png"));
 
         } catch(IOException e) {
             e.printStackTrace();
         }
     }
-
     public void update() {
         int deltaX = 0;
         int deltaY = 0;
@@ -63,20 +62,21 @@ public class Player extends GameObject {
         vector2d = new Vector2D(deltaX, deltaY);
         vector2d.normalize();
         vector2d.multiply(speed);
-        System.out.println("Player vector details: " 
-                            + vector2d.getX() + " " 
-                            + vector2d.getY() + " " 
-                            + vector2d.length());
         x += vector2d.getX();
         y += vector2d.getY();
+
+        System.out.println(keyH.mousePosition().getX() - gp.location.getX() - x - gp.tileSize/2);
+        
     }
 
     public void draw(Graphics2D g2) {
 
+
+
         BufferedImage currentImage = null;
-        if(x + keyH.mousePosition().getX() < x) {
+        if(keyH.mousePosition().getX() - gp.location.getX() - x - gp.tileSize/2 < 0) {
             currentImage = image[2];
-        } else if(x + keyH.mousePosition().getX() > x) {
+        } else if(keyH.mousePosition().getX() - gp.location.getX() - x - gp.tileSize/2 > 0) {
             currentImage = image[0];
         }
 
