@@ -18,13 +18,8 @@ public class Enemy extends GameObject {
     public Enemy(GamePanel gp, Player player) {
         this.gp = gp;
         this.player = player;
-        setDefaultValues();
+        setInitialPosition(500, 500);
         getImages();
-    }
-
-    public void setDefaultValues() {
-        x = 500;
-        y = 500;
     }
 
     public void getImages() {

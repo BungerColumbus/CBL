@@ -20,7 +20,6 @@ public class Player extends GameObject {
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
-
         setInitialPosition(100, 100);
         getImages();
     }

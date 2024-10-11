@@ -1,11 +1,7 @@
 package entity;
 
-import main.GamePanel;
-
 public class GameObject {
     
-    GamePanel gp;
-
     protected double x;
     protected double y;
 

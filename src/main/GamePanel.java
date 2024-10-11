@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements Runnable {
     //the sprites won't be extremly small
     static final Dimension SIZE = Toolkit.getDefaultToolkit().getScreenSize();
     static final int DEFAULT_RESOLUTION = 1920 * 1080;
-    static final int DEFAULT_SCALE = 3;
+    static final int DEFAULT_SCALE = 5;
     static final int SCREEN_AREA = (int) (SIZE.getWidth() * SIZE.getHeight());
 
     final int scale = (SCREEN_AREA * DEFAULT_SCALE) / DEFAULT_RESOLUTION;
@@ -88,6 +88,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
 
+        System.out.println((SCREEN_AREA*DEFAULT_SCALE)/DEFAULT_RESOLUTION);
         location = this.getLocationOnScreen();
         player.update();
         enemy.update();
