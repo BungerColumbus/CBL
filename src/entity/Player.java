@@ -11,6 +11,7 @@ import main.KeyHandler;
 public class Player extends GameObject {
     
     private BufferedImage[] image = new BufferedImage[4];
+    GamePanel gp;
     KeyHandler keyH;
     protected int speed = 4;
     private int animationSpeed;
@@ -33,7 +34,7 @@ public class Player extends GameObject {
             image[2] = ImageIO.read(getClass().getResourceAsStream("/res/player/player_slime2.png"));
             image[3] = ImageIO.read(getClass().getResourceAsStream("/res/player/player_slime3.png"));
 
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -56,7 +57,7 @@ public class Player extends GameObject {
         }
 
         vector2d = new Vector2D(deltaX, deltaY);
-        if(vector2d.length() > 0) {
+        if (vector2d.length() > 0) {
             animationSpeed = 15;
         } else {
             animationSpeed = 30;
@@ -71,14 +72,15 @@ public class Player extends GameObject {
 
     public void draw(Graphics2D g2) {
 
-        if(keyH.mousePosition().getX() - gp.location.getX() - x - gp.tileSize/2 < 0) {
+        if (keyH.mousePosition().getX() - gp.location.getX() - x - gp.tileSize / 2 < 0) {
             updateAnimation(2, 4, animationSpeed);
-        } else if(keyH.mousePosition().getX() - gp.location.getX() - x - gp.tileSize/2 > 0) {
+        } else if (keyH.mousePosition().getX() - gp.location.getX() - x - gp.tileSize / 2 > 0) {
             updateAnimation(0, 2, animationSpeed);
         }
         
         BufferedImage currentImage = image[animationIndex];
-        g2.drawImage(currentImage, (int) Math.round(x), (int) Math.round(y), gp.tileSize, gp.tileSize, null);
+        g2.drawImage(currentImage, (int) Math.round(x), (int) Math.round(y),
+                     gp.tileSize, gp.tileSize, null);
 
     }
 }
