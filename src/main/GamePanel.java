@@ -30,6 +30,8 @@ public class GamePanel extends JPanel implements Runnable {
     static final Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
     
     public Point location;
+
+
     int fps = 60;
 
     KeyHandler keyH = new KeyHandler();
