@@ -10,12 +10,6 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import javax.swing.JPanel;
 
-<<<<<<< HEAD
-=======
-import core.Vector2D;
-
-
->>>>>>> 09db6e9a9202b653e3f636f17fd10e2ab2460325
 public class GamePanel extends JPanel implements Runnable {
     
     //Settings for the screen ()
