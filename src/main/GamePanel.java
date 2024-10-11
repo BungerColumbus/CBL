@@ -10,9 +10,6 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import javax.swing.JPanel;
 
-import core.Vector2D;
-
-
 public class GamePanel extends JPanel implements Runnable {
     
     //Settings for the screen ()
@@ -33,6 +30,8 @@ public class GamePanel extends JPanel implements Runnable {
     static final Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
     
     public Point location;
+
+
     int fps = 60;
 
     KeyHandler keyH = new KeyHandler();

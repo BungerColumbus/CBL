@@ -14,6 +14,7 @@ public class Player extends GameObject {
     GamePanel gp;
     KeyHandler keyH;
     protected int speed = 4;
+    private int animationSpeed;
     protected Vector2D vector2d = new Vector2D(0, 0);
 
     public Player(GamePanel gp, KeyHandler keyH) {
@@ -21,7 +22,7 @@ public class Player extends GameObject {
         this.keyH = keyH;
 
         setDefaultValues();
-        getPlayerImage();
+        getImages();
     }
 
     public void setDefaultValues() {
@@ -29,7 +30,7 @@ public class Player extends GameObject {
         y = 100;
     }
 
-    public void getPlayerImage() {
+    public void getImages() {
 
         try {
 
@@ -42,6 +43,7 @@ public class Player extends GameObject {
             e.printStackTrace();
         }
     }
+
     public void update() {
         int deltaX = 0;
         int deltaY = 0;
@@ -60,26 +62,29 @@ public class Player extends GameObject {
         }
 
         vector2d = new Vector2D(deltaX, deltaY);
+        if(vector2d.length() > 0) {
+            animationSpeed = 15;
+        } else {
+            animationSpeed = 30;
+        }
         vector2d.normalize();
         vector2d.multiply(speed);
         x += vector2d.getX();
         y += vector2d.getY();
 
-        System.out.println(keyH.mousePosition().getX() - gp.location.getX() - x - gp.tileSize/2);
-        
+        //System.out.println(keyH.mousePosition().getX() - gp.location.getX() - x - gp.tileSize/2);
     }
 
     public void draw(Graphics2D g2) {
 
-
-
-        BufferedImage currentImage = null;
         if(keyH.mousePosition().getX() - gp.location.getX() - x - gp.tileSize/2 < 0) {
-            currentImage = image[2];
+            updateAnimation(2, 4, animationSpeed);
         } else if(keyH.mousePosition().getX() - gp.location.getX() - x - gp.tileSize/2 > 0) {
-            currentImage = image[0];
+            updateAnimation(0, 2, animationSpeed);
         }
-
+        
+        BufferedImage currentImage = image[animationIndex];
         g2.drawImage(currentImage, (int) Math.round(x), (int) Math.round(y), gp.tileSize, gp.tileSize, null);
+
     }
 }

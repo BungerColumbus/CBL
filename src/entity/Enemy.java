@@ -1,7 +1,6 @@
 package entity;
 
 import core.Vector2D;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -15,13 +14,14 @@ public class Enemy extends GameObject {
     GamePanel gp;
     Player player;
     protected int speed = 2;
+    private int animationSpeed = 15;
     protected Vector2D vector2d = new Vector2D(0, 0);
 
     public Enemy(GamePanel gp, Player player) {
         this.gp = gp;
         this.player = player;
         setDefaultValues();
-        getEnemyImage();
+        getImages();
     }
 
     public void setDefaultValues() {
@@ -29,7 +29,7 @@ public class Enemy extends GameObject {
         y = 500;
     }
 
-    public void getEnemyImage() {
+    public void getImages() {
 
         try {
 
@@ -54,13 +54,13 @@ public class Enemy extends GameObject {
 
     public void draw(Graphics2D g2) {
 
-        BufferedImage currentImage = null;
         if(player.x < x) {
-            currentImage = image[2];
+            updateAnimation(2, 4, animationSpeed);
         } else if(player.x > x) {
-            currentImage = image[0];
+            updateAnimation(0, 2, animationSpeed);
         }
 
+        BufferedImage currentImage = image[animationIndex];
         g2.drawImage(currentImage, (int) Math.round(x), (int) Math.round(y), gp.tileSize, gp.tileSize, null);
     }
 }
