@@ -12,6 +12,11 @@ public class GameObject {
     protected int animationTick; 
     protected int animationIndex;
 
+    public void setInitialPosition(int defaultX, int defaultY) {
+        x = defaultX;
+        y = defaultY;
+    }
+
     public void updateAnimation(int frame, int length, int animationSpeed) {
         if(animationIndex < frame || animationIndex > length) {
             animationIndex = frame;

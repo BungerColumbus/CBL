@@ -20,13 +20,8 @@ public class Player extends GameObject {
         this.gp = gp;
         this.keyH = keyH;
 
-        setDefaultValues();
+        setInitialPosition(100, 100);
         getImages();
-    }
-
-    public void setDefaultValues() {
-        x = 100;
-        y = 100;
     }
 
     public void getImages() {
