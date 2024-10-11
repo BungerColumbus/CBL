@@ -11,6 +11,7 @@ import main.KeyHandler;
 public class Player extends GameObject {
     
     private BufferedImage[] image = new BufferedImage[4];
+    GamePanel gp;
     KeyHandler keyH;
     protected int speed = 4;
     private int animationSpeed;
