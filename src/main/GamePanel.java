@@ -20,14 +20,18 @@ public class GamePanel extends JPanel implements Runnable {
     //since today a computer has a bigger resolution
     //than older ones we must scale the game so that
     //the sprites won't be extremly small
-    final int scale = 3;
+    static final Dimension SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+    static final int DEFAULT_RESOLUTION = 1920 * 1080;
+    static final int DEFAULT_SCALE = 3;
+    static final int SCREEN_AREA = (int) (SIZE.getWidth() * SIZE.getHeight());
+
+    final int scale = (SCREEN_AREA * DEFAULT_SCALE) / DEFAULT_RESOLUTION;
 
     public final int tileSize = originalTileSize * scale;
     final int maxScreenCol = 18;
     final int maxScreenRow = 12;
     final int screenHeight = tileSize * maxScreenRow;
     final int screenWidth = tileSize * maxScreenCol;
-    static final Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
     
     public Point location;
 

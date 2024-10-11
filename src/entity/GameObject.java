@@ -9,14 +9,14 @@ public class GameObject {
     protected int animationIndex;
 
     public void updateAnimation(int frame, int length, int animationSpeed) {
-        if(animationIndex < frame || animationIndex > length) {
+        if (animationIndex < frame || animationIndex > length) {
             animationIndex = frame;
         }
         animationTick++;
-        if(animationTick >= animationSpeed) {
+        if (animationTick >= animationSpeed) {
             animationTick = 0;
             animationIndex++;
-            if(animationIndex >= length) {
+            if (animationIndex >= length) {
                 animationIndex = frame;
             }
         }
