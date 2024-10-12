@@ -35,18 +35,17 @@ public class GamePanel extends JPanel implements Runnable {
     
     public Point location;
 
-
     int fps = 60;
 
     KeyHandler keyH = new KeyHandler();
     Player player = new Player(this, keyH);
     Enemy enemy = new Enemy(this, player);
+    public CollisionCheck collisionCheck = new CollisionCheck(this);
     Thread gameThread;
 
-    //Set player's default position
-    int playerX = 0;
-    int playerY = 0;
-    int playerSpeed = 4;
+    //int playerX = 0;
+    //int playerY = 0;
+    //int playerSpeed = 4;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));

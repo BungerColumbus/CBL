@@ -2,6 +2,7 @@ package entity;
 
 import core.Vector2D;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.*;
@@ -20,7 +21,7 @@ public class Player extends GameObject {
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
-
+        solidArea = new Rectangle(1, 3, 14, 11);
         setDefaultValues();
         getImages();
     }

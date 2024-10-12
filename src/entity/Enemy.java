@@ -2,6 +2,7 @@ package entity;
 
 import core.Vector2D;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -18,6 +19,7 @@ public class Enemy extends GameObject {
     public Enemy(GamePanel gp, Player player) {
         this.gp = gp;
         this.player = player;
+        solidArea = new Rectangle(1, 3, 14, 10);
         setDefaultValues();
         getImages();
     }
