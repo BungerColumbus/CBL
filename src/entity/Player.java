@@ -13,6 +13,7 @@ public class Player extends GameObject {
     private BufferedImage[] image = new BufferedImage[4];
     GamePanel gp;
     KeyHandler keyH;
+
     protected int speed = 4;
     private int animationSpeed;
     protected Vector2D vector2d = new Vector2D(0, 0);
@@ -20,7 +21,11 @@ public class Player extends GameObject {
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
-        setInitialPosition(100, 100);
+
+        screenX = gp.screenWidth/2 - (gp.tileSize/2);
+        screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
+        setInitialPosition(696, 696);
         getImages();
     }
 
@@ -63,22 +68,22 @@ public class Player extends GameObject {
         }
         vector2d.normalize();
         vector2d.multiply(speed);
-        x += vector2d.getX();
-        y += vector2d.getY();
-
-        //System.out.println(keyH.mousePosition().getX() - gp.location.getX() - x - gp.tileSize/2);
+        worldX += vector2d.getX();
+        worldY += vector2d.getY();
+        System.out.println(worldX + " " + worldY);
+        //System.out.println(keyH.mousePosition().getX() - gp.location.getX() - worldX - gp.tileSize/2);
     }
 
     public void draw(Graphics2D g2) {
 
-        if (keyH.mousePosition().getX() - gp.location.getX() - x - gp.tileSize / 2 < 0) {
+        if (keyH.mousePosition().getX() - gp.location.getX() < gp.screenWidth/2) {
             updateAnimation(2, 4, animationSpeed);
-        } else if (keyH.mousePosition().getX() - gp.location.getX() - x - gp.tileSize / 2 > 0) {
+        } else if (keyH.mousePosition().getX() - gp.location.getX() > gp.screenWidth/2) {
             updateAnimation(0, 2, animationSpeed);
         }
         
         BufferedImage currentImage = image[animationIndex];
-        g2.drawImage(currentImage, (int) Math.round(x), (int) Math.round(y),
+        g2.drawImage(currentImage, (int) Math.round(screenX), (int) Math.round(screenY),
                      gp.tileSize, gp.tileSize, null);
 
     }

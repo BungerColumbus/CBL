@@ -2,15 +2,18 @@ package entity;
 
 public class GameObject {
     
-    protected double x;
-    protected double y;
+    public double worldX;
+    public double worldY;
 
     protected int animationTick; 
-    protected int animationIndex;
+    protected int animationIndex = 0;
+
+    public int screenX;
+    public int screenY;
 
     public void setInitialPosition(int defaultX, int defaultY) {
-        x = defaultX;
-        y = defaultY;
+        worldX = defaultX;
+        worldY = defaultY;
     }
 
     public void updateAnimation(int frame, int length, int animationSpeed) {
@@ -25,6 +28,11 @@ public class GameObject {
                 animationIndex = frame;
             }
         }
+    }
+
+    public void screenPostionRelativeToPlayer(Player player) {
+        screenX = (int) Math.round(worldX - player.worldX + player.screenX);
+        screenY = (int) Math.round(worldY - player.worldY + player.screenY);
     }
 
 }

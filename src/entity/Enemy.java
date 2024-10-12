@@ -18,7 +18,11 @@ public class Enemy extends GameObject {
     public Enemy(GamePanel gp, Player player) {
         this.gp = gp;
         this.player = player;
-        setInitialPosition(500, 500);
+
+        screenX = gp.screenWidth/2 - (gp.tileSize/2);
+        screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
+        setInitialPosition(696, 696);
         getImages();
     }
 
@@ -38,23 +42,24 @@ public class Enemy extends GameObject {
 
     public void update() {
 
-        vector2d = new Vector2D(player.x - x, player.y - y);
+        vector2d = new Vector2D(player.worldX - worldX, player.worldY - worldY);
         vector2d.normalize();
         vector2d.multiply(speed);
-        x += vector2d.getX();
-        y += vector2d.getY();
+        worldX += vector2d.getX();
+        worldY += vector2d.getY();
+        screenPostionRelativeToPlayer(gp.player);
     }
 
     public void draw(Graphics2D g2) {
 
-        if (player.x < x) {
+        if (player.worldX < worldX) {
             updateAnimation(2, 4, animationSpeed);
-        } else if (player.x > x) {
+        } else if (player.worldX > worldX) {
             updateAnimation(0, 2, animationSpeed);
         }
 
         BufferedImage currentImage = image[animationIndex];
-        g2.drawImage(currentImage, (int) Math.round(x), (int) Math.round(y),
+        g2.drawImage(currentImage, (int) Math.round(screenX), (int) Math.round(screenY),
                      gp.tileSize, gp.tileSize, null);
     }
 }
