@@ -2,6 +2,8 @@ package main;
 
 import entity.Enemy;
 import entity.Player;
+import tile.TileManager;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -21,15 +23,15 @@ public class GamePanel extends JPanel implements Runnable {
     //than older ones we must scale the game so that
     //the sprites won't be extremly small
     static final Dimension SIZE = Toolkit.getDefaultToolkit().getScreenSize();
-    static final int DEFAULT_RESOLUTION = 1920 * 1080;
-    static final int DEFAULT_SCALE = 5;
+    static final int DEFAULT_RESOLUTION = 1536 * 864;
+    static final int DEFAULT_SCALE = 3;
     static final int SCREEN_AREA = (int) (SIZE.getWidth() * SIZE.getHeight());
 
-    final int scale = (SCREEN_AREA * DEFAULT_SCALE) / DEFAULT_RESOLUTION;
+    final int scale = 3; //(SCREEN_AREA * DEFAULT_SCALE) / DEFAULT_RESOLUTION;
 
     public final int tileSize = originalTileSize * scale;
-    final int maxScreenCol = 18;
-    final int maxScreenRow = 12;
+    public final int maxScreenCol = 18;
+    public final int maxScreenRow = 12;
     final int screenHeight = tileSize * maxScreenRow;
     final int screenWidth = tileSize * maxScreenCol;
     
@@ -38,6 +40,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     int fps = 60;
 
+    TileManager tileManager = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
     Player player = new Player(this, keyH);
     Enemy enemy = new Enemy(this, player);
@@ -88,7 +91,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
 
-        System.out.println((SCREEN_AREA*DEFAULT_SCALE)/DEFAULT_RESOLUTION);
         location = this.getLocationOnScreen();
         player.update();
         enemy.update();
@@ -99,6 +101,7 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
+        tileManager.draw(g2);
         player.draw(g2);
         enemy.draw(g2);
 
