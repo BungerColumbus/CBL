@@ -14,7 +14,6 @@ public class Player extends GameObject {
     private BufferedImage[] image = new BufferedImage[4];
     GamePanel gp;
     KeyHandler keyH;
-    protected int speed = 4;
     private int animationSpeed;
     protected Vector2D vector2d = new Vector2D(0, 0);
 
@@ -29,6 +28,7 @@ public class Player extends GameObject {
     public void setDefaultValues() {
         x = 100;
         y = 100;
+        speed = 4;
     }
 
     public void getImages() {

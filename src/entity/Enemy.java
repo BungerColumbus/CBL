@@ -12,7 +12,6 @@ public class Enemy extends GameObject {
     private BufferedImage[] image = new BufferedImage[4];
     GamePanel gp;
     Player player;
-    protected int speed = 2;
     private int animationSpeed = 15;
     protected Vector2D vector2d = new Vector2D(0, 0);
 
@@ -27,6 +26,7 @@ public class Enemy extends GameObject {
     public void setDefaultValues() {
         x = 500;
         y = 500;
+        speed = 2;
     }
 
     public void getImages() {
