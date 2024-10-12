@@ -2,6 +2,7 @@ package entity;
 
 import core.Vector2D;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -11,6 +12,7 @@ public class Enemy extends GameObject {
     private BufferedImage[] image = new BufferedImage[4];
     GamePanel gp;
     Player player;
+
     protected int speed = 2;
     private int animationSpeed = 15;
     protected Vector2D vector2d = new Vector2D(0, 0);
@@ -23,6 +25,7 @@ public class Enemy extends GameObject {
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
         setInitialPosition(696, 696);
+        solidArea = new Rectangle(1, 3, 14, 10);
         getImages();
     }
 

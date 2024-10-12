@@ -59,7 +59,9 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyH = new KeyHandler();
     public Player player = new Player(this, keyH);
     Enemy enemy = new Enemy(this, player);
+    public CollisionCheck collisionCheck = new CollisionCheck(this);
     Thread gameThread;
+
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -80,7 +82,7 @@ public class GamePanel extends JPanel implements Runnable {
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
-        location = new Point(0, 0);
+        //location = new Point(0, 0);
         System.out.println("asda");
 
         while (gameThread != null) {
