@@ -7,13 +7,21 @@ public class GameObject {
     
     GamePanel gp;
 
-    public double x;
-    public double y;
+    public double worldX;
+    public double worldY;
     public int speed;
 
     protected int animationTick; 
     protected int animationIndex = 0;
 
+    public int screenX;
+    public int screenY;
+
+    public void setInitialPosition(int defaultX, int defaultY) {
+        worldX = defaultX;
+        worldY = defaultY;
+    }
+    
     public Rectangle solidArea;
     protected boolean collisonOn = false;
 
@@ -29,6 +37,11 @@ public class GameObject {
                 animationIndex = frame;
             }
         }
+    }
+
+    public void screenPostionRelativeToPlayer(Player player) {
+        screenX = (int) Math.round(worldX - player.worldX + player.screenX);
+        screenY = (int) Math.round(worldY - player.worldY + player.screenY);
     }
 
 }

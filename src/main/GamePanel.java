@@ -23,32 +23,45 @@ public class GamePanel extends JPanel implements Runnable {
     //than older ones we must scale the game so that
     //the sprites won't be extremly small
     static final Dimension SIZE = Toolkit.getDefaultToolkit().getScreenSize();
-    static final int DEFAULT_RESOLUTION = 1536 * 864;
+    static final int MINIMAL_RESOLUTION = 1536 * 864;
+    static final int DEFAULT_RESOLUTION = 1920 * 1080;
     static final int DEFAULT_SCALE = 3;
     static final int SCREEN_AREA = (int) (SIZE.getWidth() * SIZE.getHeight());
+    static int scale = 3;
 
-    final int scale = 3; //(SCREEN_AREA * DEFAULT_SCALE) / DEFAULT_RESOLUTION;
+    void determineScale() {
+        if (SCREEN_AREA <= MINIMAL_RESOLUTION) {
+            scale = 3;
+        } else if (SCREEN_AREA == DEFAULT_RESOLUTION) {
+            scale = 4;
+        } else if (SCREEN_AREA > DEFAULT_RESOLUTION) {
+            scale = 6;
+        }
+    }
 
     public final int tileSize = originalTileSize * scale;
     public final int maxScreenCol = 18;
     public final int maxScreenRow = 12;
-    final int screenHeight = tileSize * maxScreenRow;
-    final int screenWidth = tileSize * maxScreenCol;
+    public final int screenHeight = tileSize * maxScreenRow;
+    public final int screenWidth = tileSize * maxScreenCol;
     
     public Point location = new Point(0, 0);
+
+    //WORLD SETTINGS
+    public final int maxWorldCol = 30;
+    public final int maxWorldRow = 30;
+    public final int worldWidth = tileSize * maxWorldCol;
+    public final int worldHeight = tileSize * maxWorldCol;
 
     int fps = 60;
 
     TileManager tileManager = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
-    Player player = new Player(this, keyH);
+    public Player player = new Player(this, keyH);
     Enemy enemy = new Enemy(this, player);
     public CollisionCheck collisionCheck = new CollisionCheck(this);
     Thread gameThread;
 
-    //int playerX = 0;
-    //int playerY = 0;
-    //int playerSpeed = 4;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -69,7 +82,8 @@ public class GamePanel extends JPanel implements Runnable {
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
-        
+        //location = new Point(0, 0);
+        System.out.println("asda");
 
         while (gameThread != null) {
 

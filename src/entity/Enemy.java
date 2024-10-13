@@ -12,21 +12,21 @@ public class Enemy extends GameObject {
     private BufferedImage[] image = new BufferedImage[4];
     GamePanel gp;
     Player player;
+
+    protected int speed = 2;
     private int animationSpeed = 15;
     protected Vector2D vector2d = new Vector2D(0, 0);
 
     public Enemy(GamePanel gp, Player player) {
         this.gp = gp;
         this.player = player;
-        solidArea = new Rectangle(1, 3, 14, 10);
-        setDefaultValues();
-        getImages();
-    }
 
-    public void setDefaultValues() {
-        x = 500;
-        y = 500;
-        speed = 2;
+        screenX = gp.screenWidth/2 - (gp.tileSize/2);
+        screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
+        setInitialPosition(696, 696);
+        solidArea = new Rectangle(8, 16, 32, 30);
+        getImages();
     }
 
     public void getImages() {
@@ -45,23 +45,24 @@ public class Enemy extends GameObject {
 
     public void update() {
 
-        vector2d = new Vector2D(player.x - x, player.y - y);
+        vector2d = new Vector2D(player.worldX - worldX, player.worldY - worldY);
         vector2d.normalize();
         vector2d.multiply(speed);
-        x += vector2d.getX();
-        y += vector2d.getY();
+        worldX += vector2d.getX();
+        worldY += vector2d.getY();
+        screenPostionRelativeToPlayer(gp.player);
     }
 
     public void draw(Graphics2D g2) {
 
-        if (player.x < x) {
+        if (player.worldX < worldX) {
             updateAnimation(2, 4, animationSpeed);
-        } else if (player.x > x) {
+        } else if (player.worldX > worldX) {
             updateAnimation(0, 2, animationSpeed);
         }
 
         BufferedImage currentImage = image[animationIndex];
-        g2.drawImage(currentImage, (int) Math.round(x), (int) Math.round(y),
+        g2.drawImage(currentImage, (int) Math.round(screenX), (int) Math.round(screenY),
                      gp.tileSize, gp.tileSize, null);
     }
 }
