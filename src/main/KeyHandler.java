@@ -7,10 +7,10 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
-    public boolean upPressed;
-    public boolean downPressed;
-    public boolean leftPressed;
-    public boolean rightPressed;
+    public static boolean upPressed;
+    public static boolean downPressed;
+    public static boolean leftPressed;
+    public static boolean rightPressed;
     public double mouseX = 0;
     public double mouseY = 0;
 

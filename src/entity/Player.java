@@ -25,7 +25,7 @@ public class Player extends GameObject {
         screenX = gp.screenWidth / 2 - gp.tileSize / 2;
         screenY = gp.screenHeight / 2 - gp.tileSize / 2;
 
-        solidArea = new Rectangle(8, 16, 32, 30);
+        solidArea = new Rectangle(8, 16, 32, 26);
 
         setInitialPosition(696, 696, 4);
         getImages();
@@ -53,16 +53,16 @@ public class Player extends GameObject {
         int deltaX = 0;
         int deltaY = 0;
 
-        if (keyH.upPressed) {
+        if (KeyHandler.upPressed) {
             deltaY--;
         }
-        if (keyH.downPressed) {
+        if (KeyHandler.downPressed) {
             deltaY++;
         }
-        if (keyH.leftPressed) {
+        if (KeyHandler.leftPressed) {
             deltaX--;
         }
-        if (keyH.rightPressed) {
+        if (KeyHandler.rightPressed) {
             deltaX++;
         }
 
@@ -73,13 +73,15 @@ public class Player extends GameObject {
             animationSpeed = 30;
         }
 
-        collisonOn = false;
+        collisionOn = false;
         gp.collisionCheck.checkTile(this);
 
-        vector2d.normalize();
-        vector2d.multiply(speed);
-        worldX += vector2d.getX();
-        worldY += vector2d.getY();
+        if (!collisionOn) {
+            vector2d.normalize();
+            vector2d.multiply(speed);
+            worldX += vector2d.getX();
+            worldY += vector2d.getY();
+        }
     }
 
     public void draw(Graphics2D g2) {
