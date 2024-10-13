@@ -24,7 +24,7 @@ public class GameObject {
     }
     
     public Rectangle solidArea;
-    protected boolean collisonOn = false;
+    public boolean collisionOn = false;
 
     public void updateAnimation(int frame, int length, int animationSpeed) {
         if (animationIndex < frame || animationIndex > length) {
