@@ -25,7 +25,7 @@ public class Enemy extends GameObject {
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
         setInitialPosition(696, 696);
-        solidArea = new Rectangle(1, 3, 14, 10);
+        solidArea = new Rectangle(8, 16, 32, 30);
         getImages();
     }
 

@@ -2,6 +2,7 @@ package entity;
 
 import core.Vector2D;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.*;
@@ -24,6 +25,8 @@ public class Player extends GameObject {
 
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
+        solidArea = new Rectangle(8, 16, 32, 30);
 
         setInitialPosition(696, 696);
         getImages();
@@ -66,6 +69,10 @@ public class Player extends GameObject {
         } else {
             animationSpeed = 30;
         }
+
+        collisonOn = false;
+        gp.collisionCheck.checkTile(this);
+
         vector2d.normalize();
         vector2d.multiply(speed);
         worldX += vector2d.getX();

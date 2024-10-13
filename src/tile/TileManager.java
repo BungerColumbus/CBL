@@ -28,11 +28,15 @@ public class TileManager {
             int x;
             for(x = 0; x <= 11; x++) {
                 tile[x] = new Tile();
+                if(x >= 4) {
+                    tile[x].collision = true;
+                }
             }
             tile[0].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/TileSet8.png"));
             tile[1].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/TileSet6.png"));
             tile[2].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/TileSet5.png"));
             tile[3].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/TileSet9.png"));
+
             tile[4].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/TileSet2.png"));
             tile[5].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/TileSet3.png"));
             tile[6].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/TileSet4.png"));
@@ -87,7 +91,13 @@ public class TileManager {
             int screenX = (int) Math.round(worldX - gp.player.worldX + gp.player.screenX);
             int screenY = (int) Math.round(worldY - gp.player.worldY + gp.player.screenY);
             
-            g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            if(worldX + gp.tileSize > gp.player.worldX - gp.player.screenX && 
+                worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
+                worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
+                worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
+
+                g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            }
             worldCol++;
 
             if(worldCol == gp.maxWorldCol) {
