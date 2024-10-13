@@ -15,7 +15,6 @@ public class Player extends GameObject {
     GamePanel gp;
     KeyHandler keyH;
 
-    protected int speed = 4;
     private int animationSpeed;
     protected Vector2D vector2d = new Vector2D(0, 0);
 
@@ -23,12 +22,12 @@ public class Player extends GameObject {
         this.gp = gp;
         this.keyH = keyH;
 
-        screenX = gp.screenWidth/2 - (gp.tileSize/2);
-        screenY = gp.screenHeight/2 - (gp.tileSize/2);
+        screenX = gp.screenWidth / 2 - gp.tileSize / 2;
+        screenY = gp.screenHeight / 2 - gp.tileSize / 2;
 
         solidArea = new Rectangle(8, 16, 32, 30);
 
-        setInitialPosition(696, 696);
+        setInitialPosition(696, 696, 4);
         getImages();
     }
 
@@ -36,10 +35,14 @@ public class Player extends GameObject {
 
         try {
 
-            image[0] = ImageIO.read(getClass().getResourceAsStream("/res/player/player_slime0.png"));
-            image[1] = ImageIO.read(getClass().getResourceAsStream("/res/player/player_slime1.png"));
-            image[2] = ImageIO.read(getClass().getResourceAsStream("/res/player/player_slime2.png"));
-            image[3] = ImageIO.read(getClass().getResourceAsStream("/res/player/player_slime3.png"));
+            image[0] = ImageIO.read(getClass()
+                    .getResourceAsStream("/res/player/player_slime0.png"));
+            image[1] = ImageIO.read(getClass()
+                    .getResourceAsStream("/res/player/player_slime1.png"));
+            image[2] = ImageIO.read(getClass()
+                    .getResourceAsStream("/res/player/player_slime2.png"));
+            image[3] = ImageIO.read(getClass()
+                    .getResourceAsStream("/res/player/player_slime3.png"));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -77,15 +80,13 @@ public class Player extends GameObject {
         vector2d.multiply(speed);
         worldX += vector2d.getX();
         worldY += vector2d.getY();
-        System.out.println(worldX + " " + worldY);
-        //System.out.println(keyH.mousePosition().getX() - gp.location.getX() - worldX - gp.tileSize/2);
     }
 
     public void draw(Graphics2D g2) {
 
-        if (keyH.mousePosition().getX() - gp.location.getX() < gp.screenWidth/2) {
+        if (keyH.mousePosition().getX() - gp.location.getX() < gp.screenWidth / 2) {
             updateAnimation(2, 4, animationSpeed);
-        } else if (keyH.mousePosition().getX() - gp.location.getX() > gp.screenWidth/2) {
+        } else if (keyH.mousePosition().getX() - gp.location.getX() > gp.screenWidth / 2) {
             updateAnimation(0, 2, animationSpeed);
         }
         
