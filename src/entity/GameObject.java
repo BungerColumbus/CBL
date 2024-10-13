@@ -9,9 +9,10 @@ public class GameObject {
 
     public double x;
     public double y;
+    public int speed;
 
     protected int animationTick; 
-    protected int animationIndex;
+    protected int animationIndex = 0;
 
     public Rectangle solidArea;
     protected boolean collisonOn = false;
