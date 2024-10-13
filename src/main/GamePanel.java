@@ -1,6 +1,7 @@
 package main;
 
 import entity.Enemy;
+import entity.Heart;
 import entity.Player;
 import tile.TileManager;
 
@@ -59,6 +60,7 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyH = new KeyHandler();
     public Player player = new Player(this, keyH);
     Enemy enemy = new Enemy(this, player);
+    Heart hearts = new Heart(this, player);
     public CollisionCheck collisionCheck = new CollisionCheck(this);
     Thread gameThread;
 
@@ -116,6 +118,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         tileManager.draw(g2);
         player.draw(g2);
+        hearts.draw(g2);
         enemy.draw(g2);
 
         g2.dispose();

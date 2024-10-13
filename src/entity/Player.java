@@ -19,6 +19,9 @@ public class Player extends GameObject {
     private int animationSpeed;
     protected Vector2D vector2d = new Vector2D(0, 0);
 
+    public int life = 2;
+    public int maxLife = 3;
+
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
