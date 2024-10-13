@@ -9,6 +9,7 @@ public class GameObject {
 
     public double worldX;
     public double worldY;
+    public int speed;
 
     protected int animationTick; 
     protected int animationIndex = 0;
@@ -16,9 +17,10 @@ public class GameObject {
     public int screenX;
     public int screenY;
 
-    public void setInitialPosition(int defaultX, int defaultY) {
+    public void setInitialPosition(double defaultX, double defaultY, int entity_speed) {
         worldX = defaultX;
         worldY = defaultY;
+        speed = entity_speed;
     }
     
     public Rectangle solidArea;

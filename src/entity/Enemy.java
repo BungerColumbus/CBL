@@ -13,7 +13,6 @@ public class Enemy extends GameObject {
     GamePanel gp;
     Player player;
 
-    protected int speed = 2;
     private int animationSpeed = 15;
     protected Vector2D vector2d = new Vector2D(0, 0);
 
@@ -21,10 +20,10 @@ public class Enemy extends GameObject {
         this.gp = gp;
         this.player = player;
 
-        screenX = gp.screenWidth/2 - (gp.tileSize/2);
-        screenY = gp.screenHeight/2 - (gp.tileSize/2);
+        screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
+        screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
 
-        setInitialPosition(696, 696);
+        setInitialPosition(696, 696, 2);
         solidArea = new Rectangle(8, 16, 32, 30);
         getImages();
     }
