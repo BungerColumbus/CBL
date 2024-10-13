@@ -52,20 +52,23 @@ public class GamePanel extends JPanel implements Runnable {
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldCol;
 
+    //GAME STATES
+    public int gameState = 0;
+
     int fps = 60;
 
-    TileManager tileManager = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
     public Player player = new Player(this, keyH);
+    public CollisionCheck collisionCheck = new CollisionCheck(this);
+    TitleScreen titleScreen = new TitleScreen(this, keyH);
     Enemy enemy = new Enemy(this, player);
     Heart hearts = new Heart(this, player);
-    public CollisionCheck collisionCheck = new CollisionCheck(this);
+    TileManager tileManager = new TileManager(this);
     Thread gameThread;
 
 
     public GamePanel() {
-        //this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        this.setBackground(Color.darkGray);
+        this.setBackground(new Color(51, 51, 51));
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
@@ -116,10 +119,13 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-
-        location = this.getLocationOnScreen();
-        player.update();
-        enemy.update();
+        if(gameState == 0) {
+            titleScreen.update();
+        } else if(gameState == 1) {
+            location = this.getLocationOnScreen();
+            player.update();
+            enemy.update();
+        }
     }
 
     public void drawToScreen() {
@@ -129,11 +135,14 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void drawToTempScreen() {
-        
-        tileManager.draw(g2);
-        player.draw(g2);
-        hearts.draw(g2);
-        enemy.draw(g2);
+        if(gameState == 0) {
+            titleScreen.draw(g2);
+        } else if (gameState == 1) {
+            tileManager.draw(g2);
+            player.draw(g2);
+            hearts.draw(g2);
+            enemy.draw(g2);
+        }
     }
 
 }

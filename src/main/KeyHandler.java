@@ -7,6 +7,7 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
+    public boolean startButton;
     public boolean upPressed;
     public boolean downPressed;
     public boolean leftPressed;
@@ -33,6 +34,9 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_D) {
             rightPressed = true;
+        } 
+        if (code == KeyEvent.VK_Q) {
+            startButton = true;
         }
     }
 
