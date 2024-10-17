@@ -89,9 +89,9 @@ public class Player extends GameObject {
 
     public void draw(Graphics2D g2) {
 
-        if (keyH.mousePosition().getX() - gp.location.getX() < gp.screenWidth / 2) {
+        if (keyH.mousePosition().getX() - gp.location.getX() < gp.screenWidth2 / 2) {
             updateAnimation(2, 4, animationSpeed);
-        } else if (keyH.mousePosition().getX() - gp.location.getX() > gp.screenWidth / 2) {
+        } else if (keyH.mousePosition().getX() - gp.location.getX() > gp.screenWidth2 / 2) {
             updateAnimation(0, 2, animationSpeed);
         }
         

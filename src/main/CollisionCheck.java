@@ -1,8 +1,6 @@
 package main;
 
 import entity.GameObject;
-import main.KeyHandler;
-import tile.TileManager;
 
 public class CollisionCheck {
     
