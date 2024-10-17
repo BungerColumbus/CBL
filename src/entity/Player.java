@@ -16,7 +16,7 @@ public class Player extends GameObject {
     KeyHandler keyH;
 
     private int animationSpeed;
-    protected Vector2D vector2d = new Vector2D(0, 0);
+    public Vector2D vector2d = new Vector2D(0, 0);
 
     public int life = 2;
     public int maxLife = 3;
@@ -56,16 +56,16 @@ public class Player extends GameObject {
         int deltaX = 0;
         int deltaY = 0;
 
-        if (KeyHandler.upPressed) {
+        if (keyH.upPressed) {
             deltaY--;
         }
-        if (KeyHandler.downPressed) {
+        if (keyH.downPressed) {
             deltaY++;
         }
-        if (KeyHandler.leftPressed) {
+        if (keyH.leftPressed) {
             deltaX--;
         }
-        if (KeyHandler.rightPressed) {
+        if (keyH.rightPressed) {
             deltaX++;
         }
 

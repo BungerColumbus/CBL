@@ -2,7 +2,6 @@ package entity;
 
 import java.awt.Rectangle;
 import main.GamePanel;
-
 public class GameObject {
     
     GamePanel gp;

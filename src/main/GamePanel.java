@@ -11,6 +11,8 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
+
+import core.CollisionCheck;
 import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -57,11 +59,11 @@ public class GamePanel extends JPanel implements Runnable {
 
     int fps = 60;
 
-    public KeyHandler keyH = new KeyHandler();
-    public CollisionCheck collisionCheck = new CollisionCheck(this);
+    KeyHandler keyH = new KeyHandler();
     TitleScreen titleScreen = new TitleScreen(this, keyH);
     public TileManager tileManager = new TileManager(this);
     public Player player = new Player(this, keyH);
+    public CollisionCheck collisionCheck = new CollisionCheck(this, keyH, player.vector2d);
     public Enemy enemy = new Enemy(this, player);
     Heart hearts = new Heart(this, player);
     Thread gameThread;
