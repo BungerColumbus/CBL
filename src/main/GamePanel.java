@@ -11,6 +11,8 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
+
+import core.CollisionCheck;
 import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -52,20 +54,23 @@ public class GamePanel extends JPanel implements Runnable {
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldCol;
 
+    //GAME STATES
+    public int gameState = 0;
+
     int fps = 60;
 
+    KeyHandler keyH = new KeyHandler();
+    TitleScreen titleScreen = new TitleScreen(this, keyH);
     public TileManager tileManager = new TileManager(this);
-    public KeyHandler keyH = new KeyHandler();
     public Player player = new Player(this, keyH);
+    public CollisionCheck collisionCheck = new CollisionCheck(this, keyH, player.vector2d);
     public Enemy enemy = new Enemy(this, player);
     Heart hearts = new Heart(this, player);
-    public CollisionCheck collisionCheck = new CollisionCheck(this);
     Thread gameThread;
 
 
     public GamePanel() {
-        //this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        this.setBackground(Color.darkGray);
+        this.setBackground(new Color(51, 51, 51));
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
@@ -116,10 +121,13 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-
-        location = this.getLocationOnScreen();
-        player.update();
-        enemy.update();
+        if(gameState == 0) {
+            titleScreen.update();
+        } else if(gameState == 1) {
+            location = this.getLocationOnScreen();
+            player.update();
+            enemy.update();
+        }
     }
 
     public void drawToScreen() {
@@ -129,11 +137,14 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void drawToTempScreen() {
-        
-        tileManager.draw(g2);
-        player.draw(g2);
-        hearts.draw(g2);
-        enemy.draw(g2);
+        if(gameState == 0) {
+            titleScreen.draw(g2);
+        } else if (gameState == 1) {
+            tileManager.draw(g2);
+            player.draw(g2);
+            hearts.draw(g2);
+            enemy.draw(g2);
+        }
     }
 
 }

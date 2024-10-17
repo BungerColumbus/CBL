@@ -7,10 +7,11 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
-    public static boolean upPressed;
-    public static boolean downPressed;
-    public static boolean leftPressed;
-    public static boolean rightPressed;
+    public boolean startButton;
+    public boolean upPressed;
+    public boolean downPressed;
+    public boolean leftPressed;
+    public boolean rightPressed;
     public double mouseX = 0;
     public double mouseY = 0;
 
@@ -33,6 +34,9 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_D) {
             rightPressed = true;
+        } 
+        if (code == KeyEvent.VK_Q) {
+            startButton = true;
         }
     }
 
