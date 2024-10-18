@@ -21,7 +21,7 @@ public class CollisionCheck {
         double xSolidAreaOnScreenRight = xSolidAreaOnScreenLeft + gameObject.solidArea.width;
         double ySolidAreaOnScreenTop = gameObject.worldY + gameObject.solidArea.y;
         double ySolidAreaOnScreenBottom = ySolidAreaOnScreenTop + gameObject.solidArea.height;
-
+ 
         int solidAreaLeftCol = (int) xSolidAreaOnScreenLeft / gp.tileSize;
         int solidAreaRightCol = (int) xSolidAreaOnScreenRight / gp.tileSize;
         int solidAreaTopRow = (int) ySolidAreaOnScreenTop / gp.tileSize;

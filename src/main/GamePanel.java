@@ -100,8 +100,6 @@ public class GamePanel extends JPanel implements Runnable {
         long lastTime = System.nanoTime();
         long currentTime;
         //location = new Point(0, 0);
-        System.out.println("asda");
-
         while (gameThread != null) {
 
             currentTime = System.nanoTime();
@@ -143,7 +141,7 @@ public class GamePanel extends JPanel implements Runnable {
             tileManager.draw(g2);
             player.draw(g2);
             hearts.draw(g2);
-            enemy.draw(g2);
+            //enemy.draw(g2);
         }
     }
 
