@@ -3,6 +3,8 @@ package main;
 import core.Vector2D;
 import java.awt.MouseInfo;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
@@ -12,6 +14,7 @@ public class KeyHandler implements KeyListener {
     public boolean downPressed;
     public boolean leftPressed;
     public boolean rightPressed;
+    public boolean clickedLeftButton;
     public double mouseX = 0;
     public double mouseY = 0;
 
@@ -55,6 +58,21 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_D) {
             rightPressed = false;
+        }
+        if (code == MouseEvent.MOUSE_RELEASED) {
+            clickedLeftButton = false;
+        }
+    }
+
+    public void mousePressed(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            clickedLeftButton = true;
+            System.out.println("Left button clicked");
+        }
+    }
+    public void mouseReleased(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            clickedLeftButton = false;
         }
     }
 
