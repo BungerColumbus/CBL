@@ -100,7 +100,7 @@ public class GamePanel extends JPanel implements Runnable {
         long lastTime = System.nanoTime();
         long currentTime;
         //location = new Point(0, 0);
-        System.out.println("asda");
+        //System.out.println("asda");
 
         while (gameThread != null) {
 
@@ -121,9 +121,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        if(gameState == 0) {
+        if (gameState == 0) {
             titleScreen.update();
-        } else if(gameState == 1) {
+        } else if (gameState == 1) {
             location = this.getLocationOnScreen();
             player.update();
             enemy.update();
