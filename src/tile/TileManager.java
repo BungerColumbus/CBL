@@ -5,7 +5,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import javax.imageio.*;
+import javax.imageio.ImageIO;
 import main.GamePanel;
 
 public class TileManager {
@@ -79,7 +79,7 @@ public class TileManager {
             tile[19].image = ImageIO.read(getClass()
                             .getResourceAsStream("/res/tiles/OuterURCorner.png"));
             tile[20].image = ImageIO.read(getClass()
-                            .getResourceAsStream("/res/tiles/Outside.png"));
+                            .getResourceAsStream("/res/tiles/Waves.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
