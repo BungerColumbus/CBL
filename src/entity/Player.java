@@ -35,7 +35,7 @@ public class Player extends GameObject {
         screenY = gp.screenHeight / 2 - gp.tileSize / 2;
 
         solidArea = new Rectangle(8, 16, 32, 26);
-        playerHitBox = new OnTriggerCircleCollision(gp, 20, new Vector2D(worldX, worldY));
+        playerHitBox = new OnTriggerCircleCollision(gp, 30, new Vector2D(worldX, worldY));
         meleeHitBox = new OnTriggerCircleCollision(gp, 30, hitBoxLocationVector2d);
 
         setInitialPosition(696, 696, 4);
@@ -76,12 +76,35 @@ public class Player extends GameObject {
         CoolDownAttack(90);
     }
 
+    public void CoolDownAttack(int frames) {
+        System.out.println(frameTick[2]);
+        System.out.println(canAttack);
+        if(frameTick[2] > frames) {
+            canAttack = true;
+            frameTick[2] = 0;
+        }
+        else if(!canAttack) {
+            frameTick[2]++;
+        }
+    }
+
     public void damagePlayer() {
         if (canTakeDamage) {
             canTakeDamage = false;
             life--;
         } else if (!canTakeDamage) {
             playerHitBox.active = false;
+        }
+    }
+
+    public void CoolDownHP(int frames) {
+        
+        if(frameTick[1] > frames) {
+            canTakeDamage = true;
+            frameTick[1] = 0;
+        }
+        else if(!canTakeDamage) {            
+            frameTick[1]++;
         }
     }
 
@@ -131,34 +154,12 @@ public class Player extends GameObject {
         }
         
         BufferedImage currentImage = image[animationIndex];
-        if(frameTick%10 < 2 || frameTick == 0)
+        if(frameTick[1]%10 < 2 || frameTick[1] == 0)
         g2.drawImage(currentImage, (int) Math.round(screenX), (int) Math.round(screenY),
                      gp.tileSize, gp.tileSize, null);
         if(meleeHitBox.active)
             g2.fillOval((int) Math.round(screenX + hitBoxLocationVector2d.getX() + gp.tileSize/4), (int) Math.round(screenY + hitBoxLocationVector2d.getY() + gp.tileSize/4),
                      30, 30);
 
-    }
-
-    public void CoolDownAttack(int frames) {
-        
-        if(frameTick > frames) {
-            canAttack = true;
-            frameTick = 0;
-        }
-        else if(!canAttack) {
-            frameTick++;
-        }
-    }
-
-    public void CoolDownHP(int frames) {
-        
-        if(frameTick > frames) {
-            canTakeDamage = true;
-            frameTick = 0;
-        }
-        else if(!canTakeDamage) {            
-            frameTick++;
-        }
     }
 }

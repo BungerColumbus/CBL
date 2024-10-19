@@ -19,6 +19,7 @@ public class Enemy extends GameObject {
     public OnTriggerCircleCollision enemyHitBox;
 
     private boolean canAttack = false;
+    private boolean canTakeDamage = true;
     public int life = 3;
     public int maxLife = 3; 
 
@@ -30,7 +31,8 @@ public class Enemy extends GameObject {
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
 
         setInitialPosition(696, 800, 2);
-        enemyHitBox = new OnTriggerCircleCollision(gp, 20, new Vector2D(worldX, worldY));
+        enemyHitBox = new OnTriggerCircleCollision(gp, 30, new Vector2D(worldX, worldY));
+        enemyHitBox.active = true;
         solidArea = new Rectangle(8, 16, 32, 26);
         getImages();
     }
@@ -58,9 +60,7 @@ public class Enemy extends GameObject {
         worldY += vector2d.getY();
         screenPostionRelativeToPlayer(gp.player);
         enemyHitBox = new OnTriggerCircleCollision(gp, 20, new Vector2D(worldX, worldY));
-        System.out.println(enemyHitBox.checkCollisionBetween2Objects(player, this, enemyHitBox, player.playerHitBox));
-        System.out.println(canAttack);
-        System.out.println(frameTick);
+        //System.out.println(enemyHitBox.checkCollisionBetween2Objects(player, this, enemyHitBox, player.playerHitBox));
         CoolDownAttack(60);
         enemyAttack();
     }
@@ -86,26 +86,31 @@ public class Enemy extends GameObject {
         }
     }
 
+    public void damageEnemy() {
+        if (canTakeDamage && enemyHitBox.checkCollisionBetween2Objects(player, this, enemyHitBox, player.meleeHitBox)) {
+            canTakeDamage = false;
+            life--;
+            System.out.println(life);
+        }
+    }
+
     public void CoolDownAttack(int frames) {
-        
-        if(frameTick > frames) {
+        if(frameTick[1] > frames) {
             canAttack = true;
-            enemyHitBox.active = true;
-            frameTick = 0;
+            frameTick[1] = 0;
         }
         else if(!canAttack) {
-            frameTick++;
+            frameTick[1]++;
         }
     }
 
     public void CoolDownHP(int frames) {
-        if(frameTick > frames) {
-            canAttack = true;
-            enemyHitBox.active = true;
-            frameTick = 0;
+        if(frameTick[2] > frames) {
+            canTakeDamage = true;
+            frameTick[2] = 0;
         }
-        else if(!canAttack) {
-            frameTick++;
+        else if(!canTakeDamage) {
+            frameTick[2]++;
         }
     }
 }

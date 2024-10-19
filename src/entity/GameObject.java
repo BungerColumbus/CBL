@@ -11,10 +11,9 @@ public class GameObject {
     public double worldY;
     public int speed;
 
-    protected int animationTick;
     protected int animationIndex = 0;
 
-    protected int frameTick;
+    protected int[] frameTick = new int[3];
 
     public int screenX;
     public int screenY;
@@ -32,9 +31,9 @@ public class GameObject {
         if (animationIndex < frame || animationIndex > length) {
             animationIndex = frame;
         }
-        animationTick++;
-        if (animationTick >= animationSpeed) {
-            animationTick = 0;
+        frameTick[0]++;
+        if (frameTick[0] >= animationSpeed) {
+            frameTick[0] = 0;
             animationIndex++;
             if (animationIndex >= length) {
                 animationIndex = frame;
