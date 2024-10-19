@@ -29,7 +29,7 @@ public class Enemy extends GameObject {
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
 
-        setInitialPosition(696, 696, 2);
+        setInitialPosition(696, 800, 2);
         enemyHitBox = new OnTriggerCircleCollision(gp, 20, new Vector2D(worldX, worldY));
         solidArea = new Rectangle(8, 16, 32, 26);
         getImages();
@@ -88,6 +88,17 @@ public class Enemy extends GameObject {
 
     public void CoolDownAttack(int frames) {
         
+        if(frameTick > frames) {
+            canAttack = true;
+            enemyHitBox.active = true;
+            frameTick = 0;
+        }
+        else if(!canAttack) {
+            frameTick++;
+        }
+    }
+
+    public void CoolDownHP(int frames) {
         if(frameTick > frames) {
             canAttack = true;
             enemyHitBox.active = true;

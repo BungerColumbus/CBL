@@ -131,6 +131,7 @@ public class Player extends GameObject {
         }
         
         BufferedImage currentImage = image[animationIndex];
+        if(frameTick%10 < 2 || frameTick == 0)
         g2.drawImage(currentImage, (int) Math.round(screenX), (int) Math.round(screenY),
                      gp.tileSize, gp.tileSize, null);
         if(meleeHitBox.active)
@@ -156,7 +157,7 @@ public class Player extends GameObject {
             canTakeDamage = true;
             frameTick = 0;
         }
-        else if(!canTakeDamage) {
+        else if(!canTakeDamage) {            
             frameTick++;
         }
     }
