@@ -16,8 +16,9 @@ public class OnTriggerCircleCollision {
         this.vector2d = vector2d;
     }
 
-    boolean checkCollisionBetween2Objects(GameObject gameObject1, GameObject gameObject2, OnTriggerCircleCollision circleCollider1, OnTriggerCircleCollision circleCollider2, Vector2D vector) {
+    public boolean checkCollisionBetween2Objects(GameObject gameObject1, GameObject gameObject2, OnTriggerCircleCollision circleCollider1, OnTriggerCircleCollision circleCollider2) {
         boolean collided;
+        Vector2D vector;
         vector = new Vector2D((gameObject2.worldX - gameObject1.worldX), (gameObject2.worldY - gameObject1.worldY));
         if(vector.length() < circleCollider1.radius + circleCollider2.radius) {
             collided = true;
@@ -27,7 +28,7 @@ public class OnTriggerCircleCollision {
 
         //if(gameObject1.vector2d gameObject1.OnTriggerCircleCollision.distance)
         
-        if(active && collided) {
+        if(collided) {
             return true;
         } else {
             return false;

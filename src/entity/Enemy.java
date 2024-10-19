@@ -1,5 +1,6 @@
 package entity;
 
+import core.OnTriggerCircleCollision;
 import core.Vector2D;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -15,6 +16,11 @@ public class Enemy extends GameObject {
 
     private int animationSpeed = 15;
     protected Vector2D vector2d = new Vector2D(0, 0);
+    public OnTriggerCircleCollision enemyHitBox;
+
+    private boolean canAttack = false;
+    public int life = 3;
+    public int maxLife = 3; 
 
     public Enemy(GamePanel gp, Player player) {
         this.gp = gp;
@@ -24,6 +30,7 @@ public class Enemy extends GameObject {
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
 
         setInitialPosition(696, 696, 2);
+        enemyHitBox = new OnTriggerCircleCollision(gp, 20, new Vector2D(worldX, worldY));
         solidArea = new Rectangle(8, 16, 32, 26);
         getImages();
     }
@@ -50,6 +57,12 @@ public class Enemy extends GameObject {
         worldX += vector2d.getX();
         worldY += vector2d.getY();
         screenPostionRelativeToPlayer(gp.player);
+        enemyHitBox = new OnTriggerCircleCollision(gp, 20, new Vector2D(worldX, worldY));
+        System.out.println(enemyHitBox.checkCollisionBetween2Objects(player, this, enemyHitBox, player.playerHitBox));
+        System.out.println(canAttack);
+        System.out.println(frameTick);
+        CoolDownAttack(60);
+        enemyAttack();
     }
 
     public void draw(Graphics2D g2) {
@@ -63,5 +76,25 @@ public class Enemy extends GameObject {
         BufferedImage currentImage = image[animationIndex];
         g2.drawImage(currentImage, (int) Math.round(screenX), (int) Math.round(screenY),
                      gp.tileSize, gp.tileSize, null);
+    }
+
+    public void enemyAttack() {
+        if (canAttack && enemyHitBox.checkCollisionBetween2Objects(player, this, enemyHitBox, player.playerHitBox)) {
+            player.damagePlayer();
+            System.out.println("Collided with player");
+            canAttack = false;
+        }
+    }
+
+    public void CoolDownAttack(int frames) {
+        
+        if(frameTick > frames) {
+            canAttack = true;
+            enemyHitBox.active = true;
+            frameTick = 0;
+        }
+        else if(!canAttack) {
+            frameTick++;
+        }
     }
 }

@@ -141,7 +141,7 @@ public class GamePanel extends JPanel implements Runnable {
             tileManager.draw(g2);
             player.draw(g2);
             hearts.draw(g2);
-            //enemy.draw(g2);
+            enemy.draw(g2);
         }
     }
 
