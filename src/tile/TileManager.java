@@ -5,19 +5,23 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import javax.imageio.*;
+import javax.imageio.ImageIO;
 import main.GamePanel;
 
 public class TileManager {
     GamePanel gp;
     public Tile[] tile;
     public int[][] mapTileNumber;
+    private final int fullMapCol;
+    private final int fullMapRow;
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
 
-        tile = new Tile[12];
-        mapTileNumber = new int[gp.maxWorldCol][gp.maxWorldRow];
+        tile = new Tile[21];
+        fullMapCol = gp.maxWorldCol + 18;
+        fullMapRow = gp.maxWorldRow + 12;
+        mapTileNumber = new int[fullMapCol][fullMapRow];
 
         loadMap();
         getTileImage();
@@ -26,7 +30,7 @@ public class TileManager {
     public void getTileImage() {
         try {
             int x;
-            for (x = 0; x <= 11; x++) {
+            for (x = 0; x < 21; x++) {
                 tile[x] = new Tile();
                 if (x >= 4) {
                     tile[x].collision = true;
@@ -57,6 +61,25 @@ public class TileManager {
                             .getResourceAsStream("/res/tiles/TileSet12.png"));
             tile[11].image = ImageIO.read(getClass()
                             .getResourceAsStream("/res/tiles/TileSet1.png"));
+
+            tile[12].image = ImageIO.read(getClass()
+                            .getResourceAsStream("/res/tiles/OuterDLCorner.png"));  
+            tile[13].image = ImageIO.read(getClass()
+                            .getResourceAsStream("/res/tiles/OuterDown.png"));  
+            tile[14].image = ImageIO.read(getClass()
+                            .getResourceAsStream("/res/tiles/OuterDRCorner.png"));    
+            tile[15].image = ImageIO.read(getClass()
+                            .getResourceAsStream("/res/tiles/OuterLeft.png"));
+            tile[16].image = ImageIO.read(getClass()
+                            .getResourceAsStream("/res/tiles/OuterRight.png"));   
+            tile[17].image = ImageIO.read(getClass()
+                            .getResourceAsStream("/res/tiles/OuterULCorner.png"));
+            tile[18].image = ImageIO.read(getClass()
+                            .getResourceAsStream("/res/tiles/OuterUp.png"));
+            tile[19].image = ImageIO.read(getClass()
+                            .getResourceAsStream("/res/tiles/OuterURCorner.png"));
+            tile[20].image = ImageIO.read(getClass()
+                            .getResourceAsStream("/res/tiles/Waves.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -69,10 +92,10 @@ public class TileManager {
             int col = 0;
             int row = 0;
     
-            while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
+            while (col < fullMapCol && row < fullMapRow) {
                 String line = br.readLine();
 
-                while (col <  gp.maxWorldCol) {
+                while (col <  fullMapCol) {
                     String[] numbers = line.split(" ");
 
                     int num = Integer.parseInt(numbers[col]);
@@ -80,14 +103,14 @@ public class TileManager {
                     mapTileNumber[col][row] = num;
                     col++;
                 }
-                if (col == gp.maxWorldRow) {
+                if (col == fullMapCol) {
                     col = 0;
                     row++;
                 }
             }
             br.close();
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -95,7 +118,7 @@ public class TileManager {
         int worldCol = 0;
         int worldRow = 0;
 
-        while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
+        while (worldCol < fullMapCol && worldRow < fullMapRow) {
             int tileNum = mapTileNumber[worldCol][worldRow];
 
             int worldX = worldCol * gp.tileSize;
@@ -112,7 +135,7 @@ public class TileManager {
             }
             worldCol++;
 
-            if (worldCol == gp.maxWorldCol) {
+            if (worldCol == fullMapCol) {
                 worldCol = 0;
                 worldRow++;
             }

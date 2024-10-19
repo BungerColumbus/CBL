@@ -2,6 +2,7 @@ package entity;
 
 import java.awt.Rectangle;
 import main.GamePanel;
+
 public class GameObject {
     
     GamePanel gp;
@@ -18,10 +19,10 @@ public class GameObject {
     public int screenX;
     public int screenY;
 
-    public void setInitialPosition(double defaultX, double defaultY, int entity_speed) {
+    public void setInitialPosition(double defaultX, double defaultY, int entitySpeed) {
         worldX = defaultX;
         worldY = defaultY;
-        speed = entity_speed;
+        speed = entitySpeed;
     }
     
     public Rectangle solidArea;

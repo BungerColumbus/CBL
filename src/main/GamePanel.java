@@ -1,5 +1,6 @@
 package main;
 
+import core.CollisionCheck;
 import entity.Enemy;
 import entity.Heart;
 import entity.Player;
@@ -11,8 +12,6 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
-
-import core.CollisionCheck;
 import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -120,9 +119,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        if(gameState == 0) {
+        if (gameState == 0) {
             titleScreen.update();
-        } else if(gameState == 1) {
+        } else if (gameState == 1) {
             location = this.getLocationOnScreen();
             player.update();
             enemy.update();
@@ -136,7 +135,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void drawToTempScreen() {
-        if(gameState == 0) {
+        if (gameState == 0) {
             titleScreen.draw(g2);
         } else if (gameState == 1) {
             tileManager.draw(g2);
