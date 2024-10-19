@@ -10,8 +10,10 @@ public class GameObject {
     public double worldY;
     public int speed;
 
-    protected int animationTick; 
+    protected int animationTick;
     protected int animationIndex = 0;
+
+    protected int frameTick;
 
     public int screenX;
     public int screenY;
@@ -38,6 +40,7 @@ public class GameObject {
             }
         }
     }
+
 
     public void screenPostionRelativeToPlayer(Player player) {
         screenX = (int) Math.round(worldX - player.worldX + player.screenX);

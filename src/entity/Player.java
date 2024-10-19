@@ -4,7 +4,6 @@ import core.OnTriggerCircleCollision;
 import core.Vector2D;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.Shape;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.*;
@@ -21,6 +20,7 @@ public class Player extends GameObject {
     public Vector2D vector2d = new Vector2D(0, 0);
     public Vector2D hitBoxLocationVector2d = new Vector2D(0, 0);
     public OnTriggerCircleCollision meleeHitBox;
+    private boolean canAttack = true;
 
     public int life = 2;
     public int maxLife = 3;
@@ -61,13 +61,15 @@ public class Player extends GameObject {
         hitBoxLocationVector2d = new Vector2D(keyH.mousePosition().getX() - gp.screenWidth/2 - gp.location.getX(), keyH.mousePosition().getY() - gp.screenHeight/2 - gp.location.getY());
         hitBoxLocationVector2d.normalize();
         hitBoxLocationVector2d.multiply(50);
-        if(keyH.clickedLeftButton) {
+        if(keyH.clickedLeftButton && canAttack) {
+            System.out.println("attacked");
+            canAttack = false;
             meleeHitBox = new OnTriggerCircleCollision(gp, 30, hitBoxLocationVector2d);
             meleeHitBox.active = true;
         } else if (!keyH.clickedLeftButton) {
             meleeHitBox.active = false;
         }
-
+        CoolDownAttack(90);
     }
 
     public void update() {
@@ -120,5 +122,16 @@ public class Player extends GameObject {
             g2.fillOval((int) Math.round(screenX + hitBoxLocationVector2d.getX() + gp.tileSize/4), (int) Math.round(screenY + hitBoxLocationVector2d.getY() + gp.tileSize/4),
                      30, 30);
 
+    }
+
+    public void CoolDownAttack(int frames) {
+        
+        if(frameTick > frames) {
+            canAttack = true;
+            frameTick = 0;
+        }
+        else if(!canAttack) {
+            frameTick++;
+        }
     }
 }
