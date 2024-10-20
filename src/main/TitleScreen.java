@@ -45,10 +45,10 @@ public class TitleScreen {
 
         BufferedImage currentImage = image[0];
         g2.drawImage(currentImage, 0, 0,
-            gp.screenWidth2, (gp.screenWidth2 / 256) * 72, null);
+            gp.screenWidth, (gp.screenWidth / 256) * 72, null);
 
         g2.setFont(arial40);
         g2.setColor(Color.white);
-        g2.drawString("Press Q to START the game", gp.screenWidth2 / 2 - 256, gp.screenHeight2 / 2);
+        g2.drawString("Press Q to START the game", gp.screenWidth / 2 - 256, gp.screenHeight / 2);
     }
 }
