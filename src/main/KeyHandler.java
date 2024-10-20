@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.KeyListener;
 
-public class KeyHandler implements KeyListener {
+public class KeyHandler extends MouseAdapter implements KeyListener{
 
     public boolean startButton;
     public boolean upPressed;
@@ -64,12 +64,16 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    //HAve to do a bit more work on this
+    @Override
     public void mousePressed(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
             clickedLeftButton = true;
             System.out.println("Left button clicked");
         }
     }
+
+    @Override
     public void mouseReleased(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
             clickedLeftButton = false;

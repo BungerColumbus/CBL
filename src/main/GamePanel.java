@@ -72,6 +72,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setBackground(new Color(51, 51, 51));
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
+        this.addMouseListener(keyH);
         this.setFocusable(true);
     }
 
@@ -140,7 +141,7 @@ public class GamePanel extends JPanel implements Runnable {
             tileManager.draw(g2);
             player.draw(g2);
             hearts.draw(g2);
-            //enemy.draw(g2);
+            enemy.draw(g2);
         }
     }
 

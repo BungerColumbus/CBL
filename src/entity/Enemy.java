@@ -1,8 +1,8 @@
 package entity;
 
+import core.OnTriggerCircleCollision;
 import core.Vector2D;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -15,16 +15,19 @@ public class Enemy extends GameObject {
 
     private int animationSpeed = 15;
     protected Vector2D vector2d = new Vector2D(0, 0);
+    public OnTriggerCircleCollision enemyHitBox;
+
+    private boolean canAttack = false;
+    private boolean canTakeDamage = true;
+    public int life = 3;
+    public int maxLife = 3; 
 
     public Enemy(GamePanel gp, Player player) {
         this.gp = gp;
         this.player = player;
 
-        screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
-        screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
-
-        setInitialPosition(696, 696, 2);
-        solidArea = new Rectangle(8, 16, 32, 26);
+        setInitialPosition(800, 800, 2);
+        enemyHitBox = new OnTriggerCircleCollision(gp, 30, new Vector2D(worldX, worldY));
         getImages();
     }
 
@@ -44,12 +47,17 @@ public class Enemy extends GameObject {
 
     public void update() {
 
-        vector2d = new Vector2D(player.worldX - worldX, player.worldY - worldY);
+        //vector2d = new Vector2D(player.worldX - worldX, player.worldY - worldY);
         vector2d.normalize();
         vector2d.multiply(speed);
         worldX += vector2d.getX();
         worldY += vector2d.getY();
         screenPostionRelativeToPlayer(gp.player);
+        //System.out.println(enemyHitBox.checkCollisionBetween2Objects(player, this, enemyHitBox, player.playerHitBox));
+        CoolDownAttack(15);
+        CoolDownHP(10);
+        damageEnemy();
+        enemyAttack();
     }
 
     public void draw(Graphics2D g2) {
@@ -63,5 +71,40 @@ public class Enemy extends GameObject {
         BufferedImage currentImage = image[animationIndex];
         g2.drawImage(currentImage, (int) Math.round(screenX), (int) Math.round(screenY),
                      gp.tileSize, gp.tileSize, null);
+    }
+
+    public void enemyAttack() {
+        if (canAttack && enemyHitBox.checkCollisionBetween2Objects(player.worldX, worldX, player.worldY, worldY, enemyHitBox, player.playerHitBox)) {
+            player.damagePlayer();
+            canAttack = false;
+        }
+    }
+
+    public void damageEnemy() {
+        if (canTakeDamage && enemyHitBox.checkCollisionBetween2Objects(player.hitBoxLocationVector2d.getX(), worldX, player.hitBoxLocationVector2d.getY(), worldY, enemyHitBox, player.meleeHitBox)) {
+            canTakeDamage = false;
+            life--;
+            System.out.println(life);
+        }
+    }
+
+    public void CoolDownAttack(int frames) {
+        if(frameTick[1] > frames) {
+            canAttack = true;
+            frameTick[1] = 0;
+        }
+        else if(!canAttack) {
+            frameTick[1]++;
+        }
+    }
+
+    public void CoolDownHP(int frames) {
+        if(frameTick[2] > frames) {
+            canTakeDamage = true;
+            frameTick[2] = 0;
+        }
+        else if(!canTakeDamage) {
+            frameTick[2]++;
+        }
     }
 }
