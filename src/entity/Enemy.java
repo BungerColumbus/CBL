@@ -3,7 +3,6 @@ package entity;
 import core.OnTriggerCircleCollision;
 import core.Vector2D;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -27,13 +26,8 @@ public class Enemy extends GameObject {
         this.gp = gp;
         this.player = player;
 
-        screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
-        screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
-
-        setInitialPosition(696, 800, 2);
+        setInitialPosition(800, 800, 2);
         enemyHitBox = new OnTriggerCircleCollision(gp, 30, new Vector2D(worldX, worldY));
-        enemyHitBox.active = true;
-        solidArea = new Rectangle(8, 16, 32, 26);
         getImages();
     }
 
@@ -53,15 +47,14 @@ public class Enemy extends GameObject {
 
     public void update() {
 
-        vector2d = new Vector2D(player.worldX - worldX, player.worldY - worldY);
+        //vector2d = new Vector2D(player.worldX - worldX, player.worldY - worldY);
         vector2d.normalize();
         vector2d.multiply(speed);
         worldX += vector2d.getX();
         worldY += vector2d.getY();
         screenPostionRelativeToPlayer(gp.player);
-        enemyHitBox = new OnTriggerCircleCollision(gp, 20, new Vector2D(worldX, worldY));
         //System.out.println(enemyHitBox.checkCollisionBetween2Objects(player, this, enemyHitBox, player.playerHitBox));
-        CoolDownAttack(60);
+        CoolDownAttack(15);
         CoolDownHP(10);
         damageEnemy();
         enemyAttack();
@@ -81,15 +74,14 @@ public class Enemy extends GameObject {
     }
 
     public void enemyAttack() {
-        if (canAttack && enemyHitBox.checkCollisionBetween2Objects(player, this, enemyHitBox, player.playerHitBox)) {
+        if (canAttack && enemyHitBox.checkCollisionBetween2Objects(player.worldX, worldX, player.worldY, worldY, enemyHitBox, player.playerHitBox)) {
             player.damagePlayer();
-            System.out.println("Collided with player");
             canAttack = false;
         }
     }
 
     public void damageEnemy() {
-        if (canTakeDamage && enemyHitBox.checkCollisionBetween2Objects(player, this, enemyHitBox, player.meleeHitBox)) {
+        if (canTakeDamage && enemyHitBox.checkCollisionBetween2Objects(player.hitBoxLocationVector2d.getX(), worldX, player.hitBoxLocationVector2d.getY(), worldY, enemyHitBox, player.meleeHitBox)) {
             canTakeDamage = false;
             life--;
             System.out.println(life);

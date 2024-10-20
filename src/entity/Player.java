@@ -18,7 +18,8 @@ public class Player extends GameObject {
 
     private int animationSpeed;
     public Vector2D vector2d = new Vector2D(0, 0);
-    public Vector2D hitBoxDirectionVector2d = new Vector2D(0, 0);
+    private Vector2D hitBoxDirectionVector2d = new Vector2D(0, 0);
+    public Vector2D hitBoxLocationVector2d = new Vector2D(0, 0);
     public OnTriggerCircleCollision meleeHitBox;
     public OnTriggerCircleCollision playerHitBox;
     private boolean canTakeDamage = true;
@@ -35,9 +36,9 @@ public class Player extends GameObject {
         screenY = gp.screenHeight / 2 - gp.tileSize / 2;
 
         solidArea = new Rectangle(8, 16, 32, 26);
-        playerHitBox = new OnTriggerCircleCollision(gp, 30, new Vector2D(worldX, worldY));
         meleeHitBox = new OnTriggerCircleCollision(gp, 30, new Vector2D(worldX + hitBoxDirectionVector2d.getX(), worldY + hitBoxDirectionVector2d.getY()));
-
+        playerHitBox = new OnTriggerCircleCollision(gp, 5, new Vector2D(worldX, worldY));
+        System.out.println(playerHitBox.active);
         setInitialPosition(696, 696, 4);
         getImages();
     }
@@ -62,19 +63,19 @@ public class Player extends GameObject {
 
     public void meleeHitBox() {
         hitBoxDirectionVector2d = new Vector2D(keyH.mousePosition().getX() - gp.screenWidth/2 - gp.location.getX() - gp.tileSize/2, keyH.mousePosition().getY() - gp.screenHeight/2 - gp.location.getY() - gp.tileSize/2); 
-        //THE POSITION IS WRONG WILL HAVE TO CHANGE
         hitBoxDirectionVector2d.normalize();
         hitBoxDirectionVector2d.multiply(50);
+        hitBoxLocationVector2d = new Vector2D(worldX + hitBoxDirectionVector2d.getX(), worldY + hitBoxDirectionVector2d.getY());
         if(keyH.clickedLeftButton && canAttack) {
             System.out.println("attacked");
             canAttack = false;
-            meleeHitBox = new OnTriggerCircleCollision(gp, 30, new Vector2D(worldX + hitBoxDirectionVector2d.getX(), worldY + hitBoxDirectionVector2d.getY()));
+            meleeHitBox = new OnTriggerCircleCollision(gp, 20, new Vector2D(worldX + hitBoxDirectionVector2d.getX(), worldY + hitBoxDirectionVector2d.getY()));
             meleeHitBox.active = true;
-            System.out.println(new Vector2D(worldX + hitBoxDirectionVector2d.getX(), worldY + hitBoxDirectionVector2d.getY()).getX() + " " + new Vector2D(worldX + hitBoxDirectionVector2d.getX(), worldY + hitBoxDirectionVector2d.getY()).getY());
-        } else if (!keyH.clickedLeftButton) {
+            System.out.println(worldX + hitBoxDirectionVector2d.getX() + " " + (worldY + hitBoxDirectionVector2d.getY()));
+        } else if (!canAttack) {
             meleeHitBox.active = false;
         }
-        CoolDownAttack(90);
+        CoolDownAttack(20);
     }
 
     public void CoolDownAttack(int frames) {
@@ -92,8 +93,6 @@ public class Player extends GameObject {
         if (canTakeDamage) {
             canTakeDamage = false;
             life--;
-        } else if (!canTakeDamage) {
-            playerHitBox.active = false;
         }
     }
 
@@ -134,8 +133,6 @@ public class Player extends GameObject {
         collisionOn = false;
         gp.collisionCheck.checkTile(this);
         meleeHitBox();
-        System.out.println(playerHitBox.active);
-        playerHitBox = new OnTriggerCircleCollision(gp, 20, new Vector2D(worldX, worldY));
         CoolDownHP(60);
         if (!collisionOn) {
             vector2d.normalize();
