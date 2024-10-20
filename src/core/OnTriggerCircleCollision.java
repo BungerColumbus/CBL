@@ -28,7 +28,7 @@ public class OnTriggerCircleCollision {
 
         //if(gameObject1.vector2d gameObject1.OnTriggerCircleCollision.distance)
         
-        if(collided) {
+        if(circleCollider2.active && collided) {
             return true;
         } else {
             return false;

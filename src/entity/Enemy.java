@@ -62,6 +62,8 @@ public class Enemy extends GameObject {
         enemyHitBox = new OnTriggerCircleCollision(gp, 20, new Vector2D(worldX, worldY));
         //System.out.println(enemyHitBox.checkCollisionBetween2Objects(player, this, enemyHitBox, player.playerHitBox));
         CoolDownAttack(60);
+        CoolDownHP(10);
+        damageEnemy();
         enemyAttack();
     }
 
