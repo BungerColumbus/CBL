@@ -62,29 +62,34 @@ public class Player extends GameObject {
     }
 
     public void meleeHitBox() {
-        hitBoxDirectionVector2d = new Vector2D(keyH.mousePosition().getX() - gp.screenWidth/2 - gp.location.getX() - gp.tileSize/2, keyH.mousePosition().getY() - gp.screenHeight/2 - gp.location.getY() - gp.tileSize/2); 
+        hitBoxDirectionVector2d = new Vector2D(keyH.mousePosition().getX() - gp.screenWidth / 2
+                                - gp.location.getX() - gp.tileSize / 2, keyH.mousePosition().getY()
+                                - gp.screenHeight / 2 - gp.location.getY() - gp.tileSize / 2); 
         hitBoxDirectionVector2d.normalize();
         hitBoxDirectionVector2d.multiply(50);
-        hitBoxLocationVector2d = new Vector2D(worldX + hitBoxDirectionVector2d.getX(), worldY + hitBoxDirectionVector2d.getY());
-        if(keyH.clickedLeftButton && canAttack) {
+        hitBoxLocationVector2d = new Vector2D(worldX + hitBoxDirectionVector2d.getX(),
+                                 worldY + hitBoxDirectionVector2d.getY());
+        if (keyH.clickedLeftButton && canAttack) {
             System.out.println("attacked");
             canAttack = false;
-            meleeHitBox = new OnTriggerCircleCollision(gp, 20, new Vector2D(worldX + hitBoxDirectionVector2d.getX(), worldY + hitBoxDirectionVector2d.getY()));
+            meleeHitBox = new OnTriggerCircleCollision(gp, 20,
+                          new Vector2D(worldX + hitBoxDirectionVector2d.getX(),
+                                       worldY + hitBoxDirectionVector2d.getY()));
             meleeHitBox.active = true;
             System.out.println(worldX + hitBoxDirectionVector2d.getX() + " " + (worldY + hitBoxDirectionVector2d.getY()));
         } else if (!canAttack) {
             meleeHitBox.active = false;
         }
-        CoolDownAttack(20);
+        coolDownAttack(20);
     }
 
-    public void CoolDownAttack(int frames) {
+    public void coolDownAttack(int frames) {
         
-        if(frameTick[2] > frames) {
+        if (frameTick[2] > frames) {
             canAttack = true;
             frameTick[2] = 0;
         }
-        else if(!canAttack) {
+        else if (!canAttack) {
             frameTick[2]++;
         }
     }
@@ -96,13 +101,13 @@ public class Player extends GameObject {
         }
     }
 
-    public void CoolDownHP(int frames) {
+    public void coolDownHP(int frames) {
         
-        if(frameTick[1] > frames) {
+        if (frameTick[1] > frames) {
             canTakeDamage = true;
             frameTick[1] = 0;
         }
-        else if(!canTakeDamage) {            
+        else if (!canTakeDamage) {            
             frameTick[1]++;
         }
     }
@@ -133,7 +138,7 @@ public class Player extends GameObject {
         collisionOn = false;
         gp.collisionCheck.checkTile(this);
         meleeHitBox();
-        CoolDownHP(60);
+        coolDownHP(60);
         if (!collisionOn) {
             vector2d.normalize();
             vector2d.multiply(speed);
@@ -151,12 +156,16 @@ public class Player extends GameObject {
         }
         
         BufferedImage currentImage = image[animationIndex];
-        if(frameTick[1]%10 < 2 || frameTick[1] == 0)
-        g2.drawImage(currentImage, (int) Math.round(screenX), (int) Math.round(screenY),
+        if (frameTick[1] % 10 < 2 || frameTick[1] == 0) {
+            g2.drawImage(currentImage, (int) Math.round(screenX), (int) Math.round(screenY),
                      gp.tileSize, gp.tileSize, null);
-        if(meleeHitBox.active)
-            g2.fillOval((int) Math.round(screenX + hitBoxDirectionVector2d.getX() - gp.tileSize/4), (int) Math.round(screenY + hitBoxDirectionVector2d.getY() - gp.tileSize/4),
-                     30, 30);
+        }
+        if (meleeHitBox.active) {
+            g2.fillOval((int) Math.round(
+                screenX + hitBoxDirectionVector2d.getX() - gp.tileSize / 4), 
+                (int) Math.round(screenY + hitBoxDirectionVector2d.getY() - gp.tileSize / 4),
+                30, 30);
+        }
 
     }
 }

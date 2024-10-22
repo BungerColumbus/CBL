@@ -54,8 +54,8 @@ public class Enemy extends GameObject {
         worldY += vector2d.getY();
         screenPostionRelativeToPlayer(gp.player);
         //System.out.println(enemyHitBox.checkCollisionBetween2Objects(player, this, enemyHitBox, player.playerHitBox));
-        CoolDownAttack(15);
-        CoolDownHP(10);
+        coolDownAttack(15);
+        coolDownHP(10);
         damageEnemy();
         enemyAttack();
     }
@@ -74,36 +74,37 @@ public class Enemy extends GameObject {
     }
 
     public void enemyAttack() {
-        if (canAttack && enemyHitBox.checkCollisionBetween2Objects(player.worldX, worldX, player.worldY, worldY, enemyHitBox, player.playerHitBox)) {
+        if (canAttack && enemyHitBox.checkCollisionBetween2Objects(player.worldX, worldX,
+                                player.worldY, worldY, enemyHitBox, player.playerHitBox)) {
             player.damagePlayer();
             canAttack = false;
         }
     }
 
     public void damageEnemy() {
-        if (canTakeDamage && enemyHitBox.checkCollisionBetween2Objects(player.hitBoxLocationVector2d.getX(), worldX, player.hitBoxLocationVector2d.getY(), worldY, enemyHitBox, player.meleeHitBox)) {
+        if (canTakeDamage && enemyHitBox.checkCollisionBetween2Objects(
+                player.hitBoxLocationVector2d.getX(), worldX, player.hitBoxLocationVector2d.getY(),
+                worldY, enemyHitBox, player.meleeHitBox)) {
             canTakeDamage = false;
             life--;
             System.out.println(life);
         }
     }
 
-    public void CoolDownAttack(int frames) {
-        if(frameTick[1] > frames) {
+    public void coolDownAttack(int frames) {
+        if (frameTick[1] > frames) {
             canAttack = true;
             frameTick[1] = 0;
-        }
-        else if(!canAttack) {
+        } else if (!canAttack) {
             frameTick[1]++;
         }
     }
 
-    public void CoolDownHP(int frames) {
-        if(frameTick[2] > frames) {
+    public void coolDownHP(int frames) {
+        if (frameTick[2] > frames) {
             canTakeDamage = true;
             frameTick[2] = 0;
-        }
-        else if(!canTakeDamage) {
+        } else if (!canTakeDamage) {
             frameTick[2]++;
         }
     }
