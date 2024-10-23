@@ -26,7 +26,7 @@ public class Enemy extends GameObject {
         this.gp = gp;
         this.player = player;
 
-        setInitialPosition(800, 800, 2);
+        setInitialPosition((int)(Math.random() * 1344) + 432, (int)(Math.random() * 1344) + 288, 2);
         enemyHitBox = new OnTriggerCircleCollision(gp, 30, new Vector2D(worldX, worldY));
         getImages();
     }
@@ -47,7 +47,7 @@ public class Enemy extends GameObject {
 
     public void update() {
 
-        //vector2d = new Vector2D(player.worldX - worldX, player.worldY - worldY);
+        vector2d = new Vector2D(player.worldX - worldX, player.worldY - worldY);
         vector2d.normalize();
         vector2d.multiply(speed);
         worldX += vector2d.getX();

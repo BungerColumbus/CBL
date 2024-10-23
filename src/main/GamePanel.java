@@ -2,6 +2,7 @@ package main;
 
 import core.CollisionCheck;
 import entity.Enemy;
+import entity.EnemyManager;
 import entity.Heart;
 import entity.Player;
 import java.awt.Color;
@@ -39,7 +40,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenHeight = tileSize * maxScreenRow;
     public final int screenWidth = tileSize * maxScreenCol;
     BufferedImage tempScreen;
-    Graphics2D g2;
+    public Graphics2D g2;
     
     //Actual window settings
     public int screenWidth2 = screenWidth;
@@ -63,7 +64,7 @@ public class GamePanel extends JPanel implements Runnable {
     public TileManager tileManager = new TileManager(this);
     public Player player = new Player(this, keyH);
     public CollisionCheck collisionCheck = new CollisionCheck(this, keyH, player.vector2d);
-    public Enemy enemy = new Enemy(this, player);
+    public EnemyManager enemyManager = new EnemyManager(this, player);
     Heart hearts = new Heart(this, player);
     Thread gameThread;
 
@@ -124,7 +125,7 @@ public class GamePanel extends JPanel implements Runnable {
         } else if (gameState == 1) {
             location = this.getLocationOnScreen();
             player.update();
-            enemy.update();
+            enemyManager.update(this, player);
         }
     }
 
@@ -141,7 +142,7 @@ public class GamePanel extends JPanel implements Runnable {
             tileManager.draw(g2);
             player.draw(g2);
             hearts.draw(g2);
-            enemy.draw(g2);
+            enemyManager.draw(g2);
         }
     }
 

@@ -9,9 +9,9 @@ public class OnTriggerCircleCollision {
     public double radius;
     public boolean active = true;
 
-    public OnTriggerCircleCollision(GamePanel gp, double distance, Vector2D vector2d) {
+    public OnTriggerCircleCollision(GamePanel gp, double radius, Vector2D vector2d) {
         this.gp = gp;
-        this.radius = distance;
+        this.radius = radius;
         this.vector2d = vector2d;
     }
 
