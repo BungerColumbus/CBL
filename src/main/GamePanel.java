@@ -63,7 +63,6 @@ public class GamePanel extends JPanel implements Runnable {
     int fps = 60;
 
     KeyHandler keyH = new KeyHandler();
-    TitleScreen titleScreen = new TitleScreen(this);
     public TileManager tileManager = new TileManager(this);
     public Player player = new Player(this, keyH);
     public CollisionCheck collisionCheck = new CollisionCheck(this, keyH, player.vector2d);
@@ -93,11 +92,11 @@ public class GamePanel extends JPanel implements Runnable {
         Main.window.setLocation(xCenter, yCenter);
     }
 
-    public void openTitleScreen() {
+    /*public void openTitleScreen() {
         gameState = titleState;
         Graphics2D titleGraphics = (Graphics2D) getGraphics();
         titleScreen.draw(titleGraphics);
-    }
+    }*/
 
     public void startGameThread() {
         gameThread = new Thread(this);
