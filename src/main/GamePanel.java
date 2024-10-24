@@ -44,6 +44,7 @@ public class GamePanel extends JPanel implements Runnable {
     //Actual window settings
     public int screenWidth2 = screenWidth;
     public int screenHeight2 = screenHeight;
+    Graphics2D g;
     
     public Point location = new Point(0, 0);
 
@@ -55,11 +56,14 @@ public class GamePanel extends JPanel implements Runnable {
 
     //GAME STATES
     public int gameState = 0;
+    public final int titleState = 0;
+    public final int playState = 1;
+    public final int endState = 2;
 
     int fps = 60;
 
     KeyHandler keyH = new KeyHandler();
-    TitleScreen titleScreen = new TitleScreen(this, keyH);
+    TitleScreen titleScreen = new TitleScreen(this);
     public TileManager tileManager = new TileManager(this);
     public Player player = new Player(this, keyH);
     public CollisionCheck collisionCheck = new CollisionCheck(this, keyH, player.vector2d);
@@ -77,6 +81,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void setupGame() {
+        //for play state
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
         g2 = (Graphics2D) tempScreen.getGraphics();
         int resize = Math.round((float) MONITOR_WIDTH / DEFAULT_WIDTH);
@@ -86,6 +91,12 @@ public class GamePanel extends JPanel implements Runnable {
         int xCenter = (int) ((MONITOR_WIDTH - Main.window.getWidth()) / 2);
         int yCenter = (int) ((MONITOR_HEIGHT - Main.window.getHeight()) / 2);
         Main.window.setLocation(xCenter, yCenter);
+    }
+
+    public void openTitleScreen() {
+        gameState = titleState;
+        Graphics2D titleGraphics = (Graphics2D) getGraphics();
+        titleScreen.draw(titleGraphics);
     }
 
     public void startGameThread() {
@@ -99,7 +110,6 @@ public class GamePanel extends JPanel implements Runnable {
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
-        //location = new Point(0, 0);
         while (gameThread != null) {
 
             currentTime = System.nanoTime();
@@ -119,14 +129,11 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        if (gameState == 0) {
-            titleScreen.update();
-        } else if (gameState == 1) {
-            location = this.getLocationOnScreen();
-            player.update();
-            enemy.update();
-        }
+        location = this.getLocationOnScreen();
+        player.update();
+        enemy.update();
     }
+
 
     public void drawToScreen() {
         Graphics g = getGraphics();
@@ -135,14 +142,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void drawToTempScreen() {
-        if (gameState == 0) {
-            titleScreen.draw(g2);
-        } else if (gameState == 1) {
-            tileManager.draw(g2);
-            player.draw(g2);
-            hearts.draw(g2);
-            enemy.draw(g2);
-        }
+        tileManager.draw(g2);
+        player.draw(g2);
+        hearts.draw(g2);
+        enemy.draw(g2);
     }
 
 }

@@ -3,11 +3,11 @@ package main;
 import core.Vector2D;
 import java.awt.MouseInfo;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class KeyHandler extends MouseAdapter implements KeyListener{
+public class KeyHandler extends MouseAdapter implements KeyListener {
 
     public boolean startButton;
     public boolean upPressed;

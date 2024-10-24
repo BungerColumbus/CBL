@@ -36,7 +36,9 @@ public class Player extends GameObject {
         screenY = gp.screenHeight / 2 - gp.tileSize / 2;
 
         solidArea = new Rectangle(8, 16, 32, 26);
-        meleeHitBox = new OnTriggerCircleCollision(gp, 30, new Vector2D(worldX + hitBoxDirectionVector2d.getX(), worldY + hitBoxDirectionVector2d.getY()));
+        meleeHitBox = new OnTriggerCircleCollision(gp, 30,
+                      new Vector2D(worldX + hitBoxDirectionVector2d.getX(),
+                                   worldY + hitBoxDirectionVector2d.getY()));
         playerHitBox = new OnTriggerCircleCollision(gp, 5, new Vector2D(worldX, worldY));
         System.out.println(playerHitBox.active);
         setInitialPosition(696, 696, 4);
@@ -62,15 +64,15 @@ public class Player extends GameObject {
     }
 
     public void meleeHitBox() {
-        hitBoxDirectionVector2d = new Vector2D(keyH.mousePosition().getX() - gp.screenWidth / 2
-                                - gp.location.getX() - gp.tileSize / 2, keyH.mousePosition().getY()
-                                - gp.screenHeight / 2 - gp.location.getY() - gp.tileSize / 2); 
+        hitBoxDirectionVector2d = new Vector2D(keyH.mousePosition().getX() - gp.screenWidth2 / 2
+                                - gp.location.getX(), keyH.mousePosition().getY()
+                                - gp.screenHeight2 / 2 - gp.location.getY()); 
         hitBoxDirectionVector2d.normalize();
         hitBoxDirectionVector2d.multiply(50);
         hitBoxLocationVector2d = new Vector2D(worldX + hitBoxDirectionVector2d.getX(),
                                  worldY + hitBoxDirectionVector2d.getY());
         if (keyH.clickedLeftButton && canAttack) {
-            System.out.println("attacked");
+            //System.out.println("attacked");
             canAttack = false;
             meleeHitBox = new OnTriggerCircleCollision(gp, 20,
                           new Vector2D(worldX + hitBoxDirectionVector2d.getX(),
@@ -88,8 +90,7 @@ public class Player extends GameObject {
         if (frameTick[2] > frames) {
             canAttack = true;
             frameTick[2] = 0;
-        }
-        else if (!canAttack) {
+        } else if (!canAttack) {
             frameTick[2]++;
         }
     }
