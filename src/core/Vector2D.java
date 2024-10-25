@@ -25,6 +25,10 @@ public class Vector2D {
 
     }
 
+    public double angleVectorAndHorizontalAxis() {
+        return Math.toDegrees(Math.atan2(y, x));
+    }
+
     public double getX() {
         return x;
     }

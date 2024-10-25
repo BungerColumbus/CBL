@@ -1,7 +1,7 @@
 package main;
 
 import core.CollisionCheck;
-import entity.Enemy;
+import entity.EnemyManager;
 import entity.Heart;
 import entity.Player;
 import java.awt.Color;
@@ -31,7 +31,7 @@ public class GamePanel extends JPanel implements Runnable {
     public TileManager tileManager = new TileManager(this);
     public Player player = new Player(this, keyH);
     public CollisionCheck collisionCheck = new CollisionCheck(this, keyH, player.vector2d);
-    public Enemy enemy = new Enemy(this, player);
+    public EnemyManager enemyManager = new EnemyManager(this, player);
     Heart hearts = new Heart(this, player);
     Thread gameThread;
 
@@ -39,7 +39,9 @@ public class GamePanel extends JPanel implements Runnable {
     public GamePanel(int width, int height) {
         this.setSize(width, height);
         this.setBackground(new Color(51, 51, 51));
+        // Helps with rendering
         this.setDoubleBuffered(true);
+
         this.addKeyListener(keyH);
         this.addMouseListener(keyH);
         this.setFocusable(true);
@@ -55,6 +57,7 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread.start();
     }
     
+    // Game time. It makes it possible to keep a constant framerate, no matter how fast the computer is running
     public void run() {
 
         double drawInterval = 1000000000 / fps;
@@ -79,6 +82,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    // The main update void of the game (which happens 60 times a second)
     public void update() {
         location = this.getLocationOnScreen();
         player.update();
@@ -93,6 +97,7 @@ public class GamePanel extends JPanel implements Runnable {
         g.dispose();
     }
 
+    // Everything in the game scene is being drawn to the tempScreen
     public void drawToTempScreen() {
         tileManager.draw(g2);
         player.draw(g2);

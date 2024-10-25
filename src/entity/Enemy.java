@@ -10,7 +10,7 @@ import main.GamePanel;
 import main.GameSettings;
 
 public class Enemy extends GameObject {
-    private BufferedImage[] image = new BufferedImage[4];
+    private BufferedImage[] image = new BufferedImage[9];
     GamePanel gp;
     Player player;
 
@@ -21,27 +21,26 @@ public class Enemy extends GameObject {
 
     private boolean canAttack = false;
     private boolean canTakeDamage = true;
-    public int life = 3;
-    public int maxLife = 3; 
+    public int life = 10000;
+    public int maxLife = 10000; 
 
     public Enemy(GamePanel gp, Player player) {
         this.gp = gp;
         this.player = player;
 
-        setInitialPosition(800, 800, 2);
-        enemyHitBox = new OnTriggerCircleCollision(gp, 30, new Vector2D(worldX, worldY));
+        setInitialPosition((Math.random() * 1344) + 432, (Math.random() * 1344) + 288, 2);
+        enemyHitBox = new OnTriggerCircleCollision(gp, 15, new Vector2D(worldX, worldY));
         getImages();
     }
 
     public void getImages() {
-
         try {
-
-            image[0] = ImageIO.read(getClass().getResourceAsStream("/res/enemy/enemy_slime0.png"));
-            image[1] = ImageIO.read(getClass().getResourceAsStream("/res/enemy/enemy_slime1.png"));
-            image[2] = ImageIO.read(getClass().getResourceAsStream("/res/enemy/enemy_slime2.png"));
-            image[3] = ImageIO.read(getClass().getResourceAsStream("/res/enemy/enemy_slime3.png"));
-
+            for(int i = 0; i <= 3; i++) {
+                image[i] = ImageIO.read(getClass().getResourceAsStream("/res/enemy/enemy_slime_spawning" + i + ".png"));
+            }
+            for(int i = 5; i <= 8; i++) {
+                image[i] = ImageIO.read(getClass().getResourceAsStream("/res/enemy/enemy_slime" + (i-5) + ".png"));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -49,10 +48,18 @@ public class Enemy extends GameObject {
 
     public void update() {
 
+        vector2d = new Vector2D(player.worldX - worldX, player.worldY - worldY);
         vector2d.normalize();
         vector2d.multiply(speed);
-        worldX += vector2d.getX();
-        worldY += vector2d.getY();
+        if (animationIndex > 3) {
+            if (canTakeDamage) {
+                worldX += vector2d.getX();
+                worldY += vector2d.getY();
+            } else {
+                worldX -= vector2d.getX() * 2;
+                worldY -= vector2d.getY() * 2;
+            }
+        }
         screenPostionRelativeToPlayer(gp.player);
         coolDownAttack(15);
         coolDownHP(10);
@@ -61,11 +68,13 @@ public class Enemy extends GameObject {
     }
 
     public void draw(Graphics2D g2) {
-
-        if (player.worldX < worldX) {
-            updateAnimation(2, 4, animationSpeed);
+        if (animationIndex < 3) {
+            updateAnimation(0, 4, animationSpeed*5);
+        }
+        else if (player.worldX < worldX) {
+            updateAnimation(7, 9, animationSpeed);
         } else if (player.worldX > worldX) {
-            updateAnimation(0, 2, animationSpeed);
+            updateAnimation(5, 7, animationSpeed);
         }
 
         BufferedImage currentImage = image[animationIndex];
@@ -74,8 +83,7 @@ public class Enemy extends GameObject {
     }
 
     public void enemyAttack() {
-        if (canAttack && enemyHitBox.checkCollisionBetween2Objects(player.worldX, worldX,
-                                player.worldY, worldY, enemyHitBox, player.playerHitBox)) {
+        if (canAttack && enemyHitBox.checkCollisionBetween2Objects(player.worldX, worldX, player.worldY, worldY, enemyHitBox, player.playerHitBox) && animationIndex > 3) {
             player.damagePlayer();
             canAttack = false;
         }
@@ -87,6 +95,8 @@ public class Enemy extends GameObject {
                 worldY, enemyHitBox, player.meleeHitBox)) {
             canTakeDamage = false;
             life--;
+            System.out.println("Distance between enemy and melee Hitbox: " + new Vector2D(player.hitBoxLocationVector2d.getX() - worldX, player.hitBoxLocationVector2d.getY() - worldY).length());
+            System.out.println("Radius of hitboxes summed up: " + (player.meleeHitBox.radius + enemyHitBox.radius));
             System.out.println(life);
         }
     }
