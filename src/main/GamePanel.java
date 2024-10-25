@@ -1,7 +1,6 @@
 package main;
 
 import core.CollisionCheck;
-import entity.Enemy;
 import entity.EnemyManager;
 import entity.Heart;
 import entity.Player;
@@ -71,13 +70,17 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GamePanel() {
         this.setBackground(new Color(51, 51, 51));
+        // Helps with rendering
         this.setDoubleBuffered(true);
+
         this.addKeyListener(keyH);
         this.addMouseListener(keyH);
         this.setFocusable(true);
     }
 
+    // Setting up the game
     public void setupGame() {
+        // The temp screen on which everything is rendered
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
         g2 = (Graphics2D) tempScreen.getGraphics();
         int resize = Math.round((float) MONITOR_WIDTH / DEFAULT_WIDTH);
@@ -89,18 +92,19 @@ public class GamePanel extends JPanel implements Runnable {
         Main.window.setLocation(xCenter, yCenter);
     }
 
+    // Starting the game thread
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
     
+    // Game time. It makes it possible to keep a constant framerate, no matter how fast the computer is running
     public void run() {
 
         double drawInterval = 1000000000 / fps;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
-        //location = new Point(0, 0);
         while (gameThread != null) {
 
             currentTime = System.nanoTime();
@@ -119,6 +123,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    // The main update void of the game (which happens 60 times a second)
     public void update() {
         if (gameState == 0) {
             titleScreen.update();
@@ -128,13 +133,15 @@ public class GamePanel extends JPanel implements Runnable {
             enemyManager.update(this, player);
         }
     }
-
+    
+    // Draws the image of the temp screen on the main screen (this way it can easily be resizable)
     public void drawToScreen() {
         Graphics g = getGraphics();
         g.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2, null);
         g.dispose();
     }
 
+    // Everything in the game scene is being drawn to the tempScreen
     public void drawToTempScreen() {
         if (gameState == 0) {
             titleScreen.draw(g2);

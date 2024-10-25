@@ -1,6 +1,10 @@
 package entity;
 
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+
 import main.GamePanel;
 
 public class GameObject {
@@ -13,8 +17,8 @@ public class GameObject {
 
     protected int animationIndex = 0;
 
+    protected BufferedImage[] image;
     protected int[] frameTick = new int[3];
-
     public int screenX;
     public int screenY;
 
@@ -39,6 +43,26 @@ public class GameObject {
                 animationIndex = frame;
             }
         }
+    }
+
+    
+    public BufferedImage rotateImage(BufferedImage originalImage, double degrees, Graphics2D g2) {
+        int width = originalImage.getWidth();
+        int height = originalImage.getHeight();
+
+        // Create a new image to hold the rotated version
+        BufferedImage rotatedImage = new BufferedImage(width, height, originalImage.getType());
+        g2 = rotatedImage.createGraphics();
+
+        // Set the rotation point to the center of the image
+        AffineTransform transform = AffineTransform.getRotateInstance(Math.toRadians(degrees), width / 2, height / 2);
+        
+        // Apply the transformation
+        g2.setTransform(transform);
+        g2.drawImage(originalImage, 0, 0, null);
+        g2.dispose();
+
+        return rotatedImage;
     }
 
 

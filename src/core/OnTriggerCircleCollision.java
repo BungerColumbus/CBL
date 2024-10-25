@@ -5,7 +5,7 @@ import main.GamePanel;
 public class OnTriggerCircleCollision {
     
     GamePanel gp;
-    Vector2D vector2d;
+    public Vector2D vector2d;
     public double radius;
     public boolean active = true;
 
