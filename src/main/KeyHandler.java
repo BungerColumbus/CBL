@@ -3,11 +3,11 @@ package main;
 import core.Vector2D;
 import java.awt.MouseInfo;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class KeyHandler extends MouseAdapter implements KeyListener{
+public class KeyHandler extends MouseAdapter implements KeyListener {
 
     public boolean startButton;
     public boolean upPressed;
@@ -69,7 +69,6 @@ public class KeyHandler extends MouseAdapter implements KeyListener{
     public void mousePressed(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
             clickedLeftButton = true;
-            System.out.println("Left button clicked");
         }
     }
 
@@ -83,7 +82,6 @@ public class KeyHandler extends MouseAdapter implements KeyListener{
     public Vector2D mousePosition() {
         mouseX = MouseInfo.getPointerInfo().getLocation().getX();
         mouseY = MouseInfo.getPointerInfo().getLocation().getY();
-        //System.out.println(mouseX + " " + mouseY);
         return new Vector2D(mouseX, mouseY);
     }
     

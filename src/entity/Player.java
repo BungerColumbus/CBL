@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import main.GamePanel;
+import main.GameSettings;
 import main.KeyHandler;
 
 public class Player extends GameObject {
@@ -25,6 +26,7 @@ public class Player extends GameObject {
     // The position of the melee attack hitBox
     public Vector2D hitBoxLocationVector2d = new Vector2D(0, 0);
     // The circle trigger collision for the player attack
+    private GameSettings gameSettings = new GameSettings();
     public OnTriggerCircleCollision meleeHitBox;
     // The circle trigger collision for the player
     public OnTriggerCircleCollision playerHitBox;
@@ -43,8 +45,8 @@ public class Player extends GameObject {
         this.keyH = keyH;
 
         // In order to make the players screen position right in the center
-        screenX = gp.screenWidth / 2 - gp.tileSize / 2;
-        screenY = gp.screenHeight / 2 - gp.tileSize / 2;
+        screenX = gameSettings.getScreenWidth() / 2 - gameSettings.getTileSize() / 2;
+        screenY = gameSettings.getScreenHeight() / 2 - gameSettings.getTileSize() / 2;
 
         // The collision box of the player
         solidArea = new Rectangle(8, 16, 32, 26);
@@ -72,10 +74,9 @@ public class Player extends GameObject {
     }
 
     public void meleeHitBox() {
-        // Setting up the direction vector to look in the direction of the mouse
-        hitBoxDirectionVector2d = new Vector2D(keyH.mousePosition().getX() - gp.screenWidth2/2 - gp.location.getX(), keyH.mousePosition().getY() - gp.screenHeight2/2 - gp.location.getY()); 
-        
-        // Setting up the specific distance at which the player can attack from
+        hitBoxDirectionVector2d = new Vector2D(keyH.mousePosition().getX() - gameSettings.getScreenWidth2() / 2
+                                - gp.location.getX(), keyH.mousePosition().getY()
+                                - gameSettings.getScreenHeight2() / 2 - gp.location.getY()); 
         hitBoxDirectionVector2d.normalize();
         hitBoxDirectionVector2d.multiply(50);
 
@@ -109,8 +110,7 @@ public class Player extends GameObject {
         if (frameTick[2] > frames) {
             canAttack = true;
             frameTick[2] = 0;
-        }
-        else if (!canAttack) {
+        } else if (!canAttack) {
             frameTick[2]++;
         }
         if(frameTick[2] > 10) {
@@ -133,8 +133,7 @@ public class Player extends GameObject {
         if (frameTick[1] > frames) {
             canTakeDamage = true;
             frameTick[1] = 0;
-        }
-        else if (!canTakeDamage) {            
+        } else if (!canTakeDamage) {            
             frameTick[1]++;
         }
     }
@@ -191,29 +190,26 @@ public class Player extends GameObject {
     public void draw(Graphics2D g2) {
 
         // Changes animation if the mouse is either on the left side or right side of the screen
-        if (keyH.mousePosition().getX() - gp.location.getX() < gp.screenWidth2 / 2) {
+        if (keyH.mousePosition().getX() - gp.location.getX() < gameSettings.getScreenWidth2() / 2) {
             updateAnimation(2, 4, animationSpeed);
-        } else if (keyH.mousePosition().getX() - gp.location.getX() > gp.screenWidth2 / 2) {
+        } else if (keyH.mousePosition().getX() - gp.location.getX()
+                    > gameSettings.getScreenWidth2() / 2) {
             updateAnimation(0, 2, animationSpeed);
         }
         
         // The current image
         BufferedImage currentImage = image[animationIndex];
-
-        // Debuging for melee hitBox
-        if(meleeHitBox.active || attackAnimation) {
-            g2.drawImage(rotateImage(image[4], hitBoxDirectionVector2d.angleVectorAndHorizontalAxis(), g2), (int) Math.round(hitBoxLocationVector2d.getX() - worldX + screenX), (int) Math.round(hitBoxLocationVector2d.getY() - worldY + screenY),
-                     gp.tileSize, gp.tileSize, null);
+        if (frameTick[1] % 10 < 2 || frameTick[1] == 0) {
+            g2.drawImage(currentImage, (int) Math.round(screenX), (int) Math.round(screenY),
+                     gameSettings.getTileSize(), gameSettings.getTileSize(), null);
         }
-
-        // Invincibility frames
-        if(frameTick[1]%10 < 2 || frameTick[1] == 0)
-        g2.drawImage(currentImage, (int) Math.round(screenX), (int) Math.round(screenY),
-                     gp.tileSize, gp.tileSize, null);
-
-        
-        //g2.fillOval((int) Math.round(screenX - 15), (int) Math.round(screenY - 15),
-        //             30, 30);
+        if (meleeHitBox.active) {
+            g2.fillOval((int) Math.round(
+                screenX + hitBoxDirectionVector2d.getX() - gameSettings.getTileSize() / 4), 
+                (int) Math.round(screenY + hitBoxDirectionVector2d.getY()
+                - gameSettings.getTileSize() / 4),
+                30, 30);
+        }
 
     }
 }

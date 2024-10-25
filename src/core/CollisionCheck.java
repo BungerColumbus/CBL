@@ -2,6 +2,7 @@ package core;
 
 import entity.GameObject;
 import main.GamePanel;
+import main.GameSettings;
 import main.KeyHandler;
 
 public class CollisionCheck {
@@ -9,6 +10,7 @@ public class CollisionCheck {
     GamePanel gp;
     KeyHandler keyH;
     Vector2D vector2d;
+    private GameSettings gameSettings = new GameSettings();
 
     public CollisionCheck(GamePanel gp, KeyHandler keyH, Vector2D vector2d) {
         this.gp = gp;
@@ -22,16 +24,17 @@ public class CollisionCheck {
         double ySolidAreaOnScreenTop = gameObject.worldY + gameObject.solidArea.y;
         double ySolidAreaOnScreenBottom = ySolidAreaOnScreenTop + gameObject.solidArea.height;
  
-        int solidAreaLeftCol = (int) xSolidAreaOnScreenLeft / gp.tileSize;
-        int solidAreaRightCol = (int) xSolidAreaOnScreenRight / gp.tileSize;
-        int solidAreaTopRow = (int) ySolidAreaOnScreenTop / gp.tileSize;
-        int solidAreaBottomRow = (int) ySolidAreaOnScreenBottom / gp.tileSize;
+        int solidAreaLeftCol = (int) xSolidAreaOnScreenLeft / gameSettings.getTileSize();
+        int solidAreaRightCol = (int) xSolidAreaOnScreenRight / gameSettings.getTileSize();
+        int solidAreaTopRow = (int) ySolidAreaOnScreenTop / gameSettings.getTileSize();
+        int solidAreaBottomRow = (int) ySolidAreaOnScreenBottom / gameSettings.getTileSize();
 
         int tileToCheck1;
         int tileToCheck2;
 
         if (keyH.upPressed) {
-            solidAreaTopRow = (int) (ySolidAreaOnScreenTop - gameObject.speed) / gp.tileSize;
+            solidAreaTopRow = (int) (ySolidAreaOnScreenTop - gameObject.speed)
+                             / gameSettings.getTileSize();
             tileToCheck1 = gp.tileManager.mapTileNumber[solidAreaLeftCol][solidAreaTopRow];
             tileToCheck2 = gp.tileManager.mapTileNumber[solidAreaRightCol][solidAreaTopRow];
             
@@ -41,7 +44,8 @@ public class CollisionCheck {
             }
         }
         if (keyH.downPressed) {
-            solidAreaBottomRow = (int) (ySolidAreaOnScreenBottom + gameObject.speed) / gp.tileSize;
+            solidAreaBottomRow = (int) (ySolidAreaOnScreenBottom + gameObject.speed)
+                                 / gameSettings.getTileSize();
             tileToCheck1 = gp.tileManager.mapTileNumber[solidAreaLeftCol][solidAreaBottomRow];
             tileToCheck2 = gp.tileManager.mapTileNumber[solidAreaRightCol][solidAreaBottomRow];
             
@@ -51,7 +55,8 @@ public class CollisionCheck {
             }
         }
         if (keyH.leftPressed) {
-            solidAreaLeftCol = (int) (xSolidAreaOnScreenLeft - gameObject.speed) / gp.tileSize;
+            solidAreaLeftCol = (int) (xSolidAreaOnScreenLeft - gameObject.speed)
+                                 / gameSettings.getTileSize();
             tileToCheck1 = gp.tileManager.mapTileNumber[solidAreaLeftCol][solidAreaTopRow];
             tileToCheck2 = gp.tileManager.mapTileNumber[solidAreaLeftCol][solidAreaBottomRow];
             
@@ -61,7 +66,8 @@ public class CollisionCheck {
             }
         }
         if (keyH.rightPressed) {
-            solidAreaRightCol = (int) (xSolidAreaOnScreenRight + gameObject.speed) / gp.tileSize;
+            solidAreaRightCol = (int) (xSolidAreaOnScreenRight + gameObject.speed)
+                                 / gameSettings.getTileSize();
             tileToCheck1 = gp.tileManager.mapTileNumber[solidAreaRightCol][solidAreaTopRow];
             tileToCheck2 = gp.tileManager.mapTileNumber[solidAreaRightCol][solidAreaBottomRow];
             
