@@ -69,7 +69,6 @@ public class KeyHandler extends MouseAdapter implements KeyListener {
     public void mousePressed(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
             clickedLeftButton = true;
-            System.out.println("Left button clicked");
         }
     }
 
@@ -83,7 +82,6 @@ public class KeyHandler extends MouseAdapter implements KeyListener {
     public Vector2D mousePosition() {
         mouseX = MouseInfo.getPointerInfo().getLocation().getX();
         mouseY = MouseInfo.getPointerInfo().getLocation().getY();
-        //System.out.println(mouseX + " " + mouseY);
         return new Vector2D(mouseX, mouseY);
     }
     

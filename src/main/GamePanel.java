@@ -5,43 +5,15 @@ import entity.Enemy;
 import entity.Heart;
 import entity.Player;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable {
     
-    //Settings for the screen ()
-
-    //the default size for sprites, tiles etc
-    final int originalTileSize = 16;
-
-
-    //Temp screen settings
-    public final int scale = 3;
-    public final int tileSize = originalTileSize * scale;
-    public final int maxScreenCol = 18;
-    public final int maxScreenRow = 12;
-    public final int screenHeight = tileSize * maxScreenRow;
-    public final int screenWidth = tileSize * maxScreenCol;
-    BufferedImage tempScreen;
-    Graphics2D g2;
-    
-    //Actual window settings
-    private int screenWidth2 = screenWidth * Main.titleScreenFrame.resize;
-    private int screenHeight2 = screenHeight * resize;
-    public Point location = new Point(0, 0);
-
-    //WORLD SETTINGS
-    public final int maxWorldCol = 30;
-    public final int maxWorldRow = 30;
-    public final int worldWidth = tileSize * maxWorldCol;
-    public final int worldHeight = tileSize * maxWorldCol;
 
     /*GAME STATES
     public int gameState = 0;
@@ -49,9 +21,13 @@ public class GamePanel extends JPanel implements Runnable {
     public final int playState = 1;
     public final int endState = 2;*/
 
-    int fps = 60;
+    private int fps = 60;
+    public Point location = new Point(0, 0);
+    private BufferedImage tempScreen;
+    private Graphics2D g2;
 
-    KeyHandler keyH = new KeyHandler();
+    private GameSettings gameSettings = new GameSettings(); 
+    public KeyHandler keyH = new KeyHandler();
     public TileManager tileManager = new TileManager(this);
     public Player player = new Player(this, keyH);
     public CollisionCheck collisionCheck = new CollisionCheck(this, keyH, player.vector2d);
@@ -67,7 +43,9 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyH);
         this.addMouseListener(keyH);
         this.setFocusable(true);
-        tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
+        this.setVisible(true);
+        tempScreen = new BufferedImage(gameSettings.getScreenWidth(),
+                                       gameSettings.getScreenHeight(), BufferedImage.TYPE_INT_ARGB);
         g2 = (Graphics2D) tempScreen.getGraphics();
     }
 
@@ -110,7 +88,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void drawToScreen() {
         Graphics g = getGraphics();
-        g.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2, null);
+        g.drawImage(tempScreen, 0, 0, gameSettings.getScreenWidth2(),
+                                          gameSettings.getScreenHeight2(), null);
         g.dispose();
     }
 

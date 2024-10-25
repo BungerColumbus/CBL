@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import javax.imageio.ImageIO;
 import main.GamePanel;
+import main.GameSettings;
 
 public class TileManager {
     GamePanel gp;
@@ -14,13 +15,14 @@ public class TileManager {
     public int[][] mapTileNumber;
     private final int fullMapCol;
     private final int fullMapRow;
+    private GameSettings gameSettings = new GameSettings();
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
 
         tile = new Tile[21];
-        fullMapCol = gp.maxWorldCol + 18;
-        fullMapRow = gp.maxWorldRow + 12;
+        fullMapCol = gameSettings.getMaxWorldCol() + 18;
+        fullMapRow = gameSettings.getMaxWorldRow() + 12;
         mapTileNumber = new int[fullMapCol][fullMapRow];
 
         loadMap();
@@ -121,17 +123,18 @@ public class TileManager {
         while (worldCol < fullMapCol && worldRow < fullMapRow) {
             int tileNum = mapTileNumber[worldCol][worldRow];
 
-            int worldX = worldCol * gp.tileSize;
-            int worldY = worldRow * gp.tileSize;
+            int worldX = worldCol * gameSettings.getTileSize();
+            int worldY = worldRow * gameSettings.getTileSize();
             int screenX = (int) Math.round(worldX - gp.player.worldX + gp.player.screenX);
             int screenY = (int) Math.round(worldY - gp.player.worldY + gp.player.screenY);
             
-            if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX 
-                && worldX - gp.tileSize < gp.player.worldX + gp.player.screenX
-                && worldY + gp.tileSize > gp.player.worldY - gp.player.screenY
-                && worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
+            if (worldX + gameSettings.getTileSize() > gp.player.worldX - gp.player.screenX 
+                && worldX - gameSettings.getTileSize() < gp.player.worldX + gp.player.screenX
+                && worldY + gameSettings.getTileSize() > gp.player.worldY - gp.player.screenY
+                && worldY - gameSettings.getTileSize() < gp.player.worldY + gp.player.screenY) {
 
-                g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(tile[tileNum].image, screenX, screenY, gameSettings.getTileSize(),
+                             gameSettings.getTileSize(), null);
             }
             worldCol++;
 

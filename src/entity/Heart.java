@@ -5,17 +5,19 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import main.GamePanel;
+import main.GameSettings;
 
 public class Heart extends GameObject {
     private BufferedImage[] image = new BufferedImage[2];
     GamePanel gp;
     Player player;
+    private GameSettings gameSettings = new GameSettings();
 
     public Heart(GamePanel gp, Player player) {
         this.gp = gp;
         this.player = player;
 
-        screenX = gp.tileSize;
+        screenX = gameSettings.getTileSize();
         screenY = 0;
 
         getImages();
@@ -45,11 +47,11 @@ public class Heart extends GameObject {
             if (index <= player.life - 1) {
                 heart[index] = image[0];
                 g2.drawImage(heart[index], (int) Math.round(screenX * index),
-                            (int) Math.round(screenY), gp.tileSize, gp.tileSize, null);
+                            (int) Math.round(screenY), gameSettings.getTileSize(), gameSettings.getTileSize(), null);
             } else if (index > player.life - 1) {
                 heart[index] = image[1];
                 g2.drawImage(heart[index], (int) Math.round(screenX * index),
-                            (int) Math.round(screenY), gp.tileSize, gp.tileSize, null);
+                            (int) Math.round(screenY), gameSettings.getTileSize(), gameSettings.getTileSize(), null);
             }
         }
         

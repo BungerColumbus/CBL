@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import main.GamePanel;
+import main.GameSettings;
 
 public class Enemy extends GameObject {
     private BufferedImage[] image = new BufferedImage[4];
@@ -15,6 +16,7 @@ public class Enemy extends GameObject {
 
     private int animationSpeed = 15;
     protected Vector2D vector2d = new Vector2D(0, 0);
+    private GameSettings gameSettings = new GameSettings();
     public OnTriggerCircleCollision enemyHitBox;
 
     private boolean canAttack = false;
@@ -47,13 +49,11 @@ public class Enemy extends GameObject {
 
     public void update() {
 
-        //vector2d = new Vector2D(player.worldX - worldX, player.worldY - worldY);
         vector2d.normalize();
         vector2d.multiply(speed);
         worldX += vector2d.getX();
         worldY += vector2d.getY();
         screenPostionRelativeToPlayer(gp.player);
-        //System.out.println(enemyHitBox.checkCollisionBetween2Objects(player, this, enemyHitBox, player.playerHitBox));
         coolDownAttack(15);
         coolDownHP(10);
         damageEnemy();
@@ -70,7 +70,7 @@ public class Enemy extends GameObject {
 
         BufferedImage currentImage = image[animationIndex];
         g2.drawImage(currentImage, (int) Math.round(screenX), (int) Math.round(screenY),
-                     gp.tileSize, gp.tileSize, null);
+                     gameSettings.getTileSize(), gameSettings.getTileSize(), null);
     }
 
     public void enemyAttack() {

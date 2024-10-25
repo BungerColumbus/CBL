@@ -4,10 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
@@ -34,8 +32,8 @@ public class CustomButton extends JButton {
             InputStream inputStream = getClass()
                                 .getResourceAsStream("/res/font/Jersey_15/Jersey15-Regular.ttf");
             jersey = Font.createFont(Font.TRUETYPE_FONT, inputStream);
-            /*GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(jersey);*/
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(jersey);
             return jersey;
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
