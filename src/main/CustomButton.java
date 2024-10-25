@@ -3,12 +3,13 @@ package main;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
-import java.awt.GraphicsEnvironment;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.InputStream;
+
 import javax.swing.JButton;
+import javax.swing.SwingConstants;
 
 public class CustomButton extends JButton {
 
@@ -17,6 +18,8 @@ public class CustomButton extends JButton {
         Font jerseyFont = createNewFont();
         jerseyFont = jerseyFont.deriveFont(50f);
         this.setFont(jerseyFont);
+        this.setHorizontalAlignment(SwingConstants.CENTER);
+        this.setVerticalAlignment(SwingConstants.CENTER);
         this.setSize(width, height);
         this.setBackground(color);
         this.setText(text);
@@ -28,9 +31,11 @@ public class CustomButton extends JButton {
     private Font createNewFont() {
         Font jersey;
         try {
-            jersey = Font.createFont(Font.TRUETYPE_FONT, new File("src/res/font/Jersey_10/Jersey10-Regular.ttf"));
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(jersey);
+            InputStream inputStream = getClass()
+                                .getResourceAsStream("/res/font/Jersey_15/Jersey15-Regular.ttf");
+            jersey = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+            /*GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(jersey);*/
             return jersey;
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();

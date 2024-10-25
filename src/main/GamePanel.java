@@ -21,15 +21,6 @@ public class GamePanel extends JPanel implements Runnable {
     //the default size for sprites, tiles etc
     final int originalTileSize = 16;
 
-    //since today a computer has a bigger resolution
-    //than older ones we must scale the game so that
-    //the sprites won't be extremly small
-    static final Dimension SIZE = Toolkit.getDefaultToolkit().getScreenSize();
-    static final int DEFAULT_WIDTH = 1536;
-    static final int DEFAULT_HEIGHT = 864;
-    static final int MONITOR_WIDTH = (int) (SIZE.getWidth());
-    static final int MONITOR_HEIGHT = (int) (SIZE.getHeight());
-
 
     //Temp screen settings
     public final int scale = 3;
@@ -42,10 +33,8 @@ public class GamePanel extends JPanel implements Runnable {
     Graphics2D g2;
     
     //Actual window settings
-    public int screenWidth2 = screenWidth;
-    public int screenHeight2 = screenHeight;
-    Graphics2D g;
-    
+    private int screenWidth2 = screenWidth * Main.titleScreenFrame.resize;
+    private int screenHeight2 = screenHeight * resize;
     public Point location = new Point(0, 0);
 
     //WORLD SETTINGS
@@ -54,11 +43,11 @@ public class GamePanel extends JPanel implements Runnable {
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldCol;
 
-    //GAME STATES
+    /*GAME STATES
     public int gameState = 0;
     public final int titleState = 0;
     public final int playState = 1;
-    public final int endState = 2;
+    public final int endState = 2;*/
 
     int fps = 60;
 
@@ -77,26 +66,10 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyH);
         this.addMouseListener(keyH);
         this.setFocusable(true);
-    }
-
-    public void setupGame() {
-        //for play state
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
         g2 = (Graphics2D) tempScreen.getGraphics();
-        int resize = Math.round((float) MONITOR_WIDTH / DEFAULT_WIDTH);
-        screenWidth2 = screenWidth * resize;
-        screenHeight2 = screenHeight * resize;
-        Main.window.setSize(screenWidth2, screenHeight2);
-        int xCenter = (int) ((MONITOR_WIDTH - Main.window.getWidth()) / 2);
-        int yCenter = (int) ((MONITOR_HEIGHT - Main.window.getHeight()) / 2);
-        Main.window.setLocation(xCenter, yCenter);
     }
 
-    /*public void openTitleScreen() {
-        gameState = titleState;
-        Graphics2D titleGraphics = (Graphics2D) getGraphics();
-        titleScreen.draw(titleGraphics);
-    }*/
 
     public void startGameThread() {
         gameThread = new Thread(this);
