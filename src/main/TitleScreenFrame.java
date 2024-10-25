@@ -41,6 +41,7 @@ public class TitleScreenFrame extends JFrame {
         playButton.addActionListener((ActionEvent e) -> {
             this.dispose();
             setUpGame();
+            new GameFrame(screenWidth2, screenHeight2);
         });
 
     }
@@ -53,10 +54,10 @@ public class TitleScreenFrame extends JFrame {
         final int MONITOR_HEIGHT = (int) (SIZE.getHeight());
         resize = Math.round((float) MONITOR_WIDTH / DEFAULT_WIDTH);
        
-        Main.window.setSize(screenWidth2, screenHeight2);
-        int xCenter = (int) ((MONITOR_WIDTH - Main.window.getWidth()) / 2);
-        int yCenter = (int) ((MONITOR_HEIGHT - Main.window.getHeight()) / 2);
-        Main.window.setLocation(xCenter, yCenter);
+
+        // int xCenter = (int) ((MONITOR_WIDTH - Main.window.getWidth()) / 2);
+        // int yCenter = (int) ((MONITOR_HEIGHT - Main.window.getHeight()) / 2);
+        // Main.window.setLocation(xCenter, yCenter);
     }
 
 }   

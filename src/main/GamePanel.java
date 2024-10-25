@@ -60,7 +60,8 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
 
 
-    public GamePanel() {
+    public GamePanel(int width, int height) {
+        this.setSize(width, height);
         this.setBackground(new Color(51, 51, 51));
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
