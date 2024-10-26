@@ -20,16 +20,26 @@ public class TitleScreenFrame extends JFrame {
         this.setResizable(false);
         this.setTitle("Jellies in Hellmond");
 
+        //Creating panel, setting location and layout
         titleScreenPanel = new TitleScreenPanel(width, height);
         this.add(titleScreenPanel);
         this.setLocationRelativeTo(null);
-
-        CustomButton playButton = new CustomButton(200, 100, Color.ORANGE, "Play");
         titleScreenPanel.setLayout(new BoxLayout(titleScreenPanel, BoxLayout.Y_AXIS));
+
+        //Play Button
+        CustomButton playButton = new CustomButton(100, 70, Color.ORANGE, "Play");
         titleScreenPanel.add(Box.createVerticalGlue()); // Add flexible space above the button
         playButton.setAlignmentX(JButton.CENTER_ALIGNMENT); // Center the button horizontally
         titleScreenPanel.add(playButton);
-        titleScreenPanel.add(Box.createVerticalGlue()); // Add flexible space below the button
+
+        //Adding space between buttons
+        titleScreenPanel.add(Box.createVerticalStrut(10));
+
+        //How to play? button
+        CustomButton instructionsButton = new CustomButton(300, 70, Color.GREEN, "How to play?");
+        instructionsButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
+        titleScreenPanel.add(instructionsButton);
+        titleScreenPanel.add(Box.createVerticalGlue());
 
         this.setVisible(true);
 
@@ -37,6 +47,10 @@ public class TitleScreenFrame extends JFrame {
             gameSettings = new GameSettings();
             this.dispose();
             new GameFrame(gameSettings.getScreenWidth2(), gameSettings.getScreenHeight2());
+        });
+
+        instructionsButton.addActionListener((ActionEvent e) -> {
+            new InstructionsFrame((int) (width * 0.75), (int) (height * 0.75));
         });
 
     }

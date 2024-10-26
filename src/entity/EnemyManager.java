@@ -13,6 +13,7 @@ public class EnemyManager {
     public ArrayList<Bullet> bullets;
     // We use this to keep track of how many frames have passed
     public int frameTick;
+    
     // Constructor where we define each enemy we want to add. This way it is easier to add a multitude of enemies.
     public EnemyManager(GamePanel gp, Player player)
     {

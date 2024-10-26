@@ -95,14 +95,12 @@ public class Player extends GameObject {
          * The Cooldown begins and the player can attack again after x amoutn of frames.
         */
         if(keyH.clickedLeftButton && canAttack) {
-            System.out.println("attacked");
             canAttack = false;
             meleeHitBox = new OnTriggerCircleCollision(gp, 20,
                           new Vector2D(hitBoxLocationVector2d.getX(),
                                        hitBoxLocationVector2d.getY()));
             meleeHitBox.active = true;
             attackAnimation = true;
-            System.out.println(hitBoxLocationVector2d.getX() + " " + (hitBoxLocationVector2d.getY()));
         } else if (!canAttack) {
             meleeHitBox.active = false;
         }
@@ -230,7 +228,7 @@ public class Player extends GameObject {
             }
         }
 
-    // Draws the player on the screen
+    // Draws the player on the temp screen
     public void draw(Graphics2D g2) {
     // The current image
     BufferedImage currentImage = image[animationIndex];

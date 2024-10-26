@@ -50,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setVisible(true);
         tempScreen = new BufferedImage(gameSettings.getScreenWidth(),
                                        gameSettings.getScreenHeight(), BufferedImage.TYPE_INT_ARGB);
-        g2 = (Graphics2D) tempScreen.getGraphics();
+        g2 = (Graphics2D) tempScreen.createGraphics();
     }
 
 
@@ -77,7 +77,8 @@ public class GamePanel extends JPanel implements Runnable {
             if (delta >= 1) {
                 update();
                 drawToTempScreen();
-                drawToScreen();
+                //schedules a call to paintComponent
+                repaint();
                 delta--;
             }
 
@@ -85,23 +86,26 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     // The main update void of the game (which happens 60 times a second)
-    public void update() {
+    private void update() {
         location = this.getLocationOnScreen();
         player.update();
         bullet.update();
         enemyManager.update();
     }
 
+    // Draws the image of the temp screen on the main screen (this way it can easily be resizable)
+    @Override
+    public void paint(Graphics g) {
 
-    public void drawToScreen() {
-        Graphics g = getGraphics();
-        g.drawImage(tempScreen, 0, 0, gameSettings.getScreenWidth2(),
+        super.paint(g);
+        Graphics2D g2 = (Graphics2D) g;
+        g2.drawImage(tempScreen, 0, 0, gameSettings.getScreenWidth2(),
                                           gameSettings.getScreenHeight2(), null);
-        g.dispose();
+        g2.dispose();
     }
 
     // Everything in the game scene is being drawn to the tempScreen
-    public void drawToTempScreen() {
+    private void drawToTempScreen() {
         tileManager.draw(g2);
         enemyManager.draw(g2);
         player.draw(g2);

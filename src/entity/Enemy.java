@@ -95,7 +95,6 @@ public class Enemy extends GameObject {
                 worldY, enemyHitBox, player.meleeHitBox)) {
             canTakeDamage = false;
             life--;
-            System.out.println(life);
         }
     }
 

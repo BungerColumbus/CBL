@@ -19,7 +19,7 @@ public class Bullet extends GameObject{
     private GameSettings gameSettings = new GameSettings();
     public OnTriggerCircleCollision bulletHitBox;
 
-    public int life = 600;
+    public int life = 120;
 
     public Bullet(GamePanel gp, Player player, Graphics2D g2, int x, int y) {
         this.gp = gp;
