@@ -69,7 +69,7 @@ public class Enemy extends GameObject {
 
     public void draw(Graphics2D g2) {
         if (animationIndex < 3) {
-            updateAnimation(0, 4, animationSpeed*5);
+            updateAnimation(0, 4, animationSpeed);
         }
         else if (player.worldX < worldX) {
             updateAnimation(7, 9, animationSpeed);
