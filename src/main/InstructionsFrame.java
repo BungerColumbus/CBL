@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 public class InstructionsFrame extends JFrame {
     
     InstructionsPanel instructionsJPanel;
-
+    
     public InstructionsFrame(int width, int height) {
         this.setSize(width, height);
         this.setLocationRelativeTo(null);

@@ -26,10 +26,10 @@ public class Player extends GameObject {
     // The position of the melee attack hitBox
     public Vector2D hitBoxLocationVector2d = new Vector2D(0, 0);
     // The circle trigger collision for the player attack
-    private GameSettings gameSettings = new GameSettings();
     public OnTriggerCircleCollision meleeHitBox;
     // The circle trigger collision for the player
     public OnTriggerCircleCollision playerHitBox;
+    private GameSettings gameSettings = new GameSettings();
     
     // These 2 booleans give the player the permission to take/deal dmg  
     private boolean canTakeDamage = true;
@@ -118,7 +118,7 @@ public class Player extends GameObject {
         } else if (!canAttack) {
             frameTick[2]++;
         }
-        if(frameTick[2] > 10) {
+        if (frameTick[2] > 10) {
             attackAnimation = false;
         }
     }

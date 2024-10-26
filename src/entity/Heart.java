@@ -35,10 +35,6 @@ public class Heart extends GameObject {
         }
     }
 
-    public void update() {
-
-    }
-
     public void draw(Graphics2D g2) {
 
         BufferedImage[] heart = new BufferedImage[player.maxLife];
