@@ -86,7 +86,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         location = this.getLocationOnScreen();
         player.update();
-        enemy.update();
+        enemyManager.update(this, player);
     }
 
 
@@ -102,7 +102,7 @@ public class GamePanel extends JPanel implements Runnable {
         tileManager.draw(g2);
         player.draw(g2);
         hearts.draw(g2);
-        enemy.draw(g2);
+        enemyManager.draw(g2);
     }
 
 }

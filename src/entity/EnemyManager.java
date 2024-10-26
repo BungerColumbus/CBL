@@ -13,7 +13,7 @@ public class EnemyManager {
     // Constructor where we define each enemy we want to add. This way it is easier to add a multitude of enemies.
     public EnemyManager(GamePanel gp, Player player)
     {
-        
+
     }
 
     // The update void for the Enemy Manager. We use an iterator so that we can safely remove the enemy from the list.
@@ -31,7 +31,7 @@ public class EnemyManager {
             }
         }
         // Spawns an enemy every 120 frames (check void SpawnEnemy())
-        SpawnEnemy(10, gp, player);
+        SpawnEnemy(120, gp, player);
     }
 
     // Draws each enemy from the list
@@ -45,7 +45,6 @@ public class EnemyManager {
     public void SpawnEnemy(int frames, GamePanel gp, Player player) {
         if(frameTick > frames) {
             enemies.add(new Enemy(gp, player));
-            System.out.println(enemies.getLast().worldX + " " + enemies.getLast().worldY);
             frameTick = 0;
         }
         frameTick++;

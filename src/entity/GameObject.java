@@ -45,7 +45,7 @@ public class GameObject {
         }
     }
 
-    
+    // Used in order to rotate an image around its center
     public BufferedImage rotateImage(BufferedImage originalImage, double degrees, Graphics2D g2) {
         int width = originalImage.getWidth();
         int height = originalImage.getHeight();
