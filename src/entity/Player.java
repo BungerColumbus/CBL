@@ -203,12 +203,11 @@ public class Player extends GameObject {
             g2.drawImage(currentImage, (int) Math.round(screenX), (int) Math.round(screenY),
                      gameSettings.getTileSize(), gameSettings.getTileSize(), null);
         }
-        if (meleeHitBox.active) {
-            g2.fillOval((int) Math.round(
-                screenX + hitBoxDirectionVector2d.getX() - gameSettings.getTileSize() / 4), 
-                (int) Math.round(screenY + hitBoxDirectionVector2d.getY()
-                - gameSettings.getTileSize() / 4),
-                30, 30);
+        if (meleeHitBox.active || attackAnimation) {
+            g2.drawImage(rotateImage(image[4], hitBoxDirectionVector2d.angleVectorAndHorizontalAxis(), g2), 
+            (int) Math.round(hitBoxLocationVector2d.getX() - worldX + screenX), 
+            (int) Math.round(hitBoxLocationVector2d.getY() - worldY + screenY),
+            gameSettings.getTileSize(), gameSettings.getTileSize(), null);
         }
 
     }

@@ -21,8 +21,8 @@ public class Enemy extends GameObject {
 
     private boolean canAttack = false;
     private boolean canTakeDamage = true;
-    public int life = 10000;
-    public int maxLife = 10000; 
+    public int life = 3;
+    public int maxLife = 3; 
 
     public Enemy(GamePanel gp, Player player) {
         this.gp = gp;
@@ -69,7 +69,7 @@ public class Enemy extends GameObject {
 
     public void draw(Graphics2D g2) {
         if (animationIndex < 3) {
-            updateAnimation(0, 4, animationSpeed*5);
+            updateAnimation(0, 4, animationSpeed);
         }
         else if (player.worldX < worldX) {
             updateAnimation(7, 9, animationSpeed);
