@@ -9,13 +9,11 @@ public class CollisionCheck {
     
     GamePanel gp;
     KeyHandler keyH;
-    Vector2D vector2d;
     private GameSettings gameSettings = new GameSettings();
 
-    public CollisionCheck(GamePanel gp, KeyHandler keyH, Vector2D vector2d) {
+    public CollisionCheck(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
-        this.vector2d = vector2d;
     }
 
     public void checkTile(GameObject gameObject) {
@@ -32,6 +30,8 @@ public class CollisionCheck {
         int tileToCheck1;
         int tileToCheck2;
 
+        int errorCorrection = 0;
+
         if (keyH.upPressed) {
             solidAreaTopRow = (int) (ySolidAreaOnScreenTop - gameObject.speed)
                              / gameSettings.getTileSize();
@@ -40,7 +40,8 @@ public class CollisionCheck {
             
             if (gp.tileManager.tile[tileToCheck1].collision 
                 || gp.tileManager.tile[tileToCheck2].collision) {
-                gameObject.collisionOn = true;
+                gameObject.collisionVertical = true;
+                errorCorrection = 1;
             }
         }
         if (keyH.downPressed) {
@@ -51,29 +52,32 @@ public class CollisionCheck {
             
             if (gp.tileManager.tile[tileToCheck1].collision 
                 || gp.tileManager.tile[tileToCheck2].collision) {
-                gameObject.collisionOn = true;
+                gameObject.collisionVertical = true;
+                errorCorrection = -1;
             }
         }
         if (keyH.leftPressed) {
             solidAreaLeftCol = (int) (xSolidAreaOnScreenLeft - gameObject.speed)
                                  / gameSettings.getTileSize();
-            tileToCheck1 = gp.tileManager.mapTileNumber[solidAreaLeftCol][solidAreaTopRow];
-            tileToCheck2 = gp.tileManager.mapTileNumber[solidAreaLeftCol][solidAreaBottomRow];
+            tileToCheck1 = gp.tileManager.mapTileNumber[solidAreaLeftCol][solidAreaTopRow + errorCorrection];
+            tileToCheck2 = gp.tileManager.mapTileNumber[solidAreaLeftCol][solidAreaBottomRow + errorCorrection];
             
             if (gp.tileManager.tile[tileToCheck1].collision 
                 || gp.tileManager.tile[tileToCheck2].collision) {
-                gameObject.collisionOn = true;
+                    System.out.println("collidedLeft");
+                gameObject.collisionHorizontal = true;
             }
         }
         if (keyH.rightPressed) {
             solidAreaRightCol = (int) (xSolidAreaOnScreenRight + gameObject.speed)
                                  / gameSettings.getTileSize();
-            tileToCheck1 = gp.tileManager.mapTileNumber[solidAreaRightCol][solidAreaTopRow];
-            tileToCheck2 = gp.tileManager.mapTileNumber[solidAreaRightCol][solidAreaBottomRow];
+            tileToCheck1 = gp.tileManager.mapTileNumber[solidAreaRightCol][solidAreaTopRow + errorCorrection];
+            tileToCheck2 = gp.tileManager.mapTileNumber[solidAreaRightCol][solidAreaBottomRow + errorCorrection];
             
             if (gp.tileManager.tile[tileToCheck1].collision 
                 || gp.tileManager.tile[tileToCheck2].collision) {
-                gameObject.collisionOn = true;
+                    System.out.println("collidedRight");
+                gameObject.collisionHorizontal = true;
             }
         }
     }

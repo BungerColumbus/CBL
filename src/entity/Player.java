@@ -34,6 +34,8 @@ public class Player extends GameObject {
     // These 2 booleans give the player the permission to take/deal dmg  
     private boolean canTakeDamage = true;
     private boolean canAttack = true;
+    private boolean canDash = true;
+    private boolean dashing = false;
     private boolean attackAnimation = false;
 
     public int life = 3;
@@ -49,7 +51,7 @@ public class Player extends GameObject {
         screenY = gameSettings.getScreenHeight() / 2 - gameSettings.getTileSize() / 2;
 
         // The collision box of the player
-        solidArea = new Rectangle(8, 16, 32, 26);
+        solidArea = new Rectangle(8, 16, 32, 20);
         // The circle trigger colliders. We set a radius for the circle, and a position vector
         meleeHitBox = new OnTriggerCircleCollision(gp, 20, new Vector2D(worldX + hitBoxDirectionVector2d.getX(), worldY + hitBoxDirectionVector2d.getY()));
         meleeHitBox.active = false;
@@ -68,6 +70,11 @@ public class Player extends GameObject {
             }
                 image[4] = ImageIO.read(getClass()
                     .getResourceAsStream("/res/attack/attack0.png"));
+
+                image[5] = ImageIO.read(getClass()
+                    .getResourceAsStream("/res/player/player_slime_dashing1.png"));
+                image[6] = ImageIO.read(getClass()
+                    .getResourceAsStream("/res/player/player_slime_dashing0.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -116,7 +123,6 @@ public class Player extends GameObject {
         if(frameTick[2] > 10) {
             attackAnimation = false;
         }
-        
     }
     
     // If the player can take damage. It takes damage and sets the variable to false
@@ -138,7 +144,31 @@ public class Player extends GameObject {
         }
     }
 
-    // This cooldown is called 60 times per second
+    public void coolDownDash(int frames) {
+        
+        if (frameTick[3] > frames) {
+            System.out.println("canDash");
+            canDash = true;
+            frameTick[3] = 0;
+        } else if (!canDash) {            
+            frameTick[3]++;
+        }
+    }
+
+    public void Dash(int initialSpeed, int dashingSpeed, int dashingFrames) {
+        if (frameTick[3] > 0 && frameTick[3] < dashingFrames) {
+            System.out.println("dashing");
+            playerHitBox.active = false;
+            dashing = true;
+            speed = dashingSpeed;
+        } else {
+            playerHitBox.active = true;
+            dashing = false;
+            speed = initialSpeed;
+        }
+    }
+
+    // This is called 60 times per second
     public void update() {
         // These ints are added to the vector
         int deltaX = 0;
@@ -157,48 +187,69 @@ public class Player extends GameObject {
         if (keyH.rightPressed) {
             deltaX++;
         }
+        if (keyH.dashed) {
+            canDash = false;
+        }
 
         // Depending on the length of the vector we called down the animations is either faster or slower
-        vector2d = new Vector2D(deltaX, deltaY);
+        if (!dashing) {
+            vector2d = new Vector2D(deltaX, deltaY);
+        }
         if (vector2d.length() > 0) {
             animationSpeed = 15;
         } else {
             animationSpeed = 30;
         }
 
-        // Collision parameter, check CollisonCheck class
-        collisionOn = false;
+        Dash(4, 16, 12);
+
+
+        // Collision parameters, check CollisonCheck class
+        collisionHorizontal = false;
+        collisionVertical = false;
         gp.collisionCheck.checkTile(this);
         // The melee hitBox
         meleeHitBox();
         // The cooldown for the hp (1 second length)
         coolDownHP(60);
-
+        // The cooldown for the dash (2 second length)
+        coolDownDash(120);
         /** Depending on the collisionOn boolean, the vector gets normalized,
         * multiplied by speed and added to the player's world position.
         * This way the player moves at the same speed no matter the direction.
         */
-        if (!collisionOn) {
+        
             vector2d.normalize();
             vector2d.multiply(speed);
-            worldX += vector2d.getX();
-            worldY += vector2d.getY();
+            if(!collisionHorizontal) {
+                worldX += vector2d.getX();
+            }
+
+            if(!collisionVertical) {
+                worldY += vector2d.getY();
+            }
         }
-    }
 
     // Draws the player on the screen
     public void draw(Graphics2D g2) {
+    // The current image
+    BufferedImage currentImage = image[animationIndex];
 
         // Changes animation if the mouse is either on the left side or right side of the screen
         if (keyH.mousePosition().getX() - gp.location.getX() < gameSettings.getScreenWidth2() / 2) {
             updateAnimation(2, 4, animationSpeed);
+            if(dashing) {
+                currentImage = image[5];
+            }
         } else if (keyH.mousePosition().getX() - gp.location.getX()
                     > gameSettings.getScreenWidth2() / 2) {
             updateAnimation(0, 2, animationSpeed);
+            if(dashing) {
+                currentImage = image[6];
+            }
         }
         
-        // The current image
-        BufferedImage currentImage = image[animationIndex];
+
         if (frameTick[1] % 10 < 2 || frameTick[1] == 0) {
             g2.drawImage(currentImage, (int) Math.round(screenX), (int) Math.round(screenY),
                      gameSettings.getTileSize(), gameSettings.getTileSize(), null);

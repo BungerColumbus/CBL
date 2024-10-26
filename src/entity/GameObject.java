@@ -18,7 +18,7 @@ public class GameObject {
     protected int animationIndex = 0;
 
     protected BufferedImage[] image;
-    protected int[] frameTick = new int[3];
+    protected int[] frameTick = new int[4];
     public int screenX;
     public int screenY;
 
@@ -29,7 +29,8 @@ public class GameObject {
     }
     
     public Rectangle solidArea;
-    public boolean collisionOn = false;
+    public boolean collisionVertical = false;
+    public boolean collisionHorizontal = false;
 
     public void updateAnimation(int frame, int length, int animationSpeed) {
         if (animationIndex < frame || animationIndex > length) {

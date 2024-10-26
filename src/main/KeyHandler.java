@@ -9,12 +9,12 @@ import java.awt.event.MouseEvent;
 
 public class KeyHandler extends MouseAdapter implements KeyListener {
 
-    public boolean startButton;
     public boolean upPressed;
     public boolean downPressed;
     public boolean leftPressed;
     public boolean rightPressed;
     public boolean clickedLeftButton;
+    public boolean dashed;
     public double mouseX = 0;
     public double mouseY = 0;
 
@@ -38,8 +38,8 @@ public class KeyHandler extends MouseAdapter implements KeyListener {
         if (code == KeyEvent.VK_D) {
             rightPressed = true;
         } 
-        if (code == KeyEvent.VK_Q) {
-            startButton = true;
+        if (code == KeyEvent.VK_SPACE) {
+            dashed = true;
         }
     }
 
@@ -61,6 +61,9 @@ public class KeyHandler extends MouseAdapter implements KeyListener {
         }
         if (code == MouseEvent.MOUSE_RELEASED) {
             clickedLeftButton = false;
+        }
+        if (code == KeyEvent.VK_SPACE) {
+            dashed = false;
         }
     }
 

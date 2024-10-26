@@ -2,6 +2,7 @@ package main;
 
 import core.CollisionCheck;
 import entity.EnemyManager;
+import entity.Bullet;
 import entity.Heart;
 import entity.Player;
 import java.awt.Color;
@@ -30,8 +31,9 @@ public class GamePanel extends JPanel implements Runnable {
     public KeyHandler keyH = new KeyHandler();
     public TileManager tileManager = new TileManager(this);
     public Player player = new Player(this, keyH);
-    public CollisionCheck collisionCheck = new CollisionCheck(this, keyH, player.vector2d);
     public EnemyManager enemyManager = new EnemyManager(this, player);
+    public Bullet bullet = new Bullet(this, player, g2, 1344, 1344);
+    public CollisionCheck collisionCheck = new CollisionCheck(this, keyH);
     Heart hearts = new Heart(this, player);
     Thread gameThread;
 
@@ -86,7 +88,8 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         location = this.getLocationOnScreen();
         player.update();
-        enemyManager.update(this, player);
+        bullet.update();
+        enemyManager.update();
     }
 
 
@@ -100,9 +103,10 @@ public class GamePanel extends JPanel implements Runnable {
     // Everything in the game scene is being drawn to the tempScreen
     public void drawToTempScreen() {
         tileManager.draw(g2);
-        player.draw(g2);
-        hearts.draw(g2);
         enemyManager.draw(g2);
+        player.draw(g2);
+        bullet.draw(g2);
+        hearts.draw(g2);
     }
 
 }

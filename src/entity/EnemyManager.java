@@ -6,32 +6,38 @@ import java.awt.Graphics2D;
 import main.GamePanel;
 
 public class EnemyManager {
+    GamePanel gp;
+    Player player;
     // List for each enemy in play
-    public ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+    public ArrayList<Enemy> enemies;
+    public ArrayList<Bullet> bullets;
     // We use this to keep track of how many frames have passed
     public int frameTick;
     // Constructor where we define each enemy we want to add. This way it is easier to add a multitude of enemies.
     public EnemyManager(GamePanel gp, Player player)
     {
-
+        this.gp = gp;
+        this.player = player;
+        enemies = new ArrayList<Enemy>();
+        frameTick = 0;
     }
 
     // The update void for the Enemy Manager. We use an iterator so that we can safely remove the enemy from the list.
-    public void update(GamePanel gp, Player player) {
-        Iterator<Enemy> iterator = enemies.iterator();
+    public void update() {
+        Iterator<Enemy> enemyIterator = enemies.iterator();
 
         //It looks if it has an object in the list.
-        while (iterator.hasNext()) {
+        while (enemyIterator.hasNext()) {
             // It selects the next enemy, updates, and if not enough life it removes it from the list (deletes it)
-            Enemy enemy = iterator.next();
+            Enemy enemy = enemyIterator.next();
             enemy.update();
 
             if (enemy.life <= 0) {
-                iterator.remove();
+                enemyIterator.remove();
             }
         }
         // Spawns an enemy every 120 frames (check void SpawnEnemy())
-        SpawnEnemy(120, gp, player);
+        SpawnEnemy(120);
     }
 
     // Draws each enemy from the list
@@ -42,7 +48,7 @@ public class EnemyManager {
     }
 
     // Spawn enemies every frames
-    public void SpawnEnemy(int frames, GamePanel gp, Player player) {
+    public void SpawnEnemy(int frames) {
         if(frameTick > frames) {
             enemies.add(new Enemy(gp, player));
             frameTick = 0;
