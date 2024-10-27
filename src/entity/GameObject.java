@@ -5,15 +5,18 @@ import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+import core.Vector2D;
 import main.GamePanel;
 
 public class GameObject {
     
     GamePanel gp;
 
+    public Vector2D softCollisionVector = new Vector2D(0, 0);
+
     public double worldX;
     public double worldY;
-    public int speed;
+    public double speed;
 
     protected int animationIndex = 0;
     protected int animationSpeed;

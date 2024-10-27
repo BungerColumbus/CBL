@@ -9,7 +9,7 @@ public class Vector2D {
         this.y = y;
     }
 
-    public void multiply(int speed) {
+    public void multiply(double speed) {
         x *= speed;
         y *= speed;
     }

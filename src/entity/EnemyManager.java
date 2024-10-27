@@ -13,6 +13,8 @@ public class EnemyManager {
     public ArrayList<Enemy> basicEnemies;
     public ArrayList<RangedEnemy> rangedEnemies;
     public ArrayList<Bullet> bullets;
+    public SoftbodyCollision collisions = new SoftbodyCollision(48);
+    public GameObject tempObject;
     // We use this to keep track of how many frames have passed
     public int[] frameTick = new int[2];
 
@@ -40,6 +42,9 @@ public class EnemyManager {
             System.out.println("OH NO! YOU COULDN'T SURVIVE HELLMOND. YOU SURVIVED FOR ONLY " + (gameTime/60) + "SECONDS.");
             System.out.println( "BETTER LUCK NEXT TIME!");
         }
+
+
+        System.out.println(collisions.otherObjects.size());
     }
 
     // Draws each enemy from the list
@@ -80,6 +85,8 @@ public class EnemyManager {
             enemy.update();
 
             if (enemy.life <= 0) {
+                tempObject = enemy;
+                collisions.removeSpecificObject(tempObject);
                 enemyIterator.remove();
             }
         }
@@ -95,6 +102,8 @@ public class EnemyManager {
             enemy.update();
 
             if (enemy.life <= 0) {
+                tempObject = enemy;
+                collisions.removeSpecificObject(tempObject);
                 enemyIterator.remove();
             }
         }
@@ -120,6 +129,7 @@ public class EnemyManager {
         if(frameTick[1] > frames) {
 
             rangedEnemies.add(new RangedEnemy(gp, player));
+            collisions.otherObjects.add(rangedEnemies.getLast());
             frameTick[1] = 0;
         }
         frameTick[1]++;
@@ -130,7 +140,8 @@ public class EnemyManager {
     private void SpawnEnemy(int frames) {
         if(frameTick[0] > frames) {
 
-            basicEnemies.add(new Enemy(gp, player));
+            basicEnemies.add(new Enemy(gp, player, collisions));
+            collisions.otherObjects.add(basicEnemies.getLast());
             frameTick[0] = 0;
         }
         frameTick[0]++;
