@@ -9,12 +9,11 @@ public class GameFrame extends JFrame {
     public GameFrame(int width, int height) {
         this.setSize(width, height);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //this.setResizable(false);
+        this.setResizable(false);
         this.setTitle("Jellies in Hellmond");
 
-        gamePanel = new GamePanel(width, height);
+        gamePanel = new GamePanel(width, height, this);
         this.add(gamePanel);
-        //this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         gamePanel.startGameThread();

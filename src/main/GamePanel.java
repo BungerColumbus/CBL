@@ -1,6 +1,7 @@
 package main;
 
 import core.CollisionCheck;
+import entity.Bullet;
 import entity.EnemyManager;
 import entity.Heart;
 import entity.Player;
@@ -10,6 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -27,6 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
     private Graphics2D g2;
 
     private GameSettings gameSettings = new GameSettings(); 
+    private GameFrame gameFrame;
     public KeyHandler keyH = new KeyHandler();
     public TileManager tileManager = new TileManager(this);
     public Player player = new Player(this, keyH);
@@ -36,8 +39,9 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
 
 
-    public GamePanel(int width, int height) {
+    public GamePanel(int width, int height, GameFrame gameFrame) {
         this.setSize(width, height);
+        this.gameFrame = gameFrame;
         this.setBackground(new Color(51, 51, 51));
         // Helps with rendering
         this.setDoubleBuffered(true);
@@ -75,9 +79,15 @@ public class GamePanel extends JPanel implements Runnable {
             if (delta >= 1) {
                 update();
                 drawToTempScreen();
-                //schedules a call to paintComponent
-                repaint();
+                repaint(); //schedules a call to paintComponent
                 delta--;
+                if (player.life <= 0) {
+                    gameThread = null;
+                    SwingUtilities.invokeLater(() -> {
+                        gameFrame.dispose();
+                        new EndScreenFrame(1000, 750);
+                    });
+                }
             }
 
         }

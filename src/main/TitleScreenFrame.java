@@ -18,7 +18,7 @@ public class TitleScreenFrame extends JFrame {
         this.setSize(width, height);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
-        this.setTitle("Jellies in Hellmond");
+        this.setTitle("Jellies in Hellmond - Start Screen");
 
         //Creating panel, setting location and layout
         titleScreenPanel = new TitleScreenPanel(width, height);
