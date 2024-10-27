@@ -18,15 +18,17 @@ public class RangedEnemy extends GameObject {
     protected Vector2D vector2d = new Vector2D(0, 0);
     private GameSettings gameSettings = new GameSettings();
     public OnTriggerCircleCollision enemyHitBox;
+    public SoftbodyCollision softbodyCollision;
 
     private boolean canAttack = false;
     private boolean canTakeDamage = true;
     public int life = 3;
     public int maxLife = 3; 
 
-    public RangedEnemy(GamePanel gp, Player player) {
+    public RangedEnemy(GamePanel gp, Player player, SoftbodyCollision softbodyCollision) {
         this.gp = gp;
         this.player = player;
+        this.softbodyCollision = softbodyCollision;
         
         setInitialPosition((Math.random() * 1344) + 432, (Math.random() * 1344) + 288, 2);
         enemyHitBox = new OnTriggerCircleCollision(gp, 15, new Vector2D(worldX, worldY));
@@ -47,9 +49,13 @@ public class RangedEnemy extends GameObject {
     }
 
     public void update() {
-
+        softbodyCollision.softCollision(this);
         vector2d = new Vector2D(player.worldX - worldX, player.worldY - worldY);
         double distance = vector2d.length();
+        vector2d.normalize();
+        vector2d.multiply(speed);
+        vector2d = new Vector2D(vector2d.getX() + softCollisionVector.getX(), 
+                                vector2d.getY() + softCollisionVector.getY());
         vector2d.normalize();
         vector2d.multiply(speed);
         if (animationIndex > 3) {

@@ -128,7 +128,7 @@ public class EnemyManager {
     private void SpawnRangedEnemy(int frames) {
         if(frameTick[1] > frames) {
 
-            rangedEnemies.add(new RangedEnemy(gp, player));
+            rangedEnemies.add(new RangedEnemy(gp, player, collisions));
             collisions.otherObjects.add(rangedEnemies.getLast());
             frameTick[1] = 0;
         }
