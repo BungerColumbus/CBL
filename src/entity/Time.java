@@ -75,7 +75,7 @@ public class Time {
         int textWidth = fontMetrics.stringWidth(baseText + remainingTime);
 
         //Drawing the string
-        g2.drawString(baseText + remainingTime, gameSettings.getScreenWidth() - textWidth - 5,
+        g2.drawString(baseText + remainingTime, gameSettings.getScreenWidth() - textWidth - 20,
                      textHeight);
         if (overTime) {
             textWidth = fontMetrics.stringWidth(overTimeMessage);

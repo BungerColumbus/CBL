@@ -21,8 +21,8 @@ public class RangedEnemy extends GameObject {
 
     private boolean canAttack = false;
     private boolean canTakeDamage = true;
-    public int life = 3;
-    public int maxLife = 3; 
+    public int life = 2;
+    public int maxLife = 2; 
 
     // The constructor of the ranged enemy class
     public RangedEnemy(GamePanel gp, Player player) {
