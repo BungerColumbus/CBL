@@ -13,7 +13,7 @@ import main.KeyHandler;
 
 public class Player extends GameObject {
     
-    private BufferedImage[] image = new BufferedImage[7];
+    private BufferedImage[] image = new BufferedImage[9];
     GamePanel gp;
     KeyHandler keyH;
 
@@ -36,7 +36,7 @@ public class Player extends GameObject {
     private boolean canAttack = true;
     private boolean canDash = true;
     private boolean dashing = false;
-    private boolean attackAnimation = false;
+    private int attackAnimation = 0;
 
     public int life = 3;
     public int maxLife = 3;
@@ -68,12 +68,14 @@ public class Player extends GameObject {
                 image[i] = ImageIO.read(getClass()
                     .getResourceAsStream("/res/player/player_slime" + i + ".png"));
             }
-                image[4] = ImageIO.read(getClass()
-                    .getResourceAsStream("/res/attack/attack0.png"));
+            for (int i = 4; i <= 6; i++) {
+                image[i] = ImageIO.read(getClass()
+                .getResourceAsStream("/res/attack/attack" + (i-4) + ".png"));
+            }
 
-                image[5] = ImageIO.read(getClass()
+                image[7] = ImageIO.read(getClass()
                     .getResourceAsStream("/res/player/player_slime_dashing1.png"));
-                image[6] = ImageIO.read(getClass()
+                image[8] = ImageIO.read(getClass()
                     .getResourceAsStream("/res/player/player_slime_dashing0.png"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -100,7 +102,6 @@ public class Player extends GameObject {
                           new Vector2D(hitBoxLocationVector2d.getX(),
                                        hitBoxLocationVector2d.getY()));
             meleeHitBox.active = true;
-            attackAnimation = true;
         } else if (!canAttack) {
             meleeHitBox.active = false;
         }
@@ -118,8 +119,10 @@ public class Player extends GameObject {
         } else if (!canAttack) {
             frameTick[2]++;
         }
-        if(frameTick[2] > 10) {
-            attackAnimation = false;
+        if(frameTick[2] == 0 || frameTick[2] >= 15) {
+            attackAnimation = 0;
+        } else {
+            attackAnimation = frameTick[2]/5;
         }
     }
     
@@ -237,13 +240,13 @@ public class Player extends GameObject {
         if (keyH.mousePosition().getX() - gp.location.getX() < gameSettings.getScreenWidth2() / 2) {
             updateAnimation(2, 4, animationSpeed);
             if(dashing) {
-                currentImage = image[5];
+                currentImage = image[7];
             }
         } else if (keyH.mousePosition().getX() - gp.location.getX()
                     > gameSettings.getScreenWidth2() / 2) {
             updateAnimation(0, 2, animationSpeed);
             if(dashing) {
-                currentImage = image[6];
+                currentImage = image[8];
             }
         }
         
@@ -252,8 +255,8 @@ public class Player extends GameObject {
             g2.drawImage(currentImage, (int) Math.round(screenX), (int) Math.round(screenY),
                      gameSettings.getTileSize(), gameSettings.getTileSize(), null);
         }
-        if (meleeHitBox.active || attackAnimation) {
-            g2.drawImage(rotateImage(image[4], hitBoxDirectionVector2d.angleVectorAndHorizontalAxis(), g2), 
+        if (meleeHitBox.active || attackAnimation != 0) {
+            g2.drawImage(rotateImage(image[4 + attackAnimation], hitBoxDirectionVector2d.angleVectorAndHorizontalAxis(), g2), 
             (int) Math.round(hitBoxLocationVector2d.getX() - worldX + screenX), 
             (int) Math.round(hitBoxLocationVector2d.getY() - worldY + screenY),
             gameSettings.getTileSize(), gameSettings.getTileSize(), null);
