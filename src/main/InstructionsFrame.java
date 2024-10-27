@@ -1,7 +1,5 @@
 package main;
 
-import java.awt.Color;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 
 public class InstructionsFrame extends JFrame {

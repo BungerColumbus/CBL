@@ -63,7 +63,7 @@ public class RangedEnemy extends GameObject {
             }
         }
         screenPostionRelativeToPlayer(gp.player);
-        coolDownAttack(60 + (int) (Math.random()*10));
+        coolDownAttack(80 + (int) (Math.random()*10));
         coolDownHP(10);
         damageEnemy();
         enemyAttack();

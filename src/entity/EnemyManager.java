@@ -15,6 +15,8 @@ public class EnemyManager {
     public ArrayList<Bullet> bullets;
     // We use this to keep track of how many frames have passed
     public int[] frameTick = new int[2];
+
+    public int gameTime = 0;
     
     // Constructor where we define each enemy we want to add. This way it is easier to add a multitude of enemies.
     public EnemyManager(GamePanel gp, Player player)
@@ -31,9 +33,13 @@ public class EnemyManager {
         Enemy();
         RangedEnemy();
         BulletEnemy();
-        // Spawns an enemy every 120 frames (check void SpawnEnemy())
-        SpawnEnemy(180);
-        SpawnRangedEnemy(380);
+        
+        if (player.life != 0) {
+            Gameplay();
+        } else {
+            System.out.println("OH NO! YOU COULDN'T SURVIVE HELLMOND. YOU SURVIVED FOR ONLY " + (gameTime/60) + "SECONDS.");
+            System.out.println( "BETTER LUCK NEXT TIME!");
+        }
     }
 
     // Draws each enemy from the list
@@ -47,6 +53,21 @@ public class EnemyManager {
         for(Bullet enemy : bullets) {
             enemy.draw(g2);
         }
+    }
+
+    public void Gameplay() {
+        if (gameTime/60 <= 20) {
+            SpawnEnemy(180 + (int) Math.random()*60);
+        } else if (gameTime/60 <= 40) {
+            SpawnEnemy(180 + (int) Math.random()*60);
+            SpawnRangedEnemy(390 + (int) Math.random()*60);
+        } else if (gameTime/60 <= 60) {
+            SpawnEnemy(150 + (int) Math.random()*60);
+            SpawnRangedEnemy(360 + (int) Math.random()*60);
+        } else  if (player.life != 0) {
+            System.out.println("CONGRATS YOU SURVIVED HELLMOND!");
+        }
+        gameTime++;
     }
 
     private void Enemy() {
