@@ -90,11 +90,13 @@ public class Player extends GameObject {
         // Setting up the location of the melee hitBox by adding the direction vector to the world location of the player
         hitBoxLocationVector2d = new Vector2D(worldX + hitBoxDirectionVector2d.getX(), worldY + hitBoxDirectionVector2d.getY());
 
-        /** On mouse click canAttack instantly becomes false (so that the whole sequence of events happens only once) 
-         * after that the melee hitBox is called once and it's activated only to be deactivated right afterwards.
-         * The Cooldown begins and the player can attack again after x amoutn of frames.
-        */
-        if(keyH.clickedLeftButton && canAttack) {
+        /** 
+         * On mouse click canAttack instantly becomes false (so that the whole sequence
+         * of events happens only once). After that, the melee hitBox is called once and
+         * it's activated only to be deactivated right afterwards.
+         * The cooldown begins and the player can attack again after x amoutn of frames.
+         */
+        if (keyH.clickedLeftButton && canAttack) {
             canAttack = false;
             meleeHitBox = new OnTriggerCircleCollision(gp, 20,
                           new Vector2D(hitBoxLocationVector2d.getX(),
@@ -145,7 +147,6 @@ public class Player extends GameObject {
     public void coolDownDash(int frames) {
         
         if (frameTick[3] > frames) {
-            System.out.println("canDash");
             canDash = true;
             frameTick[3] = 0;
         } else if (!canDash) {            
@@ -155,7 +156,6 @@ public class Player extends GameObject {
 
     public void Dash(int initialSpeed, int dashingSpeed, int dashingFrames) {
         if (frameTick[3] > 0 && frameTick[3] < dashingFrames) {
-            System.out.println("dashing");
             playerHitBox.active = false;
             dashing = true;
             speed = dashingSpeed;

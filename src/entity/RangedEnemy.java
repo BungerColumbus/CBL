@@ -90,7 +90,7 @@ public class RangedEnemy extends GameObject {
         }
         if (canAttack) {
             canAttack = false;
-            gp.enemyManager.SpawnBullet(gp.getGraphics2d(), worldX, worldY);
+            gp.enemyManager.spawnBullet(gp.getGraphics2d(), worldX, worldY);
         }
     }
 
@@ -100,7 +100,6 @@ public class RangedEnemy extends GameObject {
                 worldY, enemyHitBox, player.meleeHitBox)) {
             canTakeDamage = false;
             life--;
-            System.out.println(life);
         }
     }
 

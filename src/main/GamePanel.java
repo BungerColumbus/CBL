@@ -1,10 +1,10 @@
 package main;
 
 import core.CollisionCheck;
-import entity.Bullet;
 import entity.EnemyManager;
 import entity.Heart;
 import entity.Player;
+import entity.Time;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -15,13 +15,6 @@ import javax.swing.SwingUtilities;
 import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable {
-    
-
-    /*GAME STATES
-    public int gameState = 0;
-    public final int titleState = 0;
-    public final int playState = 1;
-    public final int endState = 2;*/
 
     private int fps = 60;
     public Point location = new Point(0, 0);
@@ -29,14 +22,15 @@ public class GamePanel extends JPanel implements Runnable {
     private Graphics2D g2;
 
     private GameSettings gameSettings = new GameSettings(); 
+    private Time time = new Time();
     private GameFrame gameFrame;
-    public KeyHandler keyH = new KeyHandler();
+    private KeyHandler keyH = new KeyHandler();
     public TileManager tileManager = new TileManager(this);
     public Player player = new Player(this, keyH);
-    public EnemyManager enemyManager = new EnemyManager(this, player);
+    public EnemyManager enemyManager = new EnemyManager(this, player, time);
     public CollisionCheck collisionCheck = new CollisionCheck(this, keyH);
-    Heart hearts = new Heart(this, player);
-    Thread gameThread;
+    private Heart hearts = new Heart(this, player);
+    private Thread gameThread;
 
 
     public GamePanel(int width, int height, GameFrame gameFrame) {
@@ -95,6 +89,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // The main update void of the game (which happens 60 times a second)
     private void update() {
+        time.update();
         location = this.getLocationOnScreen();
         player.update();
         enemyManager.update();
@@ -117,6 +112,7 @@ public class GamePanel extends JPanel implements Runnable {
         enemyManager.draw(g2);
         player.draw(g2);
         hearts.draw(g2);
+        time.draw(g2);
     }
 
     public Graphics2D getGraphics2d() {

@@ -42,13 +42,11 @@ public class Heart extends GameObject {
         for (index = 0; index < player.maxLife; index++) {
             if (index <= player.life - 1) {
                 heart[index] = image[0];
-                g2.drawImage(heart[index], (int) Math.round(screenX * index),
-                            (int) Math.round(screenY), gameSettings.getTileSize(), gameSettings.getTileSize(), null);
             } else if (index > player.life - 1) {
                 heart[index] = image[1];
-                g2.drawImage(heart[index], (int) Math.round(screenX * index),
-                            (int) Math.round(screenY), gameSettings.getTileSize(), gameSettings.getTileSize(), null);
             }
+            g2.drawImage(heart[index], (int) Math.round(screenX * index), screenY,
+                        screenX, screenX, null);
         }
         
     }
