@@ -119,15 +119,10 @@ public class Player extends GameObject {
         } else if (!canAttack) {
             frameTick[2]++;
         }
-<<<<<<< HEAD
         if(frameTick[2] == 0 || frameTick[2] >= 15) {
             attackAnimation = 0;
         } else {
             attackAnimation = frameTick[2]/5;
-=======
-        if (frameTick[2] > 10) {
-            attackAnimation = false;
->>>>>>> b89df9051ab5d031c806cf4d114441ce644605d0
         }
     }
     
