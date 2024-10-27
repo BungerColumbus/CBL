@@ -24,6 +24,7 @@ public class RangedEnemy extends GameObject {
     public int life = 3;
     public int maxLife = 3; 
 
+    // The constructor of the ranged enemy class
     public RangedEnemy(GamePanel gp, Player player) {
         this.gp = gp;
         this.player = player;
@@ -33,25 +34,34 @@ public class RangedEnemy extends GameObject {
         getImages();
     }
 
+    // Gets the images through a try-catch method
     public void getImages() {
         try {
-            for(int i = 0; i <= 3; i++) {
-                image[i] = ImageIO.read(getClass().getResourceAsStream("/res/enemy/enemy_slime_spawning" + i + ".png"));
+            for (int i = 0; i <= 3; i++) {
+                image[i] = ImageIO.read(getClass().getResourceAsStream(
+                    "/res/enemy/enemy_slime_spawning" + i + ".png"));
             }
-            for(int i = 5; i <= 8; i++) {
-                image[i] = ImageIO.read(getClass().getResourceAsStream("/res/enemy/enemy_slime" + (i-1) + ".png"));
+            for (int i = 5; i <= 8; i++) {
+                image[i] = ImageIO.read(getClass().getResourceAsStream(
+                    "/res/enemy/enemy_slime" + (i - 1) + ".png"));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    // This is played 60 times per second by the gamepanel
     public void update() {
 
+        // Setting up the vector direction vector in order for the enemy to move towards the player
         vector2d = new Vector2D(player.worldX - worldX, player.worldY - worldY);
+        // Keeping track of the distance between the enemy and the player
         double distance = vector2d.length();
         vector2d.normalize();
         vector2d.multiply(speed);
+       
+        // Same as in the class enemy except this time, if the enemy is too close it won't move
+        // towards the player anymore. It's not a ranged enemy in order to fight in close combat
         if (animationIndex > 3) {
             if (canTakeDamage && distance > 240) {
                 worldX += vector2d.getX();
@@ -63,17 +73,18 @@ public class RangedEnemy extends GameObject {
             }
         }
         screenPostionRelativeToPlayer(gp.player);
-        coolDownAttack(80 + (int) (Math.random()*10));
+        // Compared to the normal enemy, the ranged one has a bigger cooldown for ranged attacks
+        coolDownAttack(120 + (int) (Math.random() * 40));
         coolDownHP(10);
         damageEnemy();
         enemyAttack();
     }
 
+    // Same as in enemy class
     public void draw(Graphics2D g2) {
         if (animationIndex < 3) {
             updateAnimation(0, 4, animationSpeed);
-        }
-        else if (player.worldX < worldX) {
+        } else if (player.worldX < worldX) {
             updateAnimation(7, 9, animationSpeed);
         } else if (player.worldX > worldX) {
             updateAnimation(5, 7, animationSpeed);
@@ -84,8 +95,11 @@ public class RangedEnemy extends GameObject {
                      gameSettings.getTileSize(), gameSettings.getTileSize(), null);
     }
 
+    // The attack of this enemy spawns a bullet using the enemyManager from the gamepanel
     public void enemyAttack() {
-        if (enemyHitBox.checkCollisionBetween2Objects(player.worldX, worldX, player.worldY, worldY, enemyHitBox, player.playerHitBox) && animationIndex > 3) {
+        if (enemyHitBox.checkCollisionBetween2Objects(
+                player.worldX, worldX, player.worldY, worldY, enemyHitBox, player.playerHitBox) 
+                && animationIndex > 3) {
             player.damagePlayer();
         }
         if (canAttack) {
@@ -94,6 +108,7 @@ public class RangedEnemy extends GameObject {
         }
     }
 
+    // Same as in enemy class
     public void damageEnemy() {
         if (canTakeDamage && enemyHitBox.checkCollisionBetween2Objects(
                 player.hitBoxLocationVector2d.getX(), worldX, player.hitBoxLocationVector2d.getY(),
@@ -104,6 +119,8 @@ public class RangedEnemy extends GameObject {
         }
     }
 
+    // Had to introduce a cooldown for the attack in order to make the enemy spawna bullet
+    // at a consistent rate
     public void coolDownAttack(int frames) {
         if (frameTick[1] > frames) {
             canAttack = true;
@@ -113,6 +130,7 @@ public class RangedEnemy extends GameObject {
         }
     }
 
+    // Same as in enemy class
     public void coolDownHP(int frames) {
         if (frameTick[2] > frames) {
             canTakeDamage = true;

@@ -53,7 +53,9 @@ public class Player extends GameObject {
         // The collision box of the player
         solidArea = new Rectangle(8, 16, 32, 20);
         // The circle trigger colliders. We set a radius for the circle, and a position vector
-        meleeHitBox = new OnTriggerCircleCollision(gp, 20, new Vector2D(worldX + hitBoxDirectionVector2d.getX(), worldY + hitBoxDirectionVector2d.getY()));
+        meleeHitBox = new OnTriggerCircleCollision(gp, 20,
+                    new Vector2D(worldX + hitBoxDirectionVector2d.getX(), 
+                    worldY + hitBoxDirectionVector2d.getY()));
         meleeHitBox.active = false;
         playerHitBox = new OnTriggerCircleCollision(gp, 15, new Vector2D(worldX, worldY));
         // Initial position of the player
@@ -62,7 +64,9 @@ public class Player extends GameObject {
     }
 
     public void getImages() {
-        // Getting the images from the res folder used in the animations by the player using try and catch
+        
+        // Getting the images from the res folder 
+        // used in the animations by the player using try and catch
         try {
             for (int i = 0; i <= 3; i++) {
                 image[i] = ImageIO.read(getClass()
@@ -70,12 +74,12 @@ public class Player extends GameObject {
             }
             for (int i = 4; i <= 6; i++) {
                 image[i] = ImageIO.read(getClass()
-                .getResourceAsStream("/res/attack/attack" + (i-4) + ".png"));
+                .getResourceAsStream("/res/attack/attack" + (i - 4) + ".png"));
             }
 
-                image[7] = ImageIO.read(getClass()
+            image[7] = ImageIO.read(getClass()
                     .getResourceAsStream("/res/player/player_slime_dashing1.png"));
-                image[8] = ImageIO.read(getClass()
+            image[8] = ImageIO.read(getClass()
                     .getResourceAsStream("/res/player/player_slime_dashing0.png"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -83,20 +87,28 @@ public class Player extends GameObject {
     }
 
     public void meleeHitBox() {
-        hitBoxDirectionVector2d = new Vector2D(keyH.mousePosition().getX() - gameSettings.getScreenWidth2() / 2
+        hitBoxDirectionVector2d = new Vector2D(keyH.mousePosition().getX() 
+                                - gameSettings.getScreenWidth2() / 2
                                 - gp.location.getX(), keyH.mousePosition().getY()
                                 - gameSettings.getScreenHeight2() / 2 - gp.location.getY()); 
         hitBoxDirectionVector2d.normalize();
         hitBoxDirectionVector2d.multiply(50);
 
-        // Setting up the location of the melee hitBox by adding the direction vector to the world location of the player
-        hitBoxLocationVector2d = new Vector2D(worldX + hitBoxDirectionVector2d.getX(), worldY + hitBoxDirectionVector2d.getY());
+        /*
+         * Setting up the location of the melee hitBox by 
+         * adding the direction vector to the world location of the player
+         * */ 
+        hitBoxLocationVector2d = new Vector2D(worldX + hitBoxDirectionVector2d.getX(), 
+                                              worldY + hitBoxDirectionVector2d.getY());
 
-        /** On mouse click canAttack instantly becomes false (so that the whole sequence of events happens only once) 
-         * after that the melee hitBox is called once and it's activated only to be deactivated right afterwards.
+        /*
+         * On mouse click canAttack instantly becomes false 
+         * (so that the whole sequence of events happens only once) 
+         * after that the melee hitBox is called once 
+         * and it's activated only to be deactivated right afterwards.
          * The Cooldown begins and the player can attack again after x amoutn of frames.
         */
-        if(keyH.clickedLeftButton && canAttack) {
+        if (keyH.clickedLeftButton && canAttack) {
             canAttack = false;
             meleeHitBox = new OnTriggerCircleCollision(gp, 20,
                           new Vector2D(hitBoxLocationVector2d.getX(),
@@ -108,7 +120,8 @@ public class Player extends GameObject {
         coolDownAttack(20);
     }
 
-    /** The cooldown for the attack. It uses a different type of frameTicks because if it used the same
+    /** The cooldown for the attack. 
+    * It uses a different type of frameTicks because if it used the same
     * as the other cooldowns they would overlap and it wouldn't work properly.
     */
     public void coolDownAttack(int frames) {
@@ -119,15 +132,16 @@ public class Player extends GameObject {
         } else if (!canAttack) {
             frameTick[2]++;
         }
-        if(frameTick[2] == 0 || frameTick[2] >= 15) {
+        if (frameTick[2] == 0 || frameTick[2] >= 15) {
             attackAnimation = 0;
         } else {
-            attackAnimation = frameTick[2]/5;
+            attackAnimation = frameTick[2] / 5;
         }
     }
     
     // If the player can take damage. It takes damage and sets the variable to false
     public void damagePlayer() {
+
         if (canTakeDamage) {
             canTakeDamage = false;
             life--;
@@ -145,6 +159,7 @@ public class Player extends GameObject {
         }
     }
 
+    // A cooldown for the player's dash ability.
     public void coolDownDash(int frames) {
         
         if (frameTick[3] > frames) {
@@ -156,6 +171,8 @@ public class Player extends GameObject {
         }
     }
 
+    // During player's dash ability, the player cannot take damage and he moves
+    // into one fixed direction with an increased speed for a fraction of a second
     public void Dash(int initialSpeed, int dashingSpeed, int dashingFrames) {
         if (frameTick[3] > 0 && frameTick[3] < dashingFrames) {
             System.out.println("dashing");
@@ -192,7 +209,10 @@ public class Player extends GameObject {
             canDash = false;
         }
 
-        // Depending on the length of the vector we called down the animations is either faster or slower
+        /*
+         * Depending on the length of the vector we called 
+         * the animations is either faster or slower
+         * */ 
         if (!dashing) {
             vector2d = new Vector2D(deltaX, deltaY);
         }
@@ -215,51 +235,59 @@ public class Player extends GameObject {
         coolDownHP(60);
         // The cooldown for the dash (2 second length)
         coolDownDash(120);
-        /** Depending on the collisionOn boolean, the vector gets normalized,
+        /*
+        * Depending on the collisionOn boolean, the vector gets normalized,
         * multiplied by speed and added to the player's world position.
         * This way the player moves at the same speed no matter the direction.
         */
         
-            vector2d.normalize();
-            vector2d.multiply(speed);
-            if(!collisionHorizontal) {
-                worldX += vector2d.getX();
-            }
-
-            if(!collisionVertical) {
-                worldY += vector2d.getY();
-            }
+        vector2d.normalize();
+        vector2d.multiply(speed);
+        if (!collisionHorizontal) {
+            worldX += vector2d.getX();
         }
+
+        if (!collisionVertical) {
+            worldY += vector2d.getY();
+        }
+    }
 
     // Draws the player on the temp screen
     public void draw(Graphics2D g2) {
-    // The current image
-    BufferedImage currentImage = image[animationIndex];
+        // The current image
+        BufferedImage currentImage = image[animationIndex];
 
         // Changes animation if the mouse is either on the left side or right side of the screen
         if (keyH.mousePosition().getX() - gp.location.getX() < gameSettings.getScreenWidth2() / 2) {
             updateAnimation(2, 4, animationSpeed);
-            if(dashing) {
+            if (dashing) {
                 currentImage = image[7];
             }
         } else if (keyH.mousePosition().getX() - gp.location.getX()
                     > gameSettings.getScreenWidth2() / 2) {
             updateAnimation(0, 2, animationSpeed);
-            if(dashing) {
+            if (dashing) {
                 currentImage = image[8];
             }
         }
         
-
+        // Drawing the player with the frameTick used for damagePlayer
+        // in order to achieve invincibility frames
         if (frameTick[1] % 10 < 2 || frameTick[1] == 0) {
             g2.drawImage(currentImage, (int) Math.round(screenX), (int) Math.round(screenY),
                      gameSettings.getTileSize(), gameSettings.getTileSize(), null);
         }
+
+        // Drawing the meleeHitBox depending on the attackAnimation and if the meleeHitBox is active
+        // Using rotate image to make it more pleasant for the player
         if (meleeHitBox.active || attackAnimation != 0) {
-            g2.drawImage(rotateImage(image[4 + attackAnimation], hitBoxDirectionVector2d.angleVectorAndHorizontalAxis(), g2), 
-            (int) Math.round(hitBoxLocationVector2d.getX() - worldX + screenX), 
-            (int) Math.round(hitBoxLocationVector2d.getY() - worldY + screenY),
-            gameSettings.getTileSize(), gameSettings.getTileSize(), null);
+            g2.drawImage(rotateImage(
+                image[4 + attackAnimation], 
+                hitBoxDirectionVector2d.angleVectorAndHorizontalAxis(), g2),
+                (int) Math.round(hitBoxLocationVector2d.getX() - worldX + screenX),
+                (int) Math.round(hitBoxLocationVector2d.getY() - worldY + screenY),
+                gameSettings.getTileSize(), gameSettings.getTileSize(), null
+            );
         }
 
     }

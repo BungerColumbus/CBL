@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 
 public class KeyHandler extends MouseAdapter implements KeyListener {
 
+    // All the key and mouse variables
     public boolean upPressed;
     public boolean downPressed;
     public boolean leftPressed;
@@ -24,6 +25,7 @@ public class KeyHandler extends MouseAdapter implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        // if key x is pressed boolean y is true
         int code = e.getKeyCode();
 
         if (code == KeyEvent.VK_W) {
@@ -45,6 +47,7 @@ public class KeyHandler extends MouseAdapter implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
+        // if key x is released boolean y is false
         int code = e.getKeyCode();
         
         if (code == KeyEvent.VK_W) {
@@ -67,7 +70,6 @@ public class KeyHandler extends MouseAdapter implements KeyListener {
         }
     }
 
-    //HAve to do a bit more work on this
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
@@ -82,6 +84,7 @@ public class KeyHandler extends MouseAdapter implements KeyListener {
         }
     }
 
+    // Mouse screen position returned as a vector
     public Vector2D mousePosition() {
         mouseX = MouseInfo.getPointerInfo().getLocation().getX();
         mouseY = MouseInfo.getPointerInfo().getLocation().getY();
