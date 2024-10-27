@@ -15,6 +15,8 @@ public class OnTriggerCircleCollision {
         this.vector2d = vector2d;
     }
 
+    // If the distance between the 2 objects is smaller than the radius of the circleColliders
+    // then the objects collided
     public boolean checkCollisionBetween2Objects(double gameObject1X, double gameObject2X,
                                                 double gameObject1Y, double gameObject2Y, 
                                                 OnTriggerCircleCollision circleCollider1,

@@ -8,11 +8,13 @@ import main.GamePanel;
 import main.GameSettings;
 
 public class Heart extends GameObject {
+
     private BufferedImage[] image = new BufferedImage[2];
     GamePanel gp;
     Player player;
     private GameSettings gameSettings = new GameSettings();
 
+    // The constructor for the Heart GameObject
     public Heart(GamePanel gp, Player player) {
         this.gp = gp;
         this.player = player;
@@ -39,6 +41,10 @@ public class Heart extends GameObject {
 
         BufferedImage[] heart = new BufferedImage[player.maxLife];
         int index;
+        
+        // For every heart displayed (read from left to right), if the heart number is smaller
+        // than the player's current life, than the heart changes image
+
         for (index = 0; index < player.maxLife; index++) {
             if (index <= player.life - 1) {
                 heart[index] = image[0];

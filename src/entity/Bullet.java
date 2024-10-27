@@ -21,6 +21,7 @@ public class Bullet extends GameObject{
 
     public int life = 120;
 
+    // The constructor of the Bullet class.
     public Bullet(GamePanel gp, Player player, Graphics2D g2, double x, double y) {
         this.gp = gp;
         this.player = player;
@@ -32,20 +33,24 @@ public class Bullet extends GameObject{
         image[0] = rotateImage(image[0], vector2d.angleVectorAndHorizontalAxis(), g2);
     }
 
+    // Setting up the direction vector in order so that when a bullet spawns it starts moving
+    // towards the player's last position
     public void SetupVector() {
         vector2d = new Vector2D(player.worldX - worldX, player.worldY - worldY);
         vector2d.normalize();
         vector2d.multiply(speed);
     }
 
+    // Getting the one and only image of the bullet
     public void getImages() {
         try {
-                image[0] = ImageIO.read(getClass().getResourceAsStream("/res/enemy/enemy_spike.png"));
+            image[0] = ImageIO.read(getClass().getResourceAsStream("/res/enemy/enemy_spike.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    // The bullet loses life each frame and moves depending on the vector2d
     public void update() {
         
         screenPostionRelativeToPlayer(gp.player);
@@ -63,8 +68,10 @@ public class Bullet extends GameObject{
                      gameSettings.getTileSize(), gameSettings.getTileSize(), null);
     }
 
+    // Using enemyHitBox, the enemy check the collision between itself and the playerHitBox
     public void enemyAttack() {
-        if (bulletHitBox.checkCollisionBetween2Objects(player.worldX, worldX, player.worldY, worldY, bulletHitBox, player.playerHitBox)) {
+        if (bulletHitBox.checkCollisionBetween2Objects(
+            player.worldX, worldX, player.worldY, worldY, bulletHitBox, player.playerHitBox)) {
             player.damagePlayer();
         }
     }

@@ -36,10 +36,7 @@ public class EnemyManager {
         bullets = new ArrayList<Bullet>();
     }
 
-    /** 
-     * The update void for the Enemy Manager. 
-     * We use an iterator so that we can safely remove the enemy from the list. 
-     */
+    // The update void for the Enemy Manager. 
     public void update() {
         enemy();
         rangedEnemy();
@@ -77,13 +74,14 @@ public class EnemyManager {
         }
     }
 
+    // We use an iterator so that we can safely remove the enemy from the list.
     private void enemy() {
         Iterator<Enemy> enemyIterator = basicEnemies.iterator();
 
         //It looks if it has an object in the list.
         while (enemyIterator.hasNext()) {
             // It selects the next enemy, updates and if not enough life,
-            // it removes it from the list (deletes it)
+            // it removes it
             Enemy enemy = enemyIterator.next();
             enemy.update();
 
@@ -93,13 +91,13 @@ public class EnemyManager {
         }
     }
 
+    // We use an iterator so that we can safely remove the rangedEnemy from the list.
     private void rangedEnemy() {
         Iterator<RangedEnemy> enemyIterator = rangedEnemies.iterator();
 
         //It looks if it has an object in the list.
         while (enemyIterator.hasNext()) {
-            // It selects the next enemy, updates and if not enough life,
-            // it removes it from the list (deletes it)
+            // It selects the next enemy, updates, and if not enough life it removes it
             RangedEnemy enemy = enemyIterator.next();
             enemy.update();
 
@@ -109,13 +107,13 @@ public class EnemyManager {
         }
     }
 
+    // We use an iterator so that we can safely remove the bullet from the list.
     private void bulletEnemy() {
         Iterator<Bullet> enemyIterator = bullets.iterator();
 
         //It looks if it has an object in the list.
         while (enemyIterator.hasNext()) {
-            // It selects the next enemy, updates and if not enough life,
-            // it removes it from the list (deletes it)
+            // It selects the next enemy, updates, and if not enough life it removes it
             Bullet enemy = enemyIterator.next();
             enemy.update();
 
@@ -125,9 +123,9 @@ public class EnemyManager {
         }
     }
 
-    // Spawn enemies every x amount of frames
+    // Spawn ranged enemies every x amount of frames
     private void spawnRangedEnemy(int frames) {
-        if (frameTick[1] > frames) {
+        if  (frameTick[1] > frames) {
 
             rangedEnemies.add(new RangedEnemy(gp, player));
             frameTick[1] = 0;
@@ -136,9 +134,9 @@ public class EnemyManager {
     }
 
     
-    // Spawn enemies every frames
+    // Spawn enemies every x amount of frames
     private void spawnEnemy(int frames) {
-        if (frameTick[0] > frames) {
+        if  (frameTick[0] > frames) {
 
             basicEnemies.add(new Enemy(gp, player));
             frameTick[0] = 0;
@@ -146,7 +144,7 @@ public class EnemyManager {
         frameTick[0]++;
     }
 
-    // Spawn enemies every frames
+    // Spawn bullet
     public void spawnBullet(Graphics2D g2, double x, double y) {
         bullets.add(new Bullet(gp, player, gp.getGraphics2d(), x, y));
     }

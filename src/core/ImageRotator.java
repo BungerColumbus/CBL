@@ -15,7 +15,8 @@ public class ImageRotator {
         Graphics2D g2d = rotatedImage.createGraphics();
 
         // Set the rotation point to the center of the image
-        AffineTransform transform = AffineTransform.getRotateInstance(Math.toRadians(degrees), width / 2, height / 2);
+        AffineTransform transform = 
+            AffineTransform.getRotateInstance(Math.toRadians(degrees), width / 2, height / 2);
         
         // Apply the transformation
         g2d.setTransform(transform);

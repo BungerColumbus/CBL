@@ -10,6 +10,7 @@ public class FontManager {
     
     public static Font jersey15;
 
+    //Using try catch we select the font from our res folder
     static {
         try {
             jersey15 = Font.createFont(Font.TRUETYPE_FONT,
@@ -20,7 +21,8 @@ public class FontManager {
             e.printStackTrace();
         }
     }
-
+    
+    //The font in use is jersey15
     public static Font getCustomFont(float size) {
         return jersey15.deriveFont(size);
     }

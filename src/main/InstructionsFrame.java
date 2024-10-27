@@ -14,7 +14,6 @@ public class InstructionsFrame extends JFrame {
         instructionsJPanel = new InstructionsPanel();
         this.add(instructionsJPanel);
         this.setVisible(true);
-        //this.setLayout(new BoxLayout(instructionsJPanel, BoxLayout.Y_AXIS));
 
     }
 
