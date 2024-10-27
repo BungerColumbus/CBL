@@ -16,7 +16,7 @@ public class GameObject {
     public int speed;
 
     protected int animationIndex = 0;
-
+    protected int animationSpeed;
     protected BufferedImage[] image;
     protected int[] frameTick = new int[4];
     public int screenX;

@@ -113,4 +113,8 @@ public class GamePanel extends JPanel implements Runnable {
         hearts.draw(g2);
     }
 
+    public Graphics2D getGraphics2d() {
+        return g2;
+    }
+
 }

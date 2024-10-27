@@ -21,7 +21,7 @@ public class Bullet extends GameObject{
 
     public int life = 120;
 
-    public Bullet(GamePanel gp, Player player, Graphics2D g2, int x, int y) {
+    public Bullet(GamePanel gp, Player player, Graphics2D g2, double x, double y) {
         this.gp = gp;
         this.player = player;
         setInitialPosition(x, y, 10);
@@ -29,7 +29,7 @@ public class Bullet extends GameObject{
         bulletHitBox = new OnTriggerCircleCollision(gp, 10, new Vector2D(worldX, worldY));
         bulletHitBox.active = true;
         getImages();
-        image[0] = rotateImage(image[0], -3*vector2d.angleVectorAndHorizontalAxis(), g2);
+        image[0] = rotateImage(image[0], vector2d.angleVectorAndHorizontalAxis(), g2);
     }
 
     public void SetupVector() {
