@@ -34,7 +34,6 @@ public class GamePanel extends JPanel implements Runnable {
     public TileManager tileManager = new TileManager(this);
     public Player player = new Player(this, keyH);
     public EnemyManager enemyManager = new EnemyManager(this, player);
-    public Bullet bullet = new Bullet(this, player, g2, 1344, 1344);
     public CollisionCheck collisionCheck = new CollisionCheck(this, keyH);
     Heart hearts = new Heart(this, player);
     Thread gameThread;
@@ -98,7 +97,6 @@ public class GamePanel extends JPanel implements Runnable {
     private void update() {
         location = this.getLocationOnScreen();
         player.update();
-        bullet.update();
         enemyManager.update();
     }
 
@@ -118,8 +116,11 @@ public class GamePanel extends JPanel implements Runnable {
         tileManager.draw(g2);
         enemyManager.draw(g2);
         player.draw(g2);
-        bullet.draw(g2);
         hearts.draw(g2);
+    }
+
+    public Graphics2D getGraphics2d() {
+        return g2;
     }
 
 }

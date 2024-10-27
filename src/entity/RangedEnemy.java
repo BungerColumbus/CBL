@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import main.GamePanel;
 import main.GameSettings;
 
-public class Enemy extends GameObject {
+public class RangedEnemy extends GameObject {
     private BufferedImage[] image = new BufferedImage[9];
     GamePanel gp;
     Player player;
@@ -19,14 +19,15 @@ public class Enemy extends GameObject {
     private GameSettings gameSettings = new GameSettings();
     public OnTriggerCircleCollision enemyHitBox;
 
+    private boolean canAttack = false;
     private boolean canTakeDamage = true;
     public int life = 3;
     public int maxLife = 3; 
 
-    public Enemy(GamePanel gp, Player player) {
+    public RangedEnemy(GamePanel gp, Player player) {
         this.gp = gp;
         this.player = player;
-
+        
         setInitialPosition((Math.random() * 1344) + 432, (Math.random() * 1344) + 288, 2);
         enemyHitBox = new OnTriggerCircleCollision(gp, 15, new Vector2D(worldX, worldY));
         getImages();
@@ -38,7 +39,7 @@ public class Enemy extends GameObject {
                 image[i] = ImageIO.read(getClass().getResourceAsStream("/res/enemy/enemy_slime_spawning" + i + ".png"));
             }
             for(int i = 5; i <= 8; i++) {
-                image[i] = ImageIO.read(getClass().getResourceAsStream("/res/enemy/enemy_slime" + (i-5) + ".png"));
+                image[i] = ImageIO.read(getClass().getResourceAsStream("/res/enemy/enemy_slime" + (i-1) + ".png"));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -48,18 +49,21 @@ public class Enemy extends GameObject {
     public void update() {
 
         vector2d = new Vector2D(player.worldX - worldX, player.worldY - worldY);
+        double distance = vector2d.length();
         vector2d.normalize();
         vector2d.multiply(speed);
         if (animationIndex > 3) {
-            if (canTakeDamage) {
+            if (canTakeDamage && distance > 240) {
                 worldX += vector2d.getX();
                 worldY += vector2d.getY();
-            } else {
+            } 
+            if (!canTakeDamage) {
                 worldX -= vector2d.getX() * 2;
                 worldY -= vector2d.getY() * 2;
             }
         }
         screenPostionRelativeToPlayer(gp.player);
+        coolDownAttack(80 + (int) (Math.random()*10));
         coolDownHP(10);
         damageEnemy();
         enemyAttack();
@@ -84,6 +88,10 @@ public class Enemy extends GameObject {
         if (enemyHitBox.checkCollisionBetween2Objects(player.worldX, worldX, player.worldY, worldY, enemyHitBox, player.playerHitBox) && animationIndex > 3) {
             player.damagePlayer();
         }
+        if (canAttack) {
+            canAttack = false;
+            gp.enemyManager.SpawnBullet(gp.getGraphics2d(), worldX, worldY);
+        }
     }
 
     public void damageEnemy() {
@@ -92,6 +100,16 @@ public class Enemy extends GameObject {
                 worldY, enemyHitBox, player.meleeHitBox)) {
             canTakeDamage = false;
             life--;
+            System.out.println(life);
+        }
+    }
+
+    public void coolDownAttack(int frames) {
+        if (frameTick[1] > frames) {
+            canAttack = true;
+            frameTick[1] = 0;
+        } else if (!canAttack) {
+            frameTick[1]++;
         }
     }
 
