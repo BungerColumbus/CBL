@@ -5,17 +5,30 @@ import main.GamePanel;
 import main.GameSettings;
 import main.KeyHandler;
 
+/**
+ * Ensures that characters cannot move outside of the map bounds.
+ */
 public class CollisionCheck {
     
     public GamePanel gp;
     private KeyHandler keyH;
     private GameSettings gameSettings = new GameSettings();
 
+    /**
+     * Receives the panel and info about where the player is about to move.
+     * @param gp is the game panel where the map is
+     * @param keyH is the key used to move
+     */
     public CollisionCheck(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
     }
 
+    /**
+     * Checks whether the tile in which the player is about to move is a solid one or not.
+     * Solid tiles are the ones that surround the playable part of the map.
+     * @param gameObject is the player
+     */
     public void checkTile(GameObject gameObject) {
         double xSolidAreaOnScreenLeft = gameObject.worldX + gameObject.solidArea.x;
         double xSolidAreaOnScreenRight = xSolidAreaOnScreenLeft + gameObject.solidArea.width;
