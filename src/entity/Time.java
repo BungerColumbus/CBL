@@ -62,7 +62,6 @@ public class Time {
         } else if (gameTime / 60 <= 60) {
             min = 0;
             sec = 60 - (int) (gameTime / 60);
-            overTime = true;
         } else {
             min = 0;
             sec = 0;
