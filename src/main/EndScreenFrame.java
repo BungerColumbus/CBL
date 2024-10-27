@@ -38,17 +38,22 @@ public class EndScreenFrame extends JFrame {
 
     private GameSettings gameSettings;
 
+    private boolean outcome;
+    private int timeSurvived;
+
     /**
      * EndScreenFrame is the window displayed when the player's life runs out
      * providing options like Retry, Go to Start Screen or Quit.
      * @param width of the window
      * @param height of the window
      */
-    public EndScreenFrame(int width, int height) {
+    public EndScreenFrame(int width, int height, boolean outcome, int timeSurvived) {
+        this.outcome = outcome;
+        this.timeSurvived = timeSurvived;
         this.setSize(width, height);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
-        this.setTitle("Jellies in Hellmond - Game Over");
+        setCustomTitle();
         this.setLocationRelativeTo(null);
 
         backgroundColor = new Color(51, 51, 51);
@@ -68,7 +73,7 @@ public class EndScreenFrame extends JFrame {
         gameOverJLabel.setFont(FontManager.getCustomFont(90f));
         gameOverJLabel.setBackground(backgroundColor);
         gameOverJLabel.setForeground(Color.WHITE);
-        gameOverJLabel.setText("GAME OVER");
+        setCustomText();
         upperPanel.add(gameOverJLabel);
 
         //Arranges panels on the mainPanel
@@ -105,7 +110,7 @@ public class EndScreenFrame extends JFrame {
         actualTime.setHorizontalAlignment(SwingConstants.CENTER);
         actualTime.setBackground(backgroundColor);
         actualTime.setForeground(Color.WHITE);
-        actualTime.setText("00:31");
+        actualTime.setText(getTimeString());
         middlePanel.add(actualTime);
 
         //Displays the score
@@ -166,4 +171,30 @@ public class EndScreenFrame extends JFrame {
         });
     }
 
+    private void setCustomTitle() {
+        if (!outcome) {
+            this.setTitle("Jellies in Hellmond - Game Over");
+        } else {
+            this.setTitle("Jellies in Hellmond - End of game");
+        }
+    }
+
+    private void setCustomText() {
+        if (!outcome) {
+            gameOverJLabel.setText("GAME OVER");
+        } else {
+            gameOverJLabel.setText("YOU WON!");
+        }
+    }
+
+    private String getTimeString() {
+        int min = timeSurvived / 60;
+        int sec = timeSurvived % 60;
+        String timeString = String.valueOf(min) + ":";
+        if (sec <= 9) {
+            timeString += "0";
+        }
+        timeString += String.valueOf(sec);
+        return timeString;
+    }
 }

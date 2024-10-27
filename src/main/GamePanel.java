@@ -17,6 +17,8 @@ import tile.TileManager;
 public class GamePanel extends JPanel implements Runnable {
 
     private int fps = 60;
+    private boolean outcome;
+    private int timeSurvived; //in seconds
     public Point location = new Point(0, 0);
     private BufferedImage tempScreen;
     private Graphics2D g2;
@@ -47,6 +49,8 @@ public class GamePanel extends JPanel implements Runnable {
         tempScreen = new BufferedImage(gameSettings.getScreenWidth(),
                                        gameSettings.getScreenHeight(), BufferedImage.TYPE_INT_ARGB);
         g2 = (Graphics2D) tempScreen.createGraphics();
+        outcome = false;
+        timeSurvived = 0;
     }
 
 
@@ -75,11 +79,18 @@ public class GamePanel extends JPanel implements Runnable {
                 drawToTempScreen();
                 repaint(); //schedules a call to paintComponent
                 delta--;
-                if (player.life <= 0) {
+                if (player.life <= 0 || (enemyManager.basicEnemies.isEmpty()
+                    && enemyManager.rangedEnemies.isEmpty() && time.getGameTime() / 60 >= 60)) {
+                    if (player.life <= 0) {
+                        outcome = false;
+                    } else {
+                        outcome = true;
+                    }
+                    timeSurvived = time.getGameTime() / 60;
                     gameThread = null;
                     SwingUtilities.invokeLater(() -> {
                         gameFrame.dispose();
-                        new EndScreenFrame(1000, 750);
+                        new EndScreenFrame(1000, 750, outcome, timeSurvived);
                     });
                 }
             }

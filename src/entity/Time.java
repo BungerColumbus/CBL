@@ -46,13 +46,9 @@ public class Time {
      */
     public void draw(Graphics2D g2) {
 
-        //Determining the right size of the font based on tile size
         g2.setFont(FontManager.getCustomFont(25f));
         FontMetrics fontMetrics = g2.getFontMetrics();
         int textHeight = fontMetrics.getHeight();
-        //float resize = gameSettings.getTileSize() / textHeight;
-        //textHeight *= resize;
-        //g2.setFont(FontManager.getCustomFont(resize));
 
         //Calculating the remaining seconds
         if (gameTime / 60 < 1) {
@@ -68,9 +64,6 @@ public class Time {
         } 
         remainingTime += String.valueOf(sec);
 
-        //Determing the x-coordinate of the text such that it
-        //will appear in the top right corner
-        // FontMetrics actualFontMetrics = g2.getFontMetrics();
         int textWidth = fontMetrics.stringWidth(baseText + remainingTime);
 
         //Drawing the string
